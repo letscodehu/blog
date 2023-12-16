@@ -1,0 +1,63 @@
+# Site
+name: "Letscode.hu"
+title: "Letscode.hu"
+description: "... minden, ami fejlesztés"
+logo: 'assets/images/logo.png'
+favicon: 'assets/images/logo.png'
+include: ["_pages"]
+permalink: /:title/
+disqus: 'letscodehu'
+
+# Authors
+authors:
+  tacsiazuma:
+    name: Papp Krisztián
+    display_name: Tacsiazuma
+    gravatar: 57b7e6aae6c0a3c130342c3ba8d4bbd5289c422fd9e016c4fe651c52f4ed019b
+    email: krisztian@letscode.hu
+    web: https://letscode.hu
+    twitter: https://twitter.com/tacsiazuma
+    description: "Author of Mediumish, a Bootstrap Medium styled template available for WordPress, HTML, Ghost and Jekyll. You are currently previewing Jekyll template demo."
+  janoszen:
+    name: Pásztor János
+    display_name: Janoszen
+
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-archives
+    
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+  layout: archive
+  permalinks:
+    category: '/category/:name/'
+    
+# Pagination 
+paginate: 6
+paginate_path: /page:num/
+    
+# Other
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Adsense (change to "enabled" to activate, also your client id and ad slot. Create a new ad unit from your Adsense account to get the slot.)
+adsense: "disabled"
+adsense-data-ad-client: "ca-pub-3412143450191416"
+adsense-data-ad-slot: "1363087678"
+
+# Lazy Images ("enabled" or "disabled")
+lazyimages: "enabled"
+
+exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
