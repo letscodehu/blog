@@ -5,6 +5,7 @@ author: tacsiazuma
 layout: post
 permalink: /2023/01/09/az-elso-it-munkahely-4-resz/
 image: 'assets/uploads/2023/01/pexels-cottonbro-studio-5473957.jpg'
+featured: true
 categories:
     - Egyéb
     - Fejlesztés
@@ -48,4 +49,8 @@ Persze az alap Jekyll kinézet nem valami megnyerő, főleg a korábbi Wordpress
 
 ## Lunrsearch
 
-Na de mi a helyzet a kereséssel az oldalon? Backend nélkül hogy lehet ezt megoldani? Nos erre a 
+Na de mi a helyzet a kereséssel az oldalon? Backend nélkül hogy lehet ezt megoldani? Nos erre egy teljesen kliensoldali megoldás van használva az emlitett templateben, igaz nem éppen hatékonyan, de erre majd visszatérünk. A lunr egy solr-ra hajazó 100%-ban JavaScript alapú kereső, ami futhat böngészőben vagy éppen a szerveren is. Esetünkben csak böngészőben fut, a trükk az, hogy a jekyll segitségével generálva van egy js fájl, amiben gyakorlatilag a dokumentumok belekerülnek, ez lesz indexelve, majd a keresés ezt az indexet használja. 
+
+## Service worker
+
+Egy gond van vele, hogy az indexelés bizony lassú. Pár bejegyzésnél ez még nem vészes, de több száz esetében másodpercekig tart.
