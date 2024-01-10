@@ -80,7 +80,7 @@ Három csoportra tagolhatók, melyek közül mi most az első csoportból emeln�
 A singleton (magyarul egyke) minta lényege, hogy az adott osztályunknak maximum egy példánya lehet. Ezt úgy tudjuk elérni, ha megakadályozzuk, hogy a new kulcsszóval példányosítani lehessen (tehát egy private konstruktort definiálunk az osztályunkon belül), ellenben egy publikus interfészen keresztül lehetővé tesszük ennek az egy példánynak a létrehozását és elérését. Erre egy statikus metódust fogunk használni, hiszen az példányosítás nélkül is rendelkezésünkre áll. Példa minderre:
 
 ```
-<pre data-language="php">class Singleton {
+class Singleton {
       
    private static $object = null; // az objektum, amiben tárolni fogjuk a példányunkat 
 
@@ -119,7 +119,7 @@ Na szóval a probléma a következő, akarunk egy osztályt létrehozni, ami tov
 Nos akkor vágjunk is bele!
 
 ```
-<pre data-language="php">abstract class Singleton {
+abstract class Singleton {
 
     private static $map = array(); // egy asszociatív tömbben (map) fogjuk eltárolni az egyes osztályok név->objektum párját.
  

@@ -46,7 +46,7 @@ Nézzük tehát, hogyan is tudunk k3s-t használni a gyakorlatban. Először is 
 A telepítés pedig nem több mint egy egyszerű shell script amit a [get.k3s.io](https://get.k3s.io) címen találunk. A hivatalos doksi a következő parancssort javasolja:
 
 ```
-<pre class="wp-block-code">```
+```
 curl -sfL https://get.k3s.io | sh -
 ```
 ```
@@ -56,7 +56,7 @@ Ezen a ponton nem szeretnénk itéletet mondani a webről letöltött scriptekr�
 Miután a telepítő scriptet lefuttattuk, hozzávetőlegesen 30 másodperc múlva a `kubectl get node` parancs vissza fogja adni, hogy van egy kubernetes clusterünk és ebben egy node található. Ezen felül a processlistában ezt fogjuk látni:
 
 ```
-<pre class="wp-block-code">```
+```
 /usr/local/bin/k3s server
  \_ containerd -c /var/lib/rancher/k3s/agent/...
 /var/lib/rancher/k3s/data/ca752b211ccbacb1b66...
@@ -83,7 +83,7 @@ Tehát szépen elindult a k3s és telepített is az alapvető szolgáltatásokat
 Ha ezen felül kedvünk szottyan clusterezni, olvassuk ki a tokent a `/var/lib/rancher/k3s/server/token` fájlból, majd a másodlagos gépen vagy gépeken hajtsuk végre a következő parancsot:
 
 ```
-<pre class="wp-block-code">```
+```
 curl -sfL https://get.k3s.io | K3S_URL=https://ELSODLEGES-SZERVER-IPJE-IDE:6443 K3S_TOKEN=NODE-TOKEN-IDEsh - 
 ```
 ```

@@ -76,7 +76,7 @@ tags:
 #### A programozó, mint osztály
 
 ```
-<pre data-language="php">class Programozo {
+class Programozo {
     public function __construct(KaveAutomata $kaveautomata, Eclipse $ide) {
           $kaveautomata->rugdos()->iszik();
           $ide->ujraInditMertMarBelassult();
@@ -95,7 +95,7 @@ Mégis mit tehetnénk az ügy érdekében? Ha nem kötjük ki explicit módon, h
 Így ha van két osztályunk, amik egyazon interfészt implementálják, akkor gond nélkül át tudjuk adni azt.
 
 ```
-<pre data-language="php">interface KaveLeloHely {}
+interface KaveLeloHely {}
 class KaveAutomata implements KaveLeloHely {}
 class KotyogosKaveFozo implements KaveLeloHely {}
 
@@ -112,7 +112,7 @@ A fenti példában definiáltunk két interfészt, amiket implementálnak az osz
 > Mi lenne, ha csak szimplán példányosítanám a konstruktoron belül?
 
 ```
-<pre data-language="php">class DatabaseAndStuff {
+class DatabaseAndStuff {
 
     public function __construct() {
         $db = new SomeSQLAdapterIMade();

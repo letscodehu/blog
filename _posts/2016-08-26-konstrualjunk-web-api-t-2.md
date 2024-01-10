@@ -96,7 +96,7 @@ A web API-knak alapvetően két nagy formáját különböztetjük megy, az RPC 
 RPC esetében az esetek többségében egyetlen URI-t hivogatunk, mégpedig POST metódussal. Az, hogy mi is a cél, azt a küldött payload határozza meg. Ez általában egy struktúrált kérés, amiben benne lesz az adott művelet neve, valamint a paraméterek. Itt két módszert különböztetünk meg, XML-RPC-t és SOAP-ot. Ez utóbbiról regényeket lehetne írni, így arról most nem írnék, de ha lesz érdeklődés, akkor szívesen taglalom majd egy bejegyzés során. De nézzünk egy példát:
 
 ```
-<pre data-language="html">POST /xml-rpc HTTP/1.1
+POST /xml-rpc HTTP/1.1
 Content-Type: text/xml
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -113,7 +113,7 @@ Content-Type: text/xml
 A fenti példában egy POST kérést küldünk a /xml-rpc végpontra, a fent látható XML request body-val. Jól látszi, hogy a level.up metódust szeretnénk meghívni egy integer paraméterrel. A gyakorlatban ez egyszerűen egy osztály egy adott metódusára mappelődik, hasonlóképpen:
 
 ```
-<pre data-language="php">class Level {
+class Level {
    public function up($level) {
         // black magic, ezt már az API használója nem tudja mit hogyan csinál 
    }
@@ -123,7 +123,7 @@ A fenti példában egy POST kérést küldünk a /xml-rpc végpontra, a fent lá
 A fenti kérésre, miutá a handler osztályunk feldolgozta azt, hasonló válasz érkezhet:
 
 ```
-<pre data-language="html">HTTP/1.1 200 OK 
+HTTP/1.1 200 OK 
 Content-Type: text/xml 
 <?xml version="1.0" encoding="utf-8"?> 
 <methodResponse> 
@@ -176,7 +176,7 @@ Kezdjük azzal, hogy letöltjük azt [innen](https://github.com/zfcampus/zf-apig
 Csomagoljuk ki valahova és vagy állítsunk a public mappára egy VHOST-ot, vagy szimplán a projekt gyökeréből indítsunk egy PHP-s built-in webszervert:
 
 ```
-<pre data-language="shell">$ php -S 0.0.0.0:8888 -t public public/index.php
+$ php -S 0.0.0.0:8888 -t public public/index.php
 ```
 
 Ezután csapjuk fel a localhost:8888-at és nézzük miből élünk!
@@ -374,7 +374,7 @@ Jöjjön a Package fül a navbaron![![Selection_018](assets/uploads/2016/08/Sele
 A package krelálása elég egyértelmű a fentiek alapján, kiválasztjuk a formátumát (a ZIP a legtöbb telepítéssel működik), hogy melyik API-kat szeretnénk benne, futtassa-e a composert (ezzel lehetnek problémák), valamint rákérdez, hogy milyen config fájlokat mellékeljük. Egyelőre hagyjuk ZIP-en, válasszuk ki a TodoBackendet és nyomjuk egy generate-re. Ez a komplett applikációt, vendor mappa nélkül betömöríti egy ZIP-be, utána letölti azt. Ezt tömörítsük ki a helyére, állítsunk rá egy vhost-ot, de előtte a gyökerében hajtsunk végre egy
 
 ```
-<pre data-language="shell">$ composer install
+$ composer install
 ```
 
 parancsot. Ha rákérdez a Zend/Validatorra, akkor a module configba injektáljuk azt.

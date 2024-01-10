@@ -75,7 +75,7 @@ A legtöbb Transaction Script direktben operál az adatbázissal, így SQL-t is 
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php"><?php
+<?php
 
 class RecognitionService { // egy osztályba szervezem a metódusokat
 
@@ -140,7 +140,7 @@ Minden Product objektumpéldány egy RecognitionStrategy példányhoz kapcsolód
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php">class Contract { // a szerződés osztályunk
+class Contract { // a szerződés osztályunk
     private $product, $revenue, $whenSigned, $id;
 
     public function getRevenue()
@@ -228,7 +228,7 @@ Ahhoz, hogy kiszámoljuk mennyi bevételt tudunk realizálni egy adott dátumhoz
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php"><?php 
+<?php 
 
 abstract class RecognitionStrategy {
     abstract function calculateRevenueRecognitions(Contract $contract);

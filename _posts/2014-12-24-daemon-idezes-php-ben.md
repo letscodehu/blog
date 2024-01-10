@@ -34,7 +34,7 @@ A forkolás az a folyamat, amikor egy process-t lemásolunk. Külön process ID-
 A `pcntl_fork()` függvény az épp futó folyamatot klónozza le. Miután kettéválasztottuk, mindkét folyamat fut tovább. Tehát az alábbi egyszerű programot futtatva
 
 ```
-<pre data-language="php"><?php
+<?php
 $pid = pcntl_fork();
 
 if ($pid == -1 ) {

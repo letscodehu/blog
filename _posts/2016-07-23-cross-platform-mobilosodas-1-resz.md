@@ -87,7 +87,7 @@ Az első lépés a tervezés lenne, de lévén a cél a technológiák bemutatá
 Az Ionic egy frontend keretrendszer, ami Cordován és AngularJS-en alapszik és egyik legfőbb előnye, hogy rengeteg, a mobilokban jelenlevő komponens testreszabható és már kész is van benne, mindezt úgy, hogy habár egyszer írjuk meg, mindig az aktuális platform külsejét idézi. Ahhoz, hogy ezzel el tudjunk kezdeni foglalkozni, szükségünk lesz egy [Node.js](https://nodejs.org/en/)-re. Ha ezt leszedtük, akkor jött vele az npm is, így már telepíthetjük a cordovát:
 
 ```
-<pre data-language="shell">$ sudo npm install -g cordova
+$ sudo npm install -g cordova
 ```
 
 utána pedig az ionicot:
@@ -95,7 +95,7 @@ utána pedig az ionicot:
 > A -g kapcsolóval elérjük, hogy globálisan telepíti a csomagot, így bárhonnan elérhetjük azt
 
 ```
-<pre data-language="shell">$ sudo npm install -g ionic
+$ sudo npm install -g ionic
 ```
 
 Most, hogy az npm-en át lerántottuk a fél internetet, lássunk is valamit, nemde?
@@ -105,13 +105,13 @@ Most, hogy az npm-en át lerántottuk a fél internetet, lássunk is valamit, ne
 Az ionicnak szerencsére igen jó CLI toolja van, amivel többek között tudunk projetket is létrehozni. Hozzuk hát létre!
 
 ```
-<pre data-language="php">$ ionic start todoList
+$ ionic start todoList
 ```
 
 Letölti githubról a becsomagolt skeleton projektet, inicializálja benne a cordova projektet és még mesél is arról, hogy tudjuk beröffenteni a dolgot. Ha kérdezi, nem akarunk ionic.io accountot létrehozni még. Most, hogy létrehoztuk, navigáljunk bele a könyvátrba és nézzük meg mit is csináltunk:
 
 ```
-<pre data-language="shell">$ cd todoList
+$ cd todoList
 $ ionic serve
 ```
 
@@ -132,14 +132,14 @@ A könyvtárszerkezet ugyanaz, mint amit a cordova is használ:
 Ezen felül még a gyökérben találhatunk bower és npm specifikus csomagleírókat és .gitignore-t. Na de akit webről szalajtottak az rögtön a www mappában köt ki, így nézzük ott mit is találunk?
 
 ```
-<pre data-language="html"><link href="lib/ionic/css/ionic.css" rel="stylesheet">
+<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 ```
 
 Itt húzzuk be az ionic saját css-ét, a style.css pedig a sajátunk lesz értelemszerűen.
 
 ```
-<pre data-language="html"><script src="lib/ionic/js/ionic.bundle.js"></script>
+<script src="lib/ionic/js/ionic.bundle.js"></script>
 
 <!-- cordova script (this will be a 404 during development) -->
 <script src="cordova.js"></script>
@@ -148,7 +148,7 @@ Itt húzzuk be az ionic saját css-ét, a style.css pedig a sajátunk lesz érte
 A fenti JS húzza be az ionic és az angular, angular-ui,angular-sanitize, angular-animate, angular-resource csomagok összefűzött verzióját, az alsó pedig a cordova API eléréshez szolgáló javascript fájl, ami a serve esetében 404-et dob, mivel csak a build folyamat során kerül a helyére, emiatt ne aggódjunk, ha 404-et látunk a fejlesztés közben böngészőből.
 
 ```
-<pre data-language="html"><script src="js/app.js"></script>
+<script src="js/app.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/services.js"></script>
 ```
@@ -156,7 +156,7 @@ A fenti JS húzza be az ionic és az angular, angular-ui,angular-sanitize, angul
 A fentiek már az általunk behúzott javascriptek lesznek, amik most a skeletont alkotják, ezekre is mindjárt kitérünk. A lényeg viszont ezután jön, az angular szüzeknek biztos idegen lesz:
 
 ```
-<pre data-language="html"><body ng-app="starter">
+<body ng-app="starter">
   <ion-nav-bar class="bar-stable">
     <ion-nav-back-button>
     </ion-nav-back-button>
@@ -174,13 +174,13 @@ Az ion-nav-bar és a többi idegen tag ún. direktíva, amikhez valamiféle műk
 Ez most lehet kicsit sok, de szép lassan megvilágosodunk. Nézzünk bele az app.js-be!
 
 ```
-<pre data-language="javascript">angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 ```
 
 Mivel behúztuk az angular-t, ezért elérhető a globális névtérben az angular nevű objektum. Az angularnak van egy ún. moduel API-ja, azt használjuk mi is itt. Az első paraméter a modul neve lesz, amivel később tudunk erre hivatkozni. A második paraméter pedig egy tömb, amin keresztül a többi hasonlóképpen deklarált modulra hivatkozunk, mint függőségünk.Az ionic modult az ionic.bundle.js-ben deklarálták, a másik kettő pedig erre a starter appra specifikus. Ez a metódus visszaadja a modult, amit kértünk, most nézzük mit csinálunk még vele:
 
 ```
-<pre data-language="javascript">.run(function($ionicPlatform) {
+.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -204,7 +204,7 @@ Ezután következik a configurációs szekció. Az Ionic az egyes projektek lét
 > Ha más template-et akarsz használni, akkor az ionic start projektNeve \[templateNeve\] szintaxist használd.
 
 ```
-<pre data-language="javascript">.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 ```
 
 Itt beinjektálásra kerül a bundle-ben definiált két service, a $stateProvider és a $urlRouterProvider.
@@ -214,7 +214,7 @@ Itt beinjektálásra kerül a bundle-ben definiált két service, a $stateProvid
 A konfigurációban ezután meghatározunk ún. state-eket. Az Ionic az Angular-UI routerét haszálja, ami ezek alapján a state-ek alapján különböző controllereket hív meg. Ezt a state-et képzeljük el egyfajta route-ként.
 
 ```
-<pre data-language="javascript">$stateProvider
+$stateProvider
 
 // setup an abstract state for the tabs directive
   .state('tab', {
@@ -227,7 +227,7 @@ A konfigurációban ezután meghatározunk ún. state-eket. Az Ionic az Angular-
 A fentiekben létrehozunk egy ún. absztrakt state-et 'tab' névvel, amit aztán a többi tab nézetben fel tudunk használni konténerként. Meghatározzuk az URL-t amire mutat majd, valamint egy template elérési utat, ahonnan ő betölti a rá vonatkozó HTML-t, az abban levő direktívákat szintén feldolgozza és megjeleníti.
 
 ```
-<pre data-language="javascript">.state('tab.dash', {
+.state('tab.dash', {
   url: '/dash',
   views: {
     'tab-dash': {
@@ -241,13 +241,13 @@ A fentiekben létrehozunk egy ún. absztrakt state-et 'tab' névvel, amit aztán
 Na itt már egy fokkal több minden van. Láthatjuk, hogy tab-al prefixált, tehát az imént létrehozott abstract view-ba fog beágyazódni ez a state. A views kulcson látjuk, hogy létrehoztunk egy tab-dash view-t, aminek meg van határozva a template elérési útja és az őt kiszolgáló kontroller. Ez ismétlődik a fájlban, ahogy az egyes tabokhoz hozzárendeljük a felelős controllereket és template-ket. A végén látható:
 
 ```
-<pre data-language="javascript">$urlRouterProvider.otherwise('/tab/dash');
+$urlRouterProvider.otherwise('/tab/dash');
 ```
 
 pedig azért felelős, hogyha a deklarált URL-ek közül egyikre sem illik a meghívott, akkor ide (a dashboardra) "redirektál", mint default. Amikor szimplán meghívódik az app, akkor is ez történik, hiszen a '/' nem illik egyikre sem. Na, akkor nézzük csak meg ezeket a templateket és rakjuk össze, hogy mi is történik itt a háttérben feketemágia címszó alatt. Kezdjük a tabs.html-el:
 
 ```
-<pre data-language="html"><ion-tabs class="tabs-icon-top tabs-color-active-positive">
+<ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
   <!-- Dashboard Tab -->
   <ion-tab title="Status" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash">
@@ -273,7 +273,7 @@ Először is, a fenti fájl tartalma egy konténerként fog szolgálni az alá d
 Fent létrehoztunk három tabot, azokhoz hozzárendeltünk 1-1 URL-t, ami valami state-re mutat. A kontrollereket az első odalátogatáskor fogja példányosítani, ahogy a template fájlokat is, utána mindezt cacheli. Ellenben nekünk nem lesz ilyesmire szükségünk most, mert nem használjuk ki a tab-okat és a routingot még, így töröljük ki ennek egy részét, ami után az app.js config szakasza így néz majd ki:
 
 ```
-<pre data-language="javascript">.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
         
   $stateProvider
   .state('todo-list', {
@@ -290,7 +290,7 @@ Fent létrehoztunk három tabot, azokhoz hozzárendeltünk 1-1 URL-t, ami valami
 Hogy ne dobjuk el teljesen a routing funkcionalitást (mert anélkül is meg lehetne oldani a dolgot), ezért felvesszük a /todos URL-re a todo-list state-et és hozzárendeljük a saját kis kontrollerünket/templateünket. Minden más esetet erre redirektálunk majd. A templateket amik a templates mappában vannak töröljük és hozzunk létre egy todolist.html-t köztük:
 
 ```
-<pre data-language="html"><ion-pane>
+<ion-pane>
     <ion-header-bar><h1 class="title">Todos</h1></ion-header-bar>
     <ion-content>
         <ion-list>
@@ -305,7 +305,7 @@ Hogy ne dobjuk el teljesen a routing funkcionalitást (mert anélkül is meg leh
 Ez lesz a mi kis view-nk. Egy szimpla header, valamint egy lista, egy beégetett elemmel. Ahhoz, hogy semmi felesleges ne jelenjen meg ezen kívül, ezért az index.html-ben lévő body tag-et is szerkesszük az alábbiak szerint:
 
 ```
-<pre data-language="html"><body ng-app="starter">
+<body ng-app="starter">
   <ion-nav-view></ion-nav-view>
 </body>
 ```
@@ -326,7 +326,7 @@ Itt lérehozunk egy új modult, a 'starter.controllers' néven, aminek nem leszn
 Az imént ugye beégetett változóval írattuk ki a listát. Ha most megnézzük az alkalmazásunkat, akkor látjuk, hogy ott szerepel az egyetlen elem. Mi persze egy tömböt szeretnénk megjeleníteni, hát hogy lesz ez lehetséges? Egy direktívát kell hozzáfűznünk az ion-item-hez, mégpedig az ng-repeat-et:
 
 ```
-<pre data-language="html"><ion-item ng-repeat="todo in todos">
+<ion-item ng-repeat="todo in todos">
     {{todo.name}}
 </ion-item>
 ```
@@ -338,7 +338,7 @@ A fentiekben a sima ion-item működését kiegészítettük. Az ng-repeat megfe
 Akkor most jön az, hogy a $scope-ban létrehozzuk az alábbi változót:
 
 ```
-<pre data-language="javascript">.controller('TodoCtrl', function($scope) {
+.controller('TodoCtrl', function($scope) {
         $scope.todos = [
         {
             name : "Take out da trash"
@@ -352,13 +352,13 @@ Akkor most jön az, hogy a $scope-ban létrehozzuk az alábbi változót:
 Ha most rápillantunk a böngészőre, akkor láthatjuk, hogy ott a két elem, ahogy azt vártuk. [![basiclist](assets/uploads/2016/07/basiclist.png)](assets/uploads/2016/07/basiclist.png)Na de ez nem túl szép, hiszen az adatot nem a kontrollerünknek kellene szolgáltatnia, hanem valami service-nek, nemde? Akkor takarítsuk ki először azt is:
 
 ```
-<pre data-language="javascript">angular.module('starter.services', [])
+angular.module('starter.services', [])
 ```
 
 A service-ünket factory-n keresztül fogjuk beregisztrálni. Csinálunk egy todoService-t, ezt átadjuk a controllerünknek, majd ezen keresztül fogjuk lekérni azt a bizonyos todos tömböt. Egyelőre ennek még nem sok értelmét látjuk, de a végén összeáll majd a kép.. remélem 🙂
 
 ```
-<pre data-language="javascript">.factory('$todoService', function() {
+.factory('$todoService', function() {
 
         var todos = [{
             name : "Take out da trash"
@@ -375,7 +375,7 @@ A service-ünket factory-n keresztül fogjuk beregisztrálni. Csinálunk egy tod
 A fentiekben létrehozzuk a todoService-t, amiben deklaráljuk a tömböt ami eddig a kontrollerben volt. Fontos a return statement, mert az objektumot fogjuk használni később. Tehát megtehetjük azt, hogy ezzel tesszük az egyes metódusokat, stb. publikussá, hogy visszaadjuk azt, de erről is majd később. A controllers.js az alábbiak szerint változik:
 
 ```
-<pre data-language="javascript">.controller('TodoCtrl', function($scope, $todoService) {
+.controller('TodoCtrl', function($scope, $todoService) {
         $scope.todos = $todoService.todos;
     }
 );
@@ -392,7 +392,7 @@ Akkor most jöjjön az, hogy valami értelme is legyen az app-nak, tudjuk done �
 A service.js-ben adjuk hozzá az egyes todo-khoz a done property-t:
 
 ```
-<pre data-language="javascript">var todos = [{
+var todos = [{
     name : "Take out da trash",
     done : false
 },{
@@ -404,7 +404,7 @@ A service.js-ben adjuk hozzá az egyes todo-khoz a done property-t:
 Ha ez megvan, akkor a todolist.html-t szerkesszük az alábbiak szerint:
 
 ```
-<pre data-language="html"><ion-item 
+<ion-item 
         ng-repeat="todo in todos"
         ng-click="todo.done = !todo.done"
         >
@@ -415,7 +415,7 @@ Ha ez megvan, akkor a todolist.html-t szerkesszük az alábbiak szerint:
 Az ng-click nevű direktíva az angularral jön és annyit tesz, hogy az utána megadott expression-t végrehajtja. Lehetne itt metódushívás is, de most szimplán annyit csinálunk, hogy negáljuk a booleanünk értékét. A böngészőben nézve, azonban azt látjuk, hogy semmi nem történt... Mégis mi a gond? Hát persze, nem adtunk hozzá semmit, ami jelezné számunkra, hogy milyen állapotban is van az adott todo elem.
 
 ```
-<pre data-language="html"><ion-item
+<ion-item
         ng-repeat="todo in todos"
         ng-click="todo.done = !todo.done"
         ng-class="todo.done ? 'completed' : ''">
@@ -428,7 +428,7 @@ Bővítsük tovább a direktívát az ng-class-al. Ez a direktíva egy class-t f
 Emlékszünk még a style.css-re? Itt az idő, hogy a completed class érjen is valamit, írjuk bele az alábbit:
 
 ```
-<pre data-language="css">.completed {
+.completed {
     color: #aaa;
     text-decoration: line-through;
 }
@@ -437,7 +437,7 @@ Emlékszünk még a style.css-re? Itt az idő, hogy a completed class érjen is 
 Most, ha rábökünk az egyik todo-ra, akkor áthúzott lesz és a színe változik, jelezve, hogy completed. Akkor jöjjön az, hogy hozzáadunk egy új taskot. A todolist.html template-ünkben az ion-header-bar tag-ek közé illesszük be az alábbi gombot:
 
 ```
-<pre data-language="html"><ion-header-bar><h1 class="title">Todos</h1>
+<ion-header-bar><h1 class="title">Todos</h1>
 <button class="button button-icon">
     <i class="ion-compose icon"></i>
 </button>
@@ -447,13 +447,13 @@ Most, ha rábökünk az egyik todo-ra, akkor áthúzott lesz és a színe válto
 A fenti kódrészlet elhelyez számunkra egy gombot, ami jelenleg nem csinál semmit, de akkor adjunk hozzá valami funkcionalitást:
 
 ```
-<pre data-language="html"><button class="button button-icon" ng-click="newTask()">
+<button class="button button-icon" ng-click="newTask()">
 ```
 
 A gombra kattintva meghívódik a $scope.newTask metódusa, írjuk hát meg!
 
 ```
-<pre data-language="javascript">$scope.newTask = function() {
+$scope.newTask = function() {
     $ionicPopup.prompt({
         "title" : "New Task",
         "template" : "Enter description:",
@@ -470,13 +470,13 @@ A fentiek során az ionicPopup service-t fogjuk használni és létrehozunk egy 
 Most, hogy már hozzáadni is tudunk, ideje lenne törölni is, amihez a listaelemeket kell kibővíteni a következőképp. Először is, vegyük fel az alábbi class-t az ion-item elemre:
 
 ```
-<pre data-language="html">class="item-icon-right"
+class="item-icon-right"
 ```
 
 Ez azért lesz fontos, mert a listaelemekre elhelyezünk egy ikont, ami jelzi, hogy az elem mögött van valami és ezt fogja a helyére pozícionálni nekünk. Ha ez megvan, akkor az ion-item elemek közé vegyük fel az alábbit:
 
 ```
-<pre data-language="html"><i class="icon ion-ios-arrow-left"></i>
+<i class="icon ion-ios-arrow-left"></i>
 <ion-option-button class="button-assertive" ng-click="todos.splice($index, 1)">
     Delete
 </ion-option-button>
@@ -489,7 +489,7 @@ A fenti 'i' tag fogja megjeleníteni számunkra a kis nyilat, ami egyértelműv�
 Ha most megnézzük, akkor az egyes listaelemek elhúzhatóak balra és mögötte található gomb pedig törli azt az elemet. Akkor jöhet a törlés!
 
 ```
-<pre data-language="html"><ion-option-button class="button-energized" ng-click="edit(todo)">
+<ion-option-button class="button-energized" ng-click="edit(todo)">
     Edit
 </ion-option-button>
 ```
@@ -497,7 +497,7 @@ Ha most megnézzük, akkor az egyes listaelemek elhúzhatóak balra és mögött
 Újabb elem az ion-item tag-ek közé. A button-energized miatt ez már sárga színű lesz és clickre pedig a $scope.edit metódust hívja meg, hozzuk hát azt létre:
 
 ```
-<pre data-language="javascript">$scope.edit = function(todo) {
+$scope.edit = function(todo) {
     $scope.data = {response : todo.name };
     $ionicPopup.prompt({
        title : "Edit task",
@@ -515,13 +515,13 @@ Na ez már némileg bonyolultabb. A $scope-on létrehozunk egy data objektumot, 
 Próbáljuk ki.. és működik!... illetve valami mégsem, mert a listaelem nem csúszott vissza. Ezt úgy tudjuk megoldani, hogy az Ionic egyik service-ét meghívjuk és szólunk neki, hogy a listaelemeket ugyan csukja már vissza. Ehhez be kell oktrojálnunk azt a kontrollerünkbe:
 
 ```
-<pre data-language="javascript">.controller('TodoCtrl', function($scope, $todoService, $ionicPopup, $ionicListDelegate) {
+.controller('TodoCtrl', function($scope, $todoService, $ionicPopup, $ionicListDelegate) {
 ```
 
 Ha ez megvan, akkor a fenti kódba szúrjuk be ezt a sort az alábbiak szerint:
 
 ```
-<pre data-language="javascript">if (res !== undefined) {
+if (res !== undefined) {
     todo.name = $scope.data.response;
     $ionicListDelegate.closeOptionButtons(); // becsukjuk az elemet
 }
@@ -534,7 +534,7 @@ Az [iOS](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.htm
 Ez utóbbit fogom én bemutatni. Az ionic-ot használva elég egyszerű a dolog:
 
 ```
-<pre data-language="shell">ionic run android
+ionic run android
 ```
 
 Ez a háttérben meghívja a cordovát, ami a háttérben meghívja a gradle-t, az pedig az Android SDK-t használva lebuildeli a projektet és kirakja a telónkra.

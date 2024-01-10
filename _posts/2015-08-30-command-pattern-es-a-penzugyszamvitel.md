@@ -31,7 +31,7 @@ Tegyük fel, hogy tőzsdézünk. Ennélfogva eladni/venni fogunk, viszont mindke
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php"><?php
+<?php
 
 interface Order { // a jól szituált megrendelés interfész
 
@@ -47,7 +47,7 @@ Ez lesz a Command pattern-ünk interfésze, viszont nem ártana meg is valósít
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php"><?php
+<?php
 
 class Stock { // a részvényünk, a'la value object. Ezt fogjuk type hintelni, hiszen nem lehet csak úgy mindenféle részvényt megvenni!
 
@@ -97,7 +97,7 @@ class SellStock implements Order { // ezzel tudjuk majd jól eladni a részvény
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php"><?php
+<?php
 class Broker { // a mi kis brókerünk, aki éhbérért az egekig röpít minket
 
     private $orderList = array(); // a megrendeléseket tartalmazó tömb

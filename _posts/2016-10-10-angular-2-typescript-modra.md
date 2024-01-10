@@ -81,7 +81,7 @@ Hozzuk létre a projektünk könyvtárát, majd abban szükségünk lesz pár ko
 Mivel TypeScriptben fogjuk írni a dolgokat, ezért szükségünk lesz a hozzá szükséges konfigurációra, **tsconfig.json** formájában:
 
 ```
-<pre data-language="javascript">{
+{
  "compilerOptions": {
  "target": "es5",
  "module": "commonjs",
@@ -100,7 +100,7 @@ Megadjuk, hogy biza ES5-re szeretnénk fordítani a kódot, mégpedig commonJS m
 Mivel az alkalmazásunk függőségei nem TypeScriptben lesznek, ezért azokat nem árt megadni, ún. definition fájlban, ami alapján a TypeScript code completiont nyújt számunkra, ami egy igazán király dolog. Ezt a typings.json-ben fogjuk megadni:
 
 ```
-<pre data-language="javascript">{
+{
  "globalDependencies": {
  "core-js": "registry:dt/core-js#0.0.0+20160725163759",
  "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
@@ -116,7 +116,7 @@ Láthatjuk, hogy egy központi registry-ből húzzuk le azokat, verzió és time
 A következő json a `package.json` lesz, ami az **npm** konfigjáért felel:
 
 ```
-<pre data-language="javascript">{
+{
  "name": "angular-quickstart",
  "version": "1.0.0",
  "scripts": {
@@ -158,7 +158,7 @@ A következő json a `package.json` lesz, ami az **npm** konfigjáért felel:
 Na most a függőségeket nem akarom felsorolni, mert akkor estig itt maradunk, viszont a scripts részre azért térjünk vissza. Ezek ugye az npm részei, lévén a `package.json`-ben találjuk őket, ennélfogva a fenti "start" igazából egy
 
 ```
-<pre data-language="shell">npm start
+npm start
 ```
 
 parancsra hallgat majd. Amikor mi ezt kiadjuk, lefordítja a kódot a TypeScript compiler, jelen konfigurációval ugyanoda, ahol a` .ts` fájljaink is vannak, majd elindítja konkurrensen a TypeScript compilert watch módban, azaz ha módosítunk a fájlokon, akkor újrafordítja azokat, valamint elindítja [John Papa node.js szerverét](https://github.com/johnpapa/lite-server), ami websocketen át kapcsolatban van a böngészővel és ha változás történik a fájlokban, frissíti az oldalt, így még egy F5-öt is megspórol nekünk. Ha az `npm lite`-ot használjuk, akkor nem fordítja le a dolgokat és később se figyel a ts fájlokra, viszont ugyanúgy elindítja a node szervert és a css/js módosítások ugyanúgy triggerelik a böngésző frissülését. A `postinstall` akkor jöhet jól, ha valamilyen anomália miatt (ami JavaScriptről lévén szó, nem ritka) nem jönnének le a típusdefiníciós fájlok.
@@ -170,7 +170,7 @@ Ahhoz, hogy ebből legyen is valami, a SystemJS module loadert fogjuk használni
 Az emlegetetett fájl így néz ki:
 
 ```
-<pre data-language="javascript">(function (global) {
+(function (global) {
  System.config({
  paths: {
  // ezt használjuk később aliasként, mindent az npm-ről szedünk
@@ -230,7 +230,7 @@ npm install
 A fél internet lejött, most elkezdhetjük megírni a saját implementációnkat. Az `app` mappában fogunk dolgozni, hozzuk is létre azt és hozzunk benne létre egy `app.module.ts` nevű fájlt:
 
 ```
-<pre data-language="javascript">import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
@@ -244,7 +244,7 @@ Ez már azért annyira nem szemidegen, ugye? Először is behúzunk két alapvet
 A következő lépés, hogy egy komponenst is hozzáadjunk. A komponensek kisebb, alapvető építőelemei az alkalmazásunknak, amik az angular régi verziójában leginkább a route-okhoz kötött kontrollerek megfelelői lehetnének. Ezt most szimplán az `app.component.ts` fájlba írjuk:
 
 ```
-<pre data-language="javascript">import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 @Component({
  selector: 'my-app',
  template: '<h1>My First Angular App</h1>'

@@ -32,13 +32,13 @@ Viszont amit gőzerővel tudunk gépelni, az legtöbbször azért van, mert már
 Ahhoz hogy saját parancsokkal egészítsük ki az artisan parancslistáját, először is fel kell vennünk az ehhez tartozó Command osztályt. Ezek alapesetben az app/console/Command mappába kerülnek (lévén a composer autoloadja segítségünkre siet, igazából bárhova kerülhet, sőt később erre lesz példa, hogy csomagból sütjük el a dolgot) és most hozzuk létre kézzel.. na jó, természetesen erre is van parancsunk. Mivel szeretnénk egyből hozzákapcsolni az osztályunkat egy parancshoz, ezért a --command paraméterrel adjuk ki azt:
 
 ```
-<pre data-language="shell">php artisan make:console ScaffoldAdmin --command=make:admin
+php artisan make:console ScaffoldAdmin --command=make:admin
 ```
 
 Ez legenerál nekünk egy ScaffoldAdmin nevű osztályt a fenti mappába. Elvileg ez nem fog csinálni semmit, de azért próbáljuk ki, hogy működik-e a semmi!
 
 ```
-<pre data-language="shell">php artisan make:admin
+php artisan make:admin
 ```
 
 Hoppá, itt valami nem megy. Hát persze, hogy nem, mert ahhoz, hogy mindez működjön, be kell regisztráljuk az osztályunkat az app/console/Kernel.php-ba. Mivel generátor scriptekről van szó és elég egyszerűek, ezért nem nyúlnak bele a már meglévő fájlokba (ahogy ehhez kellett volna), hanem csak az új tartalmakat generálják le. Tehát némi kulimunka ránk marad.
@@ -46,7 +46,7 @@ Hoppá, itt valami nem megy. Hát persze, hogy nem, mert ahhoz, hogy mindez műk
 Vegyük fel az osztályunkat az app/console/Kernel.php-ba:
 
 ```
-<pre data-language="php">protected $commands = [
+protected $commands = [
    'App\Console\Commands\ScaffoldAdmin'
 ];
 ```
@@ -54,7 +54,7 @@ Vegyük fel az osztályunkat az app/console/Kernel.php-ba:
 Most, hogy újrapróbáljuk... megint hibára fut, miszerint nincs elég argumentum. Hát mi a ?? Ha megnyitjuk a generált osztályunkat, akkor találunk benne pár metódust, amik közt lesz egy:
 
 ```
-<pre data-language="php">protected function getArguments()
+protected function getArguments()
 {
    return [
        ['example', InputArgument::REQUIRED, 'An example argument.'],
@@ -83,7 +83,7 @@ A command futásakor a fire metódus hívódik meg rajta (ugye emlékszünk még
 Csináljunk is valamit, ha már itt vagyunk, szóval akkor szedjük elő a jól szituált commandunkat és írjunk bele valami egyszerűt. Elsőként szedjük ki a belegenerált argumentumot/optiont a fent említett tömbökből, utána pedig írjunk ki valami tutiságot a konzolra.
 
 ```
-<pre data-language="php">namespace App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -153,20 +153,20 @@ class ScaffoldAdmin extends Command {
 Ha most beírjuk a konzolba a következőt:
 
 ```
-<pre data-language="shell">php artisan make:admin
+php artisan make:admin
 ```
 
 Akkor kiírja az infoban átadott szöveget és bumm, eddig tartott. Ha már paramétereket nem adunk át, akkor kicsit játszadozzunk szegény felhasználóval. A fire metódus tartalmát cseréljük ki a következőre:
 
 ```
-<pre data-language="php">$fish = $this->ask("How much is the fish?", 0); // az ask metódus első paramétere a kérdés, a második pedig a default value, visszatérési értéke pedig a felhasználó által megadott válasz
+$fish = $this->ask("How much is the fish?", 0); // az ask metódus első paramétere a kérdés, a második pedig a default value, visszatérési értéke pedig a felhasználó által megadott válasz
 $this->info("Yeah! (and the fish was $fish)"); // amit itt bele is fűzünk a válaszba
 ```
 
 Ennyire egyszerűen tudunk adatokat bekérni, de mi a helyzet ha csak jóváhagyni szeretnénk valamit, mi a helyzet az eldöntendő kérdésekkel?
 
 ```
-<pre data-language="php">if ($this->confirm("Is it OK if we format your hard disk? [y/n]", true)) { // a confirm metódus első paramétere szintén a kérdés string, a második pedig a default value.
+if ($this->confirm("Is it OK if we format your hard disk? [y/n]", true)) { // a confirm metódus első paramétere szintén a kérdés string, a második pedig a default value.
    $this->info("That's the spirit man!");
 } else {
    $this->error("That's just sad."); // az error/question/info/comment metódusok mindegyike kimenetet ad a konzolra, a megfelelő ANSI színekkel persze

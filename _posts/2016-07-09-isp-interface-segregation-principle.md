@@ -92,7 +92,7 @@ Ahogy az OO nagyatyai mondanák, **szétcsapassuk'**! Legalábbis kocsmanyelven 
 Na de mit is jelent ez a gyakorlatban? Nézzünk rá valami példát, ami által remélhetőleg megmarad majd valami.
 
 ```
-<pre data-language="php">interface Controller {
+interface Controller {
  
  public function setServiceLocator(ServiceManager $manager);
  public function getServiceLocator();
@@ -117,7 +117,7 @@ class HomeController extends AbstractController {
 A fentiekben deklaráltunk egy jó nagy böszme interfészt, amin a kontrollerünkben szükséges metódusok vannak felsorolva. A servicelocator beinjektálására és kikérésére, két eseményre is feliratkozhatunk elviekben, a routert is be lehet állítani, majd kikérni, valamint van itt egy pluginmanager is, ami lévén a nem létező metódusokat a \_\_call segítségével át tudjuk passzolni egy pluginnek. Fasza, mi? <del>Ilyet ha lehet ne használjunk, mert az életbe nem tudjuk majd kibogarászni a runtime ráaggatott "plugin" metódusokat, kész agyrém...</del> Tegyük fel, hogy mindezt meg is valósítjuk az abstract controllerünkben, utána már csak le kell azt örökíteni és minden megy magától. Viszont mi van akkor, ha én akarok valahova egy ilyen pluginmanageres mókát<del>, mert igazán szeretek szívni</del>? Legyen ez valami repository, amire akarok "akasztani" egy loggert ilyen módon. Induljunk el a legszörnyűbb úttól a legjobb felé.
 
 ```
-<pre data-language="php">interface Repository extends Controller { // a fenti controller interfészt kibővítjük
+interface Repository extends Controller { // a fenti controller interfészt kibővítjük
  public function save(Model $model);
  public function find($id);
  public function findAll();
@@ -134,7 +134,7 @@ Na ez az a megoldás, amiért kevesebbért is [perl script általi halálra](htt
 A következő kevésbé csúnya megoldás, ha egy fokkal jobban szétnyessük őket:
 
 ```
-<pre data-language="php">interface Repository {
+interface Repository {
  public function save(Model $model);
  public function find($id);
  public function findAll();
@@ -149,7 +149,7 @@ class RucsokRepository implements Repository, Controller {
 Na itt már nem bővítettük ki az eredeti interfészt, hanem két interfészt implementálunk, viszont ez megint 13 metódus összesen, amiből mi 7-et akarunk használni mindösszesen. Akkor jöjjön az, hogy szétbontjuk az eredeti interfészt, mégpedig az összetartozó metódusok alapján:
 
 ```
-<pre data-language="php">interface Pluginable {
+interface Pluginable {
  public function setPluginManager(PluginManager $manager);
  public function getPluginManager();
  public function __call($method, $parameters);
@@ -174,7 +174,7 @@ interface RouterAware {
 Akkor nézzük mi is történt az imént. Csináltunk egy Pluginable interfészt, amivel a pluginmanagert beállíthatjuk, kikérhetjük és a \_\_call megvalósítását megköveteljük. Aztán jön még a ServiceLocatorAware, amivel a servicelocatort tudjuk beállítani és kikérni. Az ApplicationEventListener, amivel feliratkozhatunk eseményekre, valamint a RouterAware, amin át a Routert tudjuk beinjektálni és kikérni. Ezután az iménti AbstractController így néz ki:
 
 ```
-<pre data-language="php">abstract class AbstractController implements Pluginable, 
+abstract class AbstractController implements Pluginable, 
  ServiceLocatorAware, 
  RouterAware, 
  ApplicationEventListener {
@@ -193,7 +193,7 @@ Igen, több interfész is meg van valósítva, de mostmár a fentieket tudjuk da
 Vegyük Pistikét. Pistike leszarja az iménti szentbeszédet és az első megoldás szerint jár el. Tegyük fel, hogy a kedves olvasó valamilyen szörnyű balszerencse lévén együtt kell dolgozzék alulírott Pistikével. Találkozik hát az alábbi kódrészlettel:
 
 ```
-<pre data-language="php">/** @var Repository $repository */
+/** @var Repository $repository */
 private $repository;
 ```
 

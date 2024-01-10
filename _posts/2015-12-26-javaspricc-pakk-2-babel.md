@@ -39,7 +39,7 @@ A babelhez mindenképp szükségünk lesz egy node/npm kombóra a gépünkön.
 Utána tudjuk telepíteni is:
 
 ```
-<pre data-language="javascript">npm install --save-dev babel-cli
+npm install --save-dev babel-cli
 ```
 
 Ezzel bármelyik projektünkbe tudjuk telepíteni azt.
@@ -53,7 +53,7 @@ A parancssori tool viszonylag egyszerűen kezelhető.
 Hozzunk is létre a projektünkben egy src és egy dist mappát. Ez előbbi tartalmazza majd az ES6-os forrást, míg az utóbbiba kerülnek majd a lefordított és minifikált fájlok. Akkor csináljunk egy post.js-t, amiben a legfincsibb újdonságok egyikét fogjuk kipróbálni, mégpedig a class definitiont:
 
 ```
-<pre data-language="javascript">class Post {
+class Post {
    constructor(title, content, slug) {
       this.title = title;
       this.content = content;
@@ -65,7 +65,7 @@ Hozzunk is létre a projektünkben egy src és egy dist mappát. Ez előbbi tart
 Akkor most nézzük meg, hogy működik-e a cucc:
 
 ```
-<pre data-language="javascript">babel src -d dist
+babel src -d dist
 ```
 
 A fenti parancs az src mappában található scripteket a dist mappába forgatja le. Adjuk hát ki a parancsot és nézzük meg a kimenetet!
@@ -79,7 +79,7 @@ A korábbiakban említettem, hogy a fordítót konfigurálni kell, ez pedig az e
 Hozzuk hát létre a .babelrc fájlt a projektünk gyökerében. Ez egy szimpla JSON formátumú fájl, hasonló a package.json-höz.
 
 ```
-<pre data-language="javascript">{
+{
  "plugins": ["transform-react-jsx"], // a plugineket itt lehet megadni
  "ignore": [ // ignore listre tehetünk bizonyos fájlokat, amiket nem forgat át a rendszer
  "foo.js",
@@ -91,7 +91,7 @@ Hozzuk hát létre a .babelrc fájlt a projektünk gyökerében. Ez egy szimpla 
 Sőt, akár a package.json-be is beágyazhatjuk a .babelrc konfigurációját:
 
 ```
-<pre data-language="javascript">{
+{
  "name" : "Babel-teszt",
  "version" : "1.0.0",
  "babel" : {
@@ -106,7 +106,7 @@ Sőt, akár a package.json-be is beágyazhatjuk a .babelrc konfigurációját:
 Na de akkor mostmár nem ártana dologra fogni a cuccot, nemde? Mivel mi ES6-ról szeretnénk ES5-re alakítani, telepítsünk hozzá plugineket:
 
 ```
-<pre data-language="shell">npm install babel-plugin-syntax-constructor-call
+npm install babel-plugin-syntax-constructor-call
 ```
 
 > Figyelem: a fenti plugin csak annyit tesz lehetővé, hogy a babel felismerje az új constructor syntax-ot, viszont azt nem tudja hogy is kellene átalakítani azt
@@ -114,13 +114,13 @@ Na de akkor mostmár nem ártana dologra fogni a cuccot, nemde? Mivel mi ES6-ró
 Mivel elég sok újdonság jött a nyelvvel, ezért jobban járunk, ha ún. presetet telepítünk, amiben összecsomagolva ott vannak a nekünk szükséges parser/transform pluginek:
 
 ```
-<pre data-language="shell">npm install babel-preset-es2015
+npm install babel-preset-es2015
 ```
 
 Ez ugye csak elérhetővé teszi a preset-et, viszont meg kell mondjuk a babelnek, hogy bizony használja is azt, a package.json-ben (vagy .babelrc fájlban):
 
 ```
-<pre data-language="javascript">{
+{
    "babel" : {
        "presets" : ["es2015"]
     }
@@ -130,13 +130,13 @@ Ez ugye csak elérhetővé teszi a preset-et, viszont meg kell mondjuk a babelne
 Ha ezzel megvolnánk, akkor elvileg minden készen áll a magicre, adjuk ki hát ismét a parancsot:
 
 ```
-<pre data-language="shell">babel src -d dist
+babel src -d dist
 ```
 
 Most némileg tovább szüttyög a fordítás, és ennek meg is lesz a gyümölcse! Nézzük meg a leforgatott fájl tartalmát:
 
 ```
-<pre data-language="javascript">"use strict"; // strict mode on
+"use strict"; // strict mode on
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } // definiál egy ún. ellenőrző függvényt, amivel meggátoljuk, hogy a konstruktor függvényünket sima függvényként hívjuk meg, a new kulcsszó használata nélkül.
 
@@ -156,7 +156,7 @@ Ez utóbbi kódban már nem lesz olyan syntax, amit ne tudna megemészteni a leg
 Akkor nézzük a legegyszerűbb módszert erre. Az első ilyen egy sima package.json-be suvasztott script lesz.
 
 ```
-<pre data-language="javascript">{
+{
  "scripts" : { // a package.json-ben lehet az adott projektre specifikus scripteket felvenni, amiket az npm-el tudunk majd futtatni
     "build" : "babel src -d dist" // a parancs a kulcs, ami pedig lefut az az értékben lesz, tehát az npm run build-re fog hallgatni
    }
@@ -166,13 +166,13 @@ Akkor nézzük a legegyszerűbb módszert erre. Az első ilyen egy sima package.
 Persze tovább is lehet mindezt piszkálni, mert szeretnénk ha az output pl. kommentektől mentes legyen:
 
 ```
-<pre data-language="shell">babel src -d dist --no-comments
+babel src -d dist --no-comments
 ```
 
 Valamint tuningoljuk tovább a dolgot egy kis minifikálással:
 
 ```
-<pre data-language="shell">babel src -d dist --no-comments --minified
+babel src -d dist --no-comments --minified
 ```
 
 Ez se volt túl bonyolult nem? Akkor most nézzük meg az egyik népszerű task runnerrel/build systemmel is:
@@ -182,7 +182,7 @@ Ez se volt túl bonyolult nem? Akkor most nézzük meg az egyik népszerű task 
 A grunthoz is lehet babel plugint szerezni, ami a build folyamat során hasznunkra lehet:
 
 ```
-<pre data-language="shell">npm install --save-dev grunt-babel
+npm install --save-dev grunt-babel
 ```
 
 Ezzel megszereztük a babel plugint az adott projektre. Persze szükség van még lokálisan egy gruntra és globálisan a grunt-cli-re is.
@@ -190,7 +190,7 @@ Ezzel megszereztük a babel plugint az adott projektre. Persze szükség van mé
 Na de nézzük, mit is kell beleoktrojálnunk a gruntfile-unkba?
 
 ```
-<pre data-language="javascript">module.exports = function(grunt) { // a wrapper function
+module.exports = function(grunt) { // a wrapper function
  require("load-grunt-tasks")(grunt); 
 
  grunt.initConfig({ 
@@ -213,7 +213,7 @@ Na de nézzük, mit is kell beleoktrojálnunk a gruntfile-unkba?
 Nézzük, hogy a grunt parancs mit produkál:
 
 ```
-<pre data-language="shell">Running "babel:dist" (babel) task
+Running "babel:dist" (babel) task
 Done, without errors.
 ```
 

@@ -83,7 +83,7 @@ Na de valami fogalmunk csak van arról, hogy mégis milyen is lehet egy gyártá
 Az autó, amit legyártunk, megfelel az ISO szabványoknak. Ezek a szabványok leírják, hogy legyen benne fék, tudjunk gyorsítani és a kormány mindkét irányba forgatható legyen. Ez a szabvány egy interfész lesz, amivel lefektetjük a legyártott autónk számára a szabályokat.
 
 ```
-<pre data-language="php">interface Auto {
+interface Auto {
     public function fek(); 
     public function gaz();
     public function balra();
@@ -94,7 +94,7 @@ Az autó, amit legyártunk, megfelel az ISO szabványoknak. Ezek a szabványok l
 Na, ilyen gyorsan se rágtuk át magunkat ISO szabványokon, nemde? Na de ezzel még nagyon messze vagyunk a céltól. Ugye a gyárunk nem csak egy féle autómárkát/típust gyárthat, ezért mi se erre megyünk rá, csináljunk hát pár autótípust (osztályt), amik elfogadják (implementálják) ezeket a szabályokat (interfészeket).
 
 ```
-<pre data-language="php">class Lada implements Auto { // igen, komolyan
+class Lada implements Auto { // igen, komolyan
    // definiáljuk a metódusokat
 }
 
@@ -106,7 +106,7 @@ class Trabant implements Auto { // ez pedig még komolyabb
 Na mostmár van két osztályunk, amik közlekedésre alkalmasak, de mivel nem mi gyártjuk le őket, ezért szükségünk lesz a gyárra is.
 
 ```
-<pre data-language="php">class AutoGyar {
+class AutoGyar {
     public function megrendel($autoTipus) { // ugye milyen csinos az értékesítő néni?
          switch($autoTipus) { // a típus alapján példányosítunk osztályt és adjuk vissza azt
              case "TRABANT" :
@@ -125,7 +125,7 @@ Na mostmár van két osztályunk, amik közlekedésre alkalmasak, de mivel nem m
 Na akkor mi is történik itt? A megrendeles() függvény (amit azért professional környezetben ajánlott átnevezni :D) a mi kis publikus interfészünk. Mivel itt nagyon egyszerű példát használunk, egy szimpla switch-el oldottuk meg a döntést, hogy milyen osztályt példányosítunk. A konstruktoruk se kap semmit, nincs külön konfigurálás, de bőven lehetne még bonyolítani a dolgot.
 
 ```
-<pre data-language="php">class KedvesVevo { // ezek mi volnánk
+class KedvesVevo { // ezek mi volnánk
     public function __construct() {
        $this->kellEgyVerda();
     }

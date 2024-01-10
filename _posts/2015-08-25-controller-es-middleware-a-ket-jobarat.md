@@ -31,7 +31,7 @@ Most, hogy a [routingot ]({{ site.url }}/2015/08/17/nyelvtani-alapok-lara-val-la
 Nézzünk egy egyszerű példát:
 
 ```
-<pre data-language="php"><?php // /app/Http/Controllers/MockController.php követjük a PSR standardot
+<?php // /app/Http/Controllers/MockController.php követjük a PSR standardot
 
 namespace App\Http\Controllers;
 
@@ -47,7 +47,7 @@ class MockController extends Controller {
 Na most akkor nézzük, hogy is tudunk hivatkozni erre a controller/action párosra (egy kis ismétlés gyanánt):
 
 ```
-<pre data-language="php">Route::get("/", [
+Route::get("/", [
     "uses" => "MockController@index",  // itt adhatjuk meg a controller/action párost
     "as" => "home" // itt pedig a route nevét, ami néven később tudunk rá hivatkozni
 ]);
@@ -61,7 +61,7 @@ route("home") // az előző route-hoz tartozó URL-t adja vissza
 Igazából most jövök rá, hogy pár dolog kimaradt a routing szekcióból, de most pótlom őket. Nos, kicsit fárasztó lenne minden egyes metódust lemappelni, nemde? Emiatt laravelben lehetőségünk van arra, hogy csak a controllert adjuk meg a route-hoz, míg a metódusok nevét a Laravel összekapcsolja nekünk.
 
 ```
-<pre data-language="php">Route::controller("/posts", "PostController", [ // csak az URL tagot és a controller nevét adjuk meg. 
+Route::controller("/posts", "PostController", [ // csak az URL tagot és a controller nevét adjuk meg. 
 "getIndex" => "home"] ); // itt is lehetőségünk van az egyes mappelt metódusokhoz nevet rendelni, amit később az URL helperrel használhatunk
 
 // a GET /posts/index url a PostController@getIndex-re mutat
@@ -74,7 +74,7 @@ Ha olyan metódust írunk be, amihez tartozó metódus nem létezik, akkor 404-e
 Middleware-ek definiálás a kontrollerben is lehetséges:
 
 ```
-<pre data-language="php">public function __construct() {
+public function __construct() {
   $this->middleware("auth"); // a konstruktorban helyezzük mindezt el, és a sorrend számít
   $this->middleware("log", array("only" => "getIndex")); // beállíthatjuk, hogy csak bizonyos metódusokra legyen érvényes
   $this->middleware("mock" array("except" => "getIndex")); // vagy épp azt, hogy melyekre ne
@@ -86,13 +86,13 @@ Pihentessük a szemünket!
 Laravelben lehetőségünk van arra, hogy ún. RESTful controller route-okat definiáljunk.
 
 ```
-<pre data-language="php">Route::resource("photo", "PhotoController");
+Route::resource("photo", "PhotoController");
 ```
 
 Ahhoz, hogy egy ilyen controllert létrehozzunk, a következőt kell bepötyögni a laravel rootjában állva:
 
 ```
-<pre data-language="php">php artisan make:controller PhotoController
+php artisan make:controller PhotoController
 ```
 
 Ez legenerálja nekünk a controllert, valamint a hozzá tartozó action-öket, persze üresen. Ezeket az action-öket az alábbiak szerint mappeli nekünk ez a route beállítás:
@@ -110,29 +110,29 @@ Ez legenerálja nekünk a controllert, valamint a hozzá tartozó action-öket, 
 Persze itt is lehetőségünk nyílik korlátozni, hogy mely action-öket szeretnénk a route-on meghagyni/vagy épp kizárni:
 
 ```
-<pre data-language="php">Route::resource("photo", array("only" => array("index", "show")));
+Route::resource("photo", array("only" => array("index", "show")));
 
 ```
 
 ```
-<pre class=" language-php" data-language="php">Route::resource('photo', 'PhotoController',
+Route::resource('photo', 'PhotoController',
  ['except' => ['create', 'store', 'update', 'destroy']]);
 ```
 
 Lehetőségünk van továbbá egymásba ágyazni ezeket a Resource route-okat. Csupán az ún. dot notation-t kell használni, vagyis pontokkal válasszuk el egymástól őket:
 
 ```
-<pre data-language="php">Route::resource("photos.comments","PhotoCommentController");
+Route::resource("photos.comments","PhotoCommentController");
 ```
 
 Az ilyen módon regisztrált route-okat így tudjuk elérni: photos/{photos}/comments/{comments}, és a paramétereket hasonlóképpen kapják meg:
 
 ```
-<pre data-language="php">class PhotoCommentController extends Controller {
+class PhotoCommentController extends Controller {
 ```
 
 ```
-<pre data-language="php"> /**
+ /**
  * Show the specified photo comment.
  *
  * @param int $photoId
@@ -151,7 +151,7 @@ A fenti példában látszik, hogy a két szükséges ID-t megkapjuk paraméterbe
 Ha más route-okat is szeretnénk definiálni a Resource controller alapértelmezettjei felül akkor azokat a Route::resource definiálása előtt tegyük meg:
 
 ```
-<pre data-language="php">Route::get('photos/popular', 'PhotoController@method'); // csináltunk egy újabb endpointot
+Route::get('photos/popular', 'PhotoController@method'); // csináltunk egy újabb endpointot
 Route::resource('photos', 'PhotoController'); // valamint az alap resource route-okat is fellőttük
 ```
 
@@ -166,13 +166,13 @@ Na de mégis mibe fáj egy ilyet létrehozni?
 Ahogy a legtöbb dologban a laravelnél, két út létezik, az egyik a kényelmes megoldás, ami csupán annyi, hogy kiadjuk a következő parancsot:
 
 ```
-<pre data-language="php">php artisan make:middleware [middleware-neve]
+php artisan make:middleware [middleware-neve]
 ```
 
 a másik pedig <del>olyan, mintha sajtreszelővel \*\*\*\*nánk</del> amikor kézzel belekulákoljuk a könyvtárba az osztályt
 
 ```
-<pre data-language="php"><?php
+<?php
 namespace App\Http\Middleware;
 
 class LimitBeer {
@@ -189,7 +189,7 @@ class LimitBeer {
 és a Kernel.php-ben is bevezetjük azt, hogy tudjunk rá aliassal hivatkozni:
 
 ```
-<pre data-language="php">protected $routeMiddleware = [
+protected $routeMiddleware = [
     'limit' => \App\Http\Middleware\LimitBeer::class,
 ];
 ```
@@ -199,7 +199,7 @@ Ha ez utóbbit nem tesszük meg, akkor a fully qualified classsname-el tudunk r�
 A middleware-ek futhatnak a request feldolgozása előtt, vagy éppen utána. Ez csak attól függ, hogy is hoztuk őket létre:
 
 ```
-<pre data-language="php"><?php namespace App\Http\Middleware;
+<?php namespace App\Http\Middleware;
 
 use Closure;
 
@@ -217,7 +217,7 @@ class BeforeMiddleware implements Middleware {
 A fenti módszer ugyanolyan, mint amit legelőször bemutattam, jön a request, moleszteráljuk egy keveset és továbbadjuk azt. Azonban ha a request feldolgozása után szeretnénk valamit, akkor azt a következő módon tudjuk elvégezni:
 
 ```
-<pre data-language="php"><?php namespace App\Http\Middleware;
+<?php namespace App\Http\Middleware;
 
 use Closure;
 
@@ -237,7 +237,7 @@ class AfterMiddleware implements Middleware {
 Ha a middleware-jeinket szeretnénk MINDEN route esetében használni, akkor lehetőség nyílik ún. globális middleware-ek definiálására is, szintén a Kernel osztályban:
 
 ```
-<pre data-language="php">protected $middleware = [ // ez a tömb szolgál a globális middleware-ek részére
+protected $middleware = [ // ez a tömb szolgál a globális middleware-ek részére
     \App\Http\Middleware\LimitBeer::class, // itt nem kell megadni aliast, mert nem hívhatók meg direktben, maguktól futnak le
 ];
 ```
@@ -247,7 +247,7 @@ Ha a middleware-jeinket szeretnénk MINDEN route esetében használni, akkor leh
 Vannak esetek, mikor a HTTP response kiküldése után szeretnénk még valamit ügyködni. A "session" middleware, ami a laravellel érkezik pont ezt csinálja, a session adatokat írja be a storage-be, miután ki lett küldve a response. Ahhoz, hogy ezt a feladatot ellássuk, ún. "terminable" middlewaret kell létrehozzunk:
 
 ```
-<pre data-language="php"><?php 
+<?php 
 use Closure;
 use Illuminate\Contracts\Routing\TerminableMiddleware;
 

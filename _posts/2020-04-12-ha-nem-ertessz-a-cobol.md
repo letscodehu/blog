@@ -33,13 +33,13 @@ Ha nagyon gyorsan bele akarunk ugrani a dologba, akkor létezik egy majdnem 100%
 Debian rendszereken a
 
 ```
-<pre class="wp-block-preformatted">sudo apt install open-cobol
+sudo apt install open-cobol
 ```
 
 paranccsal tudjuk magunkévá tenni a compilert, amit ki is próbáltam egy egyszerű hello world programmal
 
 ```
-<pre class="wp-block-preformatted">000100* HELLO.COB GnuCOBOL example
+000100* HELLO.COB GnuCOBOL example
 000200 IDENTIFICATION DIVISION.
 000300 PROGRAM-ID. hello.
 000400 PROCEDURE DIVISION.
@@ -58,13 +58,13 @@ Először is letöltjük a hercules emulátort. Ez egy open source implementáci
 Ezután kitömörítettem és az util mappában futtattam a misztikus nevű toolt, ami ellenőrzi, hogy a buildhez minden szükséges függőség megvan-e:
 
 ```
-<pre class="wp-block-preformatted">./util/bldlvlck
+./util/bldlvlck
 ```
 
 Ez szépen kiírja nekünk, hogyha valami hiányzik, vagy épp megvan, a verziókkal együtt:
 
 <div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">```
-<pre class="wp-block-preformatted">This utility will check the level of various utilities needed to build
+This utility will check the level of various utilities needed to build
 hercules. Checking is done against versions that are KNOWN to work.
 This doesn't mean a build will NOT succeed with older versions
 of the utilities, but will give a hint as to what package may need
@@ -85,25 +85,25 @@ OK      sed requires 3.02, found 4.7
 </div></div>Ezután jött egy szokásos konfigurálás:
 
 ```
-<pre class="wp-block-preformatted">./configure
+./configure
 ```
 
 Buildelés (ami a világ összes warningját elémdobta)
 
 ```
-<pre class="wp-block-preformatted">make
+make
 ```
 
 Telepítés:
 
 ```
-<pre class="wp-block-preformatted">sudo make install
+sudo make install
 ```
 
 Ezután elindítjuk, hogy lássuk tényleg minden klappol:
 
 ```
-<pre class="wp-block-preformatted">hercules
+hercules
 ```
 
 Ha minden jól megy, akkor valami hasonló fogad bennünket:
@@ -119,7 +119,7 @@ Ezt innen tudjuk letölteni. Kicsomagoljuk, belenavigálunk és utána átállí
 Ezután pedig a mappa gyökeréből elindítjuk az mvs-t:
 
 ```
-<pre class="wp-block-preformatted">./mvs
+./mvs
 ```
 
 Beletelik egy kis időbe, míg elindul, mert a herculest is elindítja, de a végére valami hasonló fogad minket:
@@ -129,13 +129,13 @@ Beletelik egy kis időbe, míg elindul, mert a herculest is elindítja, de a vé
 <figure class="wp-block-image">![https://upload.wikimedia.org/wikipedia/commons/a/a8/IBM-3279.jpg](https://upload.wikimedia.org/wikipedia/commons/a/a8/IBM-3279.jpg)<figcaption>Az IBM 3270-es terminál</figcaption></figure>Igen, szerencsénkre a TCP felé épülő protokollt sok más helyen is megvalósították, így elég egy programot telepítenünk, amivel rá tudunk csatlakozni a herculesre. Én Ubuntun a következő paranccsal telepítettem, de minden más operációs rendszerre elérhető:
 
 ```
-<pre class="wp-block-preformatted">sudo apt install c3270
+sudo apt install c3270
 ```
 
 Ezután pedig csatlakozunk (a portot külön fel kell venni, mert nem ez az alapértelmezett portja):
 
 ```
-<pre class="wp-block-preformatted">c3270 localhost -port 3270
+c3270 localhost -port 3270
 ```
 
 Itt ugye az első dolgunk az lesz, hogy bejelentkezünk:

@@ -73,7 +73,7 @@ tags:
 Az utolsó design cikkhez értünk, ez a SOLID utáni ráadás. Law of Demeter, más néven a principle of least knowledge egy ajánlás a szoftverfejlesztéshez, azon belül is az objektumorientált nyelvekhez. Ha valaki találkozott már a kódjában hosszú method chainingel, mint például:
 
 ```
-<pre data-language="php">$user = $this->getServiceLocator()->get("SqlModelFactory")->createModel("Users")->findById($ID); // félreértés ne essék, nem minden method chaining lesz "rossz"
+$user = $this->getServiceLocator()->get("SqlModelFactory")->createModel("Users")->findById($ID); // félreértés ne essék, nem minden method chaining lesz "rossz"
 ```
 
 <figure aria-describedby="caption-attachment-1188" class="wp-caption aligncenter" id="attachment_1188" style="width: 298px">[![Szeged-domotor](assets/uploads/2016/07/Szeged-domotor-768x1024.jpg)](assets/uploads/2016/07/Szeged-domotor.jpg)<figcaption class="wp-caption-text" id="caption-attachment-1188">A szegediek lehet értik</figcaption></figure>
@@ -96,7 +96,7 @@ Ez egy kicsit furán hangzik elsőre, de később majd részletezzük, hogy mir�
 Tegyük fel, hogy van három objektumunk: TaxiDriver, Customer, Wallet. A "törvény" értelmében a TaxiDriver egy metódusában hozzáférhet a Customer objektumhoz, ellenben a Customeren keresztül annak Walletjét már nem érheti el. Ha így tenne, akkor implicit módon mélyebben kellene ismernie az adott objektum belső szerkezetét. Hogy ezt elkerüljük, két módszer áll rendelkezésünkre. Az egyik, ahol a TaxiDrivernek közvetlen referenciája van a Walletre... (ez már a zsebtolvajlást súrolja), vagy a másik, amikor a Customer egyik service-én keresztül érjük el a Wallet-et (itt nem közvetlen getterről van szó továbbra sem). De nézzük mit is szabadna tennünk a lenti esetben (egy objektum egyik metódusában mihez férhetünk hozzá)?
 
 ```
-<pre data-language="php">class TaxiDriver {
+class TaxiDriver {
 
     private $money;
 
@@ -119,7 +119,7 @@ Ha leegyszerűsítjük, akkor mondhatjuk azt, hogy szinte bármihez hozzáférhe
 Akkor most nézzünk megint példákat a legrosszabbtól a legjobbig:
 
 ```
-<pre data-language="php">class TaxiDriver {
+class TaxiDriver {
 
      private $money;
      private $fee = 1150;
@@ -151,7 +151,7 @@ Akkor nézzük mi is történik a fenti példában! Hát ez egy szokásos rablá
 Na de akkor jöjjön a gyógyír, legalábbis amit elsőre jónak hiszünk. Delegáljuk a dolgokat!
 
 ```
-<pre data-language="php">class TaxiDriver {
+class TaxiDriver {
 
      private $money;
      private $fee = 1150;
@@ -184,7 +184,7 @@ class Customer {
 Na nézzük miben lett másabb a dolog? Ránézésre már nem sérti a LOD-ot.. Hurrá! De várjunk, ez még mindig nem az igazi. A taxis továbbra is direktben piszkálja a nálunk lévő Deák Feri bácsit, azért ez mégsincs jól, nemde? A probléma itt az, hogy property-t delegáltunk és habár jónak tűnik a megoldás, ilyet még mindig nem szabad. Behavior-t szabad delegálni, tehát egy metódust kell előrébb rángatnunk, nem pedig property elérést.
 
 ```
-<pre data-language="php">class TaxiDriver {
+class TaxiDriver {
 
      private $money;
      private $fee = 1150;
@@ -222,7 +222,7 @@ A Taxis mostmár tudja, hogy a Customernek van egy metódusa, amivel fizetni tud
 #### Na de mi a helyzet a fluid API-val?
 
 ```
-<pre data-language="php">$requestBuilder->setUri($uri)->setMethod("POST")->setTimeout($timeout)->build();
+$requestBuilder->setUri($uri)->setMethod("POST")->setTimeout($timeout)->build();
 ```
 
 A fenti példa első ránézésre csúnya violationnek tűnhet, azonban mégsem az. Ha megvizsgáljuk, a setUri, setMethod, stb metódusok nem egy új objektumot adnak vissza, hanem az eredeti RequestBuildert, tehát végig azon hívjuk a metódusokat, ami így már nem sérti a LOD-ot.
@@ -232,7 +232,7 @@ A fenti példa első ránézésre csúnya violationnek tűnhet, azonban mégsem 
 Tegyük fel, hogy van egy Order modelünk, aminek van egy Customer many-to-one relationje. Itt szeretnénk az adott megrendeléshez tartozó vevő nevét kiírni a view-ban:
 
 ```
-<pre data-language="php">{{ $order->customer->name }}
+{{ $order->customer->name }}
 ```
 
 Hoppá.. ez itt sérti a LOD-ot! Vagy mégsem? Lévén itt view fájlokról beszélünk, itt nem érvényesül törvény, mert nem végzünk műveleteket vele, valamint itt maximum property delegálás lehetne, amit pedig már fentebb megbeszéltünk, hogy nem javasolt.

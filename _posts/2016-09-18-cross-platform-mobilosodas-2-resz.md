@@ -80,7 +80,7 @@ Akkor most kezdjünk egy kicsit fabrikálni rajta.
 Ugyebár az adatainkat amiket megjelenítünk a templateben a $scope változóban tároljuk. Ahhoz, hogy ide eljusson, a controllerünk meghívja az ezért felelős service-t, ami pedig szintén meghívja a szükséges transformert vagy éppen a $http service-t, $cache-t, ami épp kell, tehát egyfajta facade módjára elburkolja a dolgokat és egy viszonylag egyszerű interfészt biztosít. Akkor nézzük a mi service-ünk hogy is nézett ki a legutóbb:
 
 ```
-<pre data-language="javascript">angular.module('starter.services', [])
+angular.module('starter.services', [])
 
 .factory('$todoService', function() {
 
@@ -101,7 +101,7 @@ Ugyebár az adatainkat amiket megjelenítünk a templateben a $scope változóba
 Nem az igazi ugye? Na most amire nekünk szükségünk lesz az angular $injector service, amivel a $todoService-be beleinjektálunk egy $http-t, amin keresztül el tudjuk majd érni a múltkor készített REST API-t. Persze fel kell készülnünk majd az offline működésre is, erről is szó esik majd. Akkor alakítsuk át kicsit a dolgot:
 
 ```
-<pre data-language="javascript">.factory('$todoService', ['$http', function($http) {
+.factory('$todoService', ['$http', function($http) {
 
         var todos = [];
 
@@ -124,7 +124,7 @@ composer require "zfr/zfr-cors:1.*"
 Ha ez megvolt, akkor az új modulunkat vegyük fel a config/modules.config.php-ben:
 
 ```
-<pre data-language="php"> return [
+ return [
     // többi Zendes csomag
    "ZfrCors",
 ];
@@ -133,7 +133,7 @@ Ha ez megvolt, akkor az új modulunkat vegyük fel a config/modules.config.php-b
 Ha ez is megvolt, akkor a config/autoload mappába másoljuk át a vendor/zfr/zfr-cors/zfr\_cors.global.php.dist fájlt (és természetesen a .dist kiterjesztést vágjuk le a végéről). Ebben a fájlban minket legfőképp az allowed origins rész fog érdekelni, itt állítsuk be a teszteléshez a **http://localhost:8100**-at, az ionic itt fut, valamint az engedélyezett headerekhez adjuk hozzá amiket használni fogunk:
 
 ```
-<pre data-language="php">return [
+return [
     'zfr_cors' => [
          /**
           * Set the list of allowed origins domain with protocol.
@@ -154,7 +154,7 @@ Ha ezzel megvoltunk, akkor már nem fogjuk a fejünket vakargatni a console hib�
 Eddig ugye fix datasettel dolgoztunk, amit habár a service-ből kaptunk, statikus volt. Az angular-ui routingja alapesetben cache-eli a controller instancejainkat, tehát minden controllert csak egyszer példányosít majd. Ez lehetővé teszi azt, hogy bevezessünk egy inicializáló metódust, anélkül hogy aggódni kelljen amiatt, hogy újra és újra inicializálja azt, ezáltal felesleges terhelést okozva a szerver felé. Hozzuk létre hát a metódust a controllerben:
 
 ```
-<pre data-language="javascript">.controller('TodoCtrl', function($scope, $todoService, $ionicPopup, $ionicListDelegate) {
+.controller('TodoCtrl', function($scope, $todoService, $ionicPopup, $ionicListDelegate) {
 
         function init() {
             $todoService.fetchPage().then(function(response) { // meghívjuk a service-t és amikor végzett, a visszatérő eredményt felhasználjuk
@@ -167,7 +167,7 @@ Eddig ugye fix datasettel dolgoztunk, amit habár a service-ből kaptunk, statik
 Most, hogy ezzel megvagyunk, a service-ben is vezessük be a megfelelő hívást:
 
 ```
-<pre data-language="javascript">.factory('$todoService', ['$http','$q', function($http, $q) { // beinjektáljuk a $http és a $q service-t, 
+.factory('$todoService', ['$http','$q', function($http, $q) { // beinjektáljuk a $http és a $q service-t, 
   // előbbivel adatainkat tudjuk lekérni, utóbbi pedig az aszinkron feldolgozásban segít nekünk
 
         var resourceLink = "http://todo.localhost.hu/todo"; // a resource alap URL-je, minden innen indul ki, a többi elérési utat majd medialinkekből kapjuk meg
@@ -186,7 +186,7 @@ Ezzel már sikerült is elérnünk, hogy a controller létrejöttekor meghívja 
 A következő ilyen a hozzáadás lesz. Ezt egy prompt ablakkal oldottuk meg, ami hozzáadott a tömbhöz, amivel dolgoztunk. Fontos megjegyezni, hogy mindig a szerver által visszaadott értékekkel dolgozzunk, mert lehet teljesen más adatok lesznek benne, függően filterektől, auto increment, stb. értékektől. Az új forma a controllerben az alábbi módon néz ki:
 
 ```
-<pre data-language="javascript">$scope.newTask = function() {
+$scope.newTask = function() {
     $ionicPopup.prompt({
         "title" : "New Task",
         "template" : "Enter description:",
@@ -203,7 +203,7 @@ A következő ilyen a hozzáadás lesz. Ezt egy prompt ablakkal oldottuk meg, am
 Akkor most nézzünk el a servicebe is, az új add metódust miként is implementáljuk:
 
 ```
-<pre data-language="javascript">function add(name) {
+function add(name) {
     var deferred = $q.defer(); // deferred objektum ismét
     $http.post(resourceLink, {"name" : name, "done" : 0}).then(function(response) { // ugyanazon a linken történik, csak most POST kérés. A done alapból 0 lesz.
         deferred.resolve(response.data) // a visszatérő értéket pedig visszaadjuk a hívónak, ami már maga a todo reprezentációja lesz
@@ -215,7 +215,7 @@ Akkor most nézzünk el a servicebe is, az új add metódust miként is implemen
 Bumm, ennyi lett volna a hozzáadás is. Ha kipróbáljuk, akkor láthatjuk, hogy a listához hozzáadásra kerül, de ez eddig is ment. Frissítsük az oldalt és itt jön a differencia, ugyanis az újonnan felvett értékek immáron megmaradnak. Itt jön az, ahol fontossá válnak azok a bizonyos linkek. Emlékszünk még hogy is néznek ki a todo reprezentációi?
 
 ```
-<pre data-language="javascript">{
+{
  "id":"3",
  "name":"4234234",
  "done":"1",
@@ -231,7 +231,7 @@ Bumm, ennyi lett volna a hozzáadás is. Ha kipróbáljuk, akkor láthatjuk, hog
 Nos, valahogy így. A lényeg, hogy benne van a konkrét elérési út is, így nem nekünk kell kézzel összerakni azt, ugyanis ezen az elérési úton tudunk módosítani és törölni is entitásokat. Akkor jöjjön valami egyszerűbb, pipáljunk ki egy taskot! Ennek az első része a templateben lesz, mégpedig az ng-click mostmár nem szimplán egy boolean értéket fog kapcsolgatni, hanem meghív egy metódust és átadja neki az aktuális todo reprezentációt.
 
 ```
-<pre data-language="html"><ion-item
+<ion-item
         class="item-icon-right"
         ng-repeat="todo in todos"
         ng-click="toggleState(todo)"
@@ -245,7 +245,7 @@ Ahhoz, hogy ez ne okozzon problémát, a done mezőnkre az API-ban húzzunk rá 
 Ha ezzel megvoltunk, akkor nézzük az emlegetett toggleState metódust:
 
 ```
-<pre data-language="javascript">$scope.toggleState = function( todo) {
+$scope.toggleState = function( todo) {
     var modifiedTodo = todo; // egy ideiglenes változóba tesszük
     modifiedTodo.done = (todo.done == 1) ? 0 : 1; // megfordítjuk a done státuszát
     $todoService.modify(modifiedTodo).then(function(newTodo) {
@@ -257,7 +257,7 @@ Ha ezzel megvoltunk, akkor nézzük az emlegetett toggleState metódust:
 A képlet egyszerű, megkapjuk az eredeti objektumot, lemásoljuk egy új változóba, átbillentjük a done-t, meghívjuk a modify-t a service-en, az általa visszakapott értékkel pedig felülírjuk az eredetit. A service-ben mindeközben:
 
 ```
-<pre data-language="javascript">function modify(todo) {
+function modify(todo) {
     var deferred = $q.defer(); // deferred objektum
     $http.put(todo._links.self.href, { // a todo-ban tárolt linken érjük el azt PUT methodal
        name : todo.name, // csak a lényeges elemeket rakjuk bele
@@ -276,7 +276,7 @@ Nagyjából annyi történik, hogy meghívjuk PUT-al az objektum önmagára muta
 Némileg hasonló lesz az edit is, azt leszámítva, hogy ott a prompt ablak visszatérése után történik meg a változtatás.
 
 ```
-<pre data-language="javascript">$scope.edit = function(todo) {
+$scope.edit = function(todo) {
     $scope.data = {response : todo.name }; // beállítjuk a jelenlegi állapotát a textboxnak
     $ionicPopup.prompt({
        title : "Edit task",
@@ -297,7 +297,7 @@ Némileg hasonló lesz az edit is, azt leszámítva, hogy ott a prompt ablak vis
 Láthatjuk, hogy alapjaiban ugyanazt csináltuk itt is, ráadásul a modify service-t már megírtuk, így már ennek is működnie kell. A következő már némileg trükkösebb lesz, mert a törléskor nem bízhatunk a visszatérési értékben, lévén a DELETE nem fog body-t visszaadni. A template-ben tehát át kell adjuk az $index-et is, hogy később tudjunk ez alapján hivatkozni az elemre a dataseten belül, a törléshez:
 
 ```
-<pre data-language="html"><ion-option-button class="button-assertive" ng-click="remove(todo, $index)">
+<ion-option-button class="button-assertive" ng-click="remove(todo, $index)">
     Delete
 </ion-option-button>
 ```
@@ -305,7 +305,7 @@ Láthatjuk, hogy alapjaiban ugyanazt csináltuk itt is, ráadásul a modify serv
 A controllerben is csináljunk egy remove metódust a célra:
 
 ```
-<pre data-language="javascript">$scope.remove = function(todo, $index) {
+$scope.remove = function(todo, $index) {
     $todoService.remove(todo).then(function() { // átadjuk az elemet a service-nek
         $scope.todos.splice($index, 1); // ha sikerrel járt, akkor a datasetből kivágjuk az elemet
     });
@@ -315,7 +315,7 @@ A controllerben is csináljunk egy remove metódust a célra:
 Nézzük a service-t:
 
 ```
-<pre data-language="javascript">function remove(todo) {
+function remove(todo) {
     var deferred = $q.defer(); // deferred objektum
     $http.delete(todo._links.self.href).then(function() { // a beágyazott linket használjuk ismét
         deferred.resolve(); // mivel nem ad vissza body-t, ezért nincs is mit visszaadni

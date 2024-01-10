@@ -76,7 +76,7 @@ A prototype pattern olyan esetekben lehet segítségünkre, mikor adott objektum
 Abban az esetben használjuk, mikor egy objektum direkt példányosítása igen erőforrás igényes. Vegyünk egy Star Wars alapú mintát:
 
 ```
-<pre data-language="php">abstract class JangoFett { // szegény Jango Fett már meghalt, így belőle nem lesz egy példányunk se
+abstract class JangoFett { // szegény Jango Fett már meghalt, így belőle nem lesz egy példányunk se
  
  protected $name = "Jango Fett";
  
@@ -89,7 +89,7 @@ Abban az esetben használjuk, mikor egy objektum direkt példányosítása igen 
 Itt létrehoztuk Jango Fett-et, a klónjaink ősét. Nem egy bonyolult osztály, így hát ne is ragozzuk a dolgot, inkább hozzuk létre az ő klónozásával létrejött rohamosztagosokat.
 
 ```
-<pre data-language="php">class CloneTrooper extends JangoFett { // ellenben rohamosztagosból lesz bőven
+class CloneTrooper extends JangoFett { // ellenben rohamosztagosból lesz bőven
  
  public function cantHitAnyone() {} // a rohamosztagosok bizony nem tudni kitől örökölték, hogy nem tudnak célozni 
  
@@ -99,7 +99,7 @@ Itt létrehoztuk Jango Fett-et, a klónjaink ősét. Nem egy bonyolult osztály,
 Ez se egy túl bonyolult osztály, így ismét tovább lépünk és jöjjön a Kamino, ahol filmünkben a rohamosztagosok klónozását végezték.
 
 ```
-<pre data-language="php">class Kamino {
+class Kamino {
  
  private static $clone;
  

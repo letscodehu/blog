@@ -106,7 +106,7 @@ Ha ezzel megvolnánk, akkor ott vár bennünket egy composer.phar nevű fájl.
 Ha most beírjuk a következőt:
 
 ```
-<pre data-language="shell">php composer.phar install
+php composer.phar install
 ```
 
 akkor legnagyobb elkeseredésünkre nem történik semmi, mivel szerencsétlen composer világát nem tudja így frissen letöltve, úgyhogy némi segítségre szorul, végülis nem csodaszerről van szó. Ahhoz, hogy tudassuk a mi projektünknek a függőségeit, el kell helyeznünk annak gyökerébe egy composer.json fájlt, amiben deklaráljuk azokat:

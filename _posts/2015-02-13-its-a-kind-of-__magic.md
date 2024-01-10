@@ -79,13 +79,13 @@ Kezdjük az egyik legalapvetőbbel, amivel bárki összefutott már, aki példá
 A fenti mágikus függvény egy objektum példányosításakor hívódik meg, amiről már beszéltem korábban az OOP-s [cikkemben]({{ site.url }}/2015/01/08/php-oop-mielott-barmibe-kezdenenk/). Roppant egyszerű a dolog:
 
 ```
-<pre data-language="php">$akarmilyenosztaly = new AkarmilyenOsztaly($ide_johetnek, $az, $argumentumok);
+$akarmilyenosztaly = new AkarmilyenOsztaly($ide_johetnek, $az, $argumentumok);
 ```
 
 Amikor mi ezt beírjuk, akkor igazából az
 
 ```
-<pre data-language="php">AkarmilyenOsztaly::__construct($ide_johetnek, $az, $argumentumok)
+AkarmilyenOsztaly::__construct($ide_johetnek, $az, $argumentumok)
 ```
 
 -ra hivatkozunk, amit hiába erőszakolunk, az aktuális osztály egy példányát fogja visszaadni értékül. Itt végezhetjük el az objektumunk előkészítését, hogy igazán "ready for action" legyen, de lépjünk tovább valami kevésbé unalmasra.
@@ -101,7 +101,7 @@ Hát igen, ha <del>kocsmát</del> valamit építeni akarunk, akkor <del>előtte 
 Ez a függvény párban jár, mint a lányok a középiskola WC-jére, így mindkettejükről muszáj lesz írnom. A `__call()` mágikus metódus akkor hívódik meg, mikor sikeresen olyan metódust hívtunk meg, amit az adott contextből nem érnénk el (például kívülről egy private metódust). A `__callStatic()` ugyanezt teszi, csak statikus metódusok esetében, de nézzünk ide is egy példát:
 
 ```
-<pre data-language="php">class BSB_The_Call {
+class BSB_The_Call {
     public function __call($name, $args) {
         echo "Ezt szeretted volna: ".'$this'. // okkal zártam aposztrófok közé, de mindjárt szóba kerül az érintett metódus is
 "->$name(".implode(", ",$args)."); ?";
@@ -119,7 +119,7 @@ A fentiekből jól látható, hogy ez egyfajta hibaelhárításra szolgál, hogy
 Ha már az access modifiereknél tartunk, akkor itt a PHP válasza a kismillió setter/getter fügvényre. A \_\_set és \_\_get függvények akkor hívódnak meg, mikor olyan változókra hivatkozunk, amik nem léteztek/nem elérhetőek az adott contextből. Tehát ha létrehozunk egy jól szituált \_\_set(), \_\_get() párost, és privát változókat használunk, akkor megspórolhatunk egy halom setter/getter metódust (amit a legtöbb IDE magától is legenerál, de sebaj 🙂 és simán
 
 ```
-<pre data-language="php">$objektum = new SetGet();
+$objektum = new SetGet();
 $objektum->valtozo = $ertek; // $objektum->__set('valtozo', $ertek) kerül meghívásra
 echo $objektum->masikValtozo; // $objektum->__get('masikValtozo') hívódik meg
 
@@ -144,7 +144,7 @@ Ez a két függvény pontosan azt a célt szolgálja, amire első ránézésre g
 Amikor meghívjuk
 
 ```
-<pre data-language="php">$ojjektum = new HaromSzazezer();
+$ojjektum = new HaromSzazezer();
 isset($ojjektum->drotkoszoru); // $ojjektum->__isset('drotkoszoru');
 unset($ojjektum->drotkoszoru); // $ojjektum->__unset('drotkoszoru');
 ```
@@ -156,7 +156,7 @@ Akkor igazából a kommentelt parancsok futnak le, amennyiben a `$drotkoszoru `v
 Na ha valaki most a többszálúságra és hasonlókra gondol, azt bizony el kell keserítsem, mert ennek a mágikus metódusnak semmi köze a thread-ekhez, ennél félrevezetőbb nevet nem is találhattak volna neki. E metódus akkor hívódik meg, mikor az objektumunkat a serialize függvénnyel szeretnénk feldolgozni. Ez ugye alapesetben tömböket alakít string típusúvá, így könnyen tárolható adatbázisban, stb. Na de mikor egy objektumon hajtjuk végre, akkor röfögne egy sort, hogy valami nincs rendjén, mivel ezt a metódust nem találja. Ha viszont létrehozzuk, akkor egy tömböt kell visszaadjunk, az objektumunk elemeivel, amin aztán csak lefut az a serialize. A wakeup pedig az unserialize esetében fog meghívódni.
 
 ```
-<pre data-language="php">class EzEgyExcelTabla { // nem a legjobb példája a value object-eknek, de most megteszi
+class EzEgyExcelTabla { // nem a legjobb példája a value object-eknek, de most megteszi
      private $table = array(1,2,3,4,5,6,7); // csináltunk valami egyszerűt, amit vissza lehet adni
      public function __sleep() {
           return $this->table; // a tömbünket adjuk vissza, amit aztán simán leserialize-ol.
@@ -174,7 +174,7 @@ A sleep metódus akkor jön jól, mikor egy nagy osztályunknak csupán egy rés
 A Java programozók most izgalomba jöhetnek, mert ismerős szöveget látnak. Igen, PHP-ben mágikus metódusként érkezett a toString metódus, aminek egyetlen világmegváltó célja az, hogyha valaki egy szimpla echo-val megjelenítené az objektumot, ne egy hibaüzenet fogadja a kedves ügyfelet, miszerint objektumot nem illik string-é alakítani, hanem a metódus keretein belül foglalt csudaszép szöveg. Ha pl. csinálunk egy $form objektumot, amibe beledobáljuk az elemeket, akkor ezt átadhatjuk egy az egyben a view-nak és ki lehet echo-zni, a függvényben pedig tudjuk, hogy az egyes elemeket hogy és miként kell megjeleníteni.
 
 ```
-<pre data-language="php">class Money {
+class Money {
      private $amount = 1000;
      private $format = "$";
     public function __toString() {
@@ -192,7 +192,7 @@ Az invoke() metódusa akkor hívódik meg, mikor osztályunkra nem változókén
 Vegyünk pl. egy ZF2 layoutból lopott viewhelpert:
 
 ```
-<pre data-language="php">$this->HeadLink()->appendFile($src);
+$this->HeadLink()->appendFile($src);
 ```
 
 Ugye itt az aktuális object context-ből hívunk meg egy metódust, ami visszaad egy osztályt és azon meghívunk még egy metódust.
@@ -210,7 +210,7 @@ return HeadLink::getInstance(); // vagy épp ami, a lényeg, hogy a hívó konte
 a másik verzió, ha a meghívott objektumon belül biztosítjuk az ilyesfajta elérést és az osztály egy példányát tároljuk egy HeadLink nevű változóban a hívó contextusában:
 
 ```
-<pre data-language="php">// ez lesz a fenti példában a $this context
+// ez lesz a fenti példában a $this context
 class Layout {
     private $HeadLink = HeadLink::getInstance();
 }
@@ -229,7 +229,7 @@ Persze nem csak önmagát szolgáltathatja vissza, lehet egyfajta konstruktor is
 Ez a metódus a var\_export esetében (ami majdnem ugyanaz, mint a var\_dump, azt leszámítva, hogy ez VALID, VÉGREHAJTHATÓ php kódot eredményez) siet a segítségünkre, paraméterként pedig a var\_export-nak átadott paramétereket kapja meg, egy asszociatív tömb formájában. Ezen paraméterek a példányváltozók név => érték formában vannak rendezve benne.
 
 ```
-<pre data-language="php">class VarExportable {
+class VarExportable {
 
     public static function __set_state($array) {
          $export = new self(); // csinálunk még egyet magunkból

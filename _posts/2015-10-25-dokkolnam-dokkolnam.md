@@ -86,13 +86,13 @@ Ezen low-level LXC konténerekre épül a [Docker](https://docs.docker.com/linux
 Első körben le kell rántanuk wget-el a telepítőt és futtatni (sudo jogosultság nem árt):
 
 ```
-<pre data-language="shell">$ wget -qO- https://get.docker.com/ | sh
+$ wget -qO- https://get.docker.com/ | sh
 ```
 
 Ha ezzel megvolnánk, lessük meg, hogy működik-e a dolog.
 
 ```
-<pre data-language="shell">$ docker run hello-world
+$ docker run hello-world
 ```
 
 Ez, mivel nem találja lokálisan, lerántja nekünk a hello-world nevű image-et egy központi registryből és utána szimplán elindítja azt. Ez leteszteli, hogy a dockernek megvannak a megfelelő privilégiumai a rendszerben, <del>nem b\*szódott el a switch</del> látja a netet kifelé, stb.
@@ -130,19 +130,19 @@ Nos ahhoz, hogy megválaszoljuk a fenti kérdést, meg kell vizsgáljuk, hogy ho
 Akkor most próbáljunk hozzáférni a terminálhoz a konténerünkben! Ezt nem SSH-val fogjuk megoldani, hanem meghívjuk a konténeren belül a /bin/bash-t.
 
 ```
-<pre data-language="shell">docker run debian /bin/bash
+docker run debian /bin/bash
 ```
 
 Ismét nem történt semmi, viszont nem dobott hibát, hogy nem találná a bash-t, ez már valami! A probléma a következő. Oké, hogy mi elérjük a bash-t, de nincs hozzákapcsolt terminál, amivel bepötyöghetnénk a parancsokat. Ezt a -t paraméterrel meg tudjuk oldani. Vigyázzunk, mert a parancsok a következőképp kell felépüljenek:
 
 ```
-<pre data-language="shell">docker run [paraméterek ... ]  <image-neve> <futtatandó parancs>
+docker run [paraméterek ... ]  <image-neve> <futtatandó parancs>
 ```
 
 Ennek megfelelően:
 
 ```
-<pre data-language="shell">doker run -t debian /bin/bash
+doker run -t debian /bin/bash
 ```
 
 Éééés.. ott a terminál! Na jó, eddig is ott volt, csak nem az ami nekünk kellett, de most láthatjuk, hogy root@valamihash:/# áll előttünk. A hash ez esetben a konténer azonosítója, mivel a docker minden konténert egy sha1 hash-el azonosít. Erre ráhúzhatunk egy nevet még a --name paraméterrel, hogy könnyebben azonosíthassuk azt. Viszont mikor beírunk valami parancsot a terminálba és tolunk egy ENTER-t, az úgy működik, ahogy az enternek működnie kell egy szerkesztőben. Új sort nyit. **Na valami mégsincs rendben.** Egy Ctrl+C-vel lépjünk ki. Ez leállítja a konténert és visszakapjuk a host shellt. A helyzet az, hogyha azt szeretnénk, hogy a parancsainkat interaktív módban tudjuk kiadni, akkor az -i, azaz --interactive paramétert és át kell adjuk.
@@ -152,7 +152,7 @@ Ennek megfelelően:
 Természetesen ezen paraméterek ( i és t) összefűzhetőek, így a következő próbálkozás ez lesz:
 
 ```
-<pre data-language="shell">docker run -it --rm --name teszt debian /bin/bash
+docker run -it --rm --name teszt debian /bin/bash
 ```
 
 Na most a fenti parancs a teszt nevet adja a konténerünknek, ezáltal más konténereket érintő parancsokkal ezzel is tudunk rá hivatkozni (egyébként a hash első 7 karakterével, mint a git-nél), ha leáll a konténerek, akkor automatikusan törli azt, a debian image-et használja, amiben elindítja a bash-t és átadja neki a tty-t, mindezt interaktív módban. **Bumm! Magic!**
@@ -162,7 +162,7 @@ Ott van előttünk a terminál és szabadon garázdálkodhatunk a konténerünk 
 Ha bepötyögünk egy ls-t, szépen kilistázza a könyvtárakat, amiket egyébként a gyökérben látnánk. Igazából nem is gondolnánk, hogy egy konténerben futunk, nemde? Eltekintve attól a randa hostname-től a prompt végén. Lépjünk ki egy exit-el és finomítsuk kicsit a parancsot.
 
 ```
-<pre data-language="shell">docker run -it --rm --hostname letscode --name teszt debian /bin/bash
+docker run -it --rm --hostname letscode --name teszt debian /bin/bash
 ```
 
 > A fenti parancs alapesetben ütközést okozna, ha létezne még a teszt nevű konténer. Viszont az --rm paraméternek hála az törlődött, így ez nem jelent most gondot.
@@ -178,7 +178,7 @@ Na de halmozzuk az élvezeteket. Nem hinném, hogy egy bash lenne minden vágyun
 Az alap parancs így nézne ki az eddigiek alapján:
 
 ```
-<pre data-language="shell">docker run -it --rm --hostname letscode --name teszt php:5.6-apache
+docker run -it --rm --hostname letscode --name teszt php:5.6-apache
 ```
 
 Ezzel viszont három probléma is van. Az egyik az, hogy jelen esetben nem interaktív módban szeretnénk futtatni az adott konténeret és a tty-re se lesz szüksége. Sőt! Szeretnénk, ha mindenképp a háttérben futna. Erre a -d paraméter ad lehetőséget, ami daemon-ként fogja futtatni az adott konténert.
@@ -186,7 +186,7 @@ Ezzel viszont három probléma is van. Az egyik az, hogy jelen esetben nem inter
 A másik probléma az, hogy nem tudjuk elérni a fájljainkat a konténerből. Ezért azokat be kellene mountolni. Erre a -v paraméter lesz a tuti, amivel meg tudjuk adni, hogy melyik könyvtárat, a konténere melyik könyvtárába akarjuk becsatolni. Hozzunk létre egy könyvtárat, amiben legyen egy index.php, aminek a tartalma mindössze ennyi:
 
 ```
-<pre data-language="php"><?php phpinfo();
+<?php phpinfo();
 ```
 
 A harmadik problémát pedig az jelenti, hogy nem nyitottunk portot (na jó, igazából az image-ben nyitottak egy 80-ast, de jó, ha erre is ránézünk 🙂 ) Erre a -p paraméter lesz a megfelelő, ahol az első paraméter a hoszt rendszer portja, a második pedig a konténeré.
@@ -194,7 +194,7 @@ A harmadik problémát pedig az jelenti, hogy nem nyitottunk portot (na jó, iga
 Így ha összerakjuk a run scriptünket (a következő részben átvesszük hogy lehet ezeket beleágyazni magába az image-be, hogy ne kelljen mindig beírogatni), az így néz ki:
 
 ```
-<pre data-language="shell">docker run -d --rm --hostname letscode -v /konyvtar/a/php/scriptekkel:/var/www/html -p 8086:80 --name teszt php:5.6-apache
+docker run -d --rm --hostname letscode -v /konyvtar/a/php/scriptekkel:/var/www/html -p 8086:80 --name teszt php:5.6-apache
 ```
 
 Ha ezt a parancsot lefuttatjuk, akkor a shellben csak a conténere SHA1 hash-ét látjuk majd, ez egy azonosító, amivel a docker ps parancsoknál tudunk rá hivatkozni. Ha beírjuk, hogy docker ps, akkor láthatjuk, hogy a konténerünk bizony most nem tűnt el abban a pillnyalatban, hanem ott fut a háttérben. Ha pedig rálesünk telnettel vagy bármilyen böngészővel a localhoston a 8086-os portra, akkor láthatjuk, hogy működik, megjelent a phpinfo, teljes valójában.

@@ -75,7 +75,7 @@ Ha PHP alatt akarjuk felerőszakolni a dolgot, akkor két lehetőség áll előt
 Ehhez a terminált nyissuk meg (igen, ismét gonosz linuxos példákon át mutatom be a dolgot) és ha szerencsénk van, már fel is raktuk valamikor közvetve a pecl kiterjesztést, aminek egy saját package manager részét fogjuk használni.
 
 ```
-<pre data-language="shell">pecl install mongo
+pecl install mongo
 ```
 
 (a phpize packagere lehet szükségünk lesz, ezt a php5-dev csomaggal tudjuk magunkévá tenni)  
@@ -90,7 +90,7 @@ Ezután csak újra kell fingatni az apache-ot és a phpinfo() ki is böki ha sik
 A másik megoldás egy fokkal bonyolultabb, abban az esetben fel kell szuttyogjunk githubra és onnan letölteni [ezt](https://github.com/mongodb/mongo-php-driver). Csomagoljuk ki, terminálban lépjünk a könyvtárba ahova ezt tettük és
 
 ```
-<pre data-language="shell">phpize
+phpize
 ./configure && sudo make && sudo make install
 ```
 
@@ -101,14 +101,14 @@ Ezután az előbbi módszerhez hasonlóan írjuk bele a php.ini fájlba az elér
 A legelső, hogy felcsatlakozunk a MongoDb service-re. Ezt pedig a MongoClient osztállyal tudjuk megoldani.
 
 ```
-<pre data-language="php">$pongo = new MongoClient(); // ugyan nem adtunk át neki semmit, mégis működni fog, mivel alapjáraton van annyi esze, hogy localhoston nézi a default portot, ami nekünk épp kapóra jön
+$pongo = new MongoClient(); // ugyan nem adtunk át neki semmit, mégis működni fog, mivel alapjáraton van annyi esze, hogy localhoston nézi a default portot, ami nekünk épp kapóra jön
 $testdb = $pongo->selectDB('test'); // ezzel tudunk a test database-hez csatlakozni, amit alapjáraton létre is hoz a telepítő
 ```
 
 Innen kezdve hasonló a helyzet, mint SQL-nél, itt kijelöltük a DB-t, azon belül a collectionöket kell mostmár elérnünk, amik az SQL táblákkal egyenértékűek.
 
 ```
-<pre data-language="php">$collection = $testdb->selectCollection('collectionNeve'); // ilyen módon tudunk kijelölni egy adott collection-t, innen kezdődhet bárminemű betyárkodás
+$collection = $testdb->selectCollection('collectionNeve'); // ilyen módon tudunk kijelölni egy adott collection-t, innen kezdődhet bárminemű betyárkodás
 ```
 
 #####  "CREATE TABLE"
@@ -116,7 +116,7 @@ Innen kezdve hasonló a helyzet, mint SQL-nél, itt kijelöltük a DB-t, azon be
 Kollekciókat a következő paranccsal tudunk létrehozni:
 
 ```
-<pre data-language="php">$testdb->createCollection('iLoveSql'); // ezzel az egyszerű paranccsal létre is hozhatjuk a collection-t, mint már említettük, flexibilisek vagyunk, ezért nem kell fieldeket definiálni és hasonlók, persze második paraméterként elfogad ez is opciókat
+$testdb->createCollection('iLoveSql'); // ezzel az egyszerű paranccsal létre is hozhatjuk a collection-t, mint már említettük, flexibilisek vagyunk, ezért nem kell fieldeket definiálni és hasonlók, persze második paraméterként elfogad ez is opciókat
 ```
 
 ##### "DROP TABLE<del> grades</del>"
@@ -124,7 +124,7 @@ Kollekciókat a következő paranccsal tudunk létrehozni:
 A collection-ök ugyanilyen könnyedséggel törölhetőek:
 
 ```
-<pre data-language="php">$testdb->dropCollection('iLoveSql');
+$testdb->dropCollection('iLoveSql');
 ```
 
 ##### "INSERT INTO"
@@ -132,7 +132,7 @@ A collection-ök ugyanilyen könnyedséggel törölhetőek:
 Akkor adjunk hozzá valamit a világhoz:
 
 ```
-<pre data-language="php">$collection = $testdb->selectCollection('iLoveSql'); // ezeket a parancsokat egy már kijelölt collection-ön tudjuk végrehajtani, nem pedig az adatbázison magán
+$collection = $testdb->selectCollection('iLoveSql'); // ezeket a parancsokat egy már kijelölt collection-ön tudjuk végrehajtani, nem pedig az adatbázison magán
 
 $collection->insert($ojjektumVagyTomb); // itt beilleszthetünk egy tömböt vagy objektumot is akár, második paraméterként szintén opciókat adhatunk meg. Vigyázzunk, a beillesztendő objektumnak nem lehetnek privát/protected tagváltozói, valamint a string-ek csak UTF-8 formátumúak lehetnek, mert különben kivételt hajigál. Ha a beillesztendő dokumentumnak nincs _id fieldje/tagváltozója (ez egyfajta unique primary index), az automatikusan létrehozásra kerül és egy MongoId objektum fog belekerülni.
 ```
@@ -142,7 +142,7 @@ $collection->insert($ojjektumVagyTomb); // itt beilleszthetünk egy tömböt vag
 Mivel mi már kijelöltük az adott kollekciót, ezért azt már nem kell megadnunk, csak a keresési feltételeket és a mezőket, amikre szükségünk van.
 
 ```
-<pre data-language="php">$result = $collection->find(array(
+$result = $collection->find(array(
 
     'access_token' => $token, // olyan dokumentumot keresünk, ahol a dokumentum->username = az általunk megadottal
 
@@ -170,13 +170,13 @@ A metódusunk visszatérési értéke egy MongoCursor objektum, amit hasonlóké
 Az update-re is van megfelelőnk, aminek a neve kinda obvious. Első paramétereként a keresési feltételeket várja, másodikként pedig egy új objektumot vár, vagy egy asszociatív tömböt a következő felépítésben:
 
 ```
-<pre data-language="php">$setArray = array('$set' => array('propertyToSet' => 'value')); // itt is vigyázzunk a $set stringet körülvevő single quote-okra. 
+$setArray = array('$set' => array('propertyToSet' => 'value')); // itt is vigyázzunk a $set stringet körülvevő single quote-okra. 
 $queryArray = array('identifier' => 3644554);
 $objectToReplace = array('propertyToSet' => 'value');
 ```
 
 ```
-<pre data-language="php">$collection->update($queryArray, $setArray); // ez az adott értéket beállítja 
+$collection->update($queryArray, $setArray); // ez az adott értéket beállítja 
 
 $collection->update($queryArray, $objectToReplace); // ez viszont lecseréli a komplett objektumot és csak a fent megadott egy mező lesz benne (az _id-t leszámítva persze), ezért erre figyeljünk, mert könnyen cs***re futhatunk.
 ```

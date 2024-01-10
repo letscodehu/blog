@@ -35,7 +35,7 @@ Maradjunk a gyártósor hasonlatnál. Képzeljünk el egy stratégiai játékot,
 Na már most a programozás egyik igen fontos elve, a [DRY (Don't repeat yourself)](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself), vagyis kerüljük az ismétlődő elemeket (ugyanis abban rejlik egy minta, amit le tudunk rövidíteni). Ugyan most nem kódot írtam az előbb, ellenben már a leírás során is látni, hogy itt ismétlődő elemek vannak/lesznek. Csináljuk meg most "rosszul" a fenti osztályokat.
 
 ```
-<pre data-language="php">class BuilderUnit {
+class BuilderUnit {
 
    private $healthPoints, $movementSpeed; // az életerő és mozgási sebesség
 
@@ -60,7 +60,7 @@ Nézzük meg, mik is az ismétlődő elemek, amik minden egységre jellemzőek! 
 Csináljunk hát egy "általános" Unit osztályt, ami ezeket tartalmazza, a MilitaryUnit és BuilderUnit osztályokat ebből származtatjuk.
 
 ```
-<pre data-language="php">class Unit  {
+class Unit  {
     protected $healthPoints, $movementSpeed;
     public function move() {}
 }
@@ -87,7 +87,7 @@ Az absztrakt <del>művek legfontosabb tulajdonsága, hogy részeg kiskutyák fes
 Az előbbi példánkban definiáltunk egy általános Unit osztályt, amit aztán továbbörökítettünk két másik osztályba, amiket a későbbiek folyamán példányosíthatunk. Katonákra szükség van és építő egységekre is, ellenben mi van akkor, ha tévedésből egy általános Unit-ot példányosítanánk? Nos ilyet nem akarunk, mert ilyen egység a játékban nem lesz, csak egy alapot szolgáltat a többi egységnek. Ezáltal ezt absztrakt osztállyá tehetjük, ezzel elkerülve egy kínos véletlent és leszögezve, hogy ez nem valódi példányosítható osztály. Definíciója roppant egyszerű:
 
 ```
-<pre data-language="php">abstract class AbstractUnit {} // a nevében is nyilvánvalóvá tehetjük a tényt, hogy absztrakt osztályról van szó
+abstract class AbstractUnit {} // a nevében is nyilvánvalóvá tehetjük a tényt, hogy absztrakt osztályról van szó
 ```
 
 #### Interfészek![ForeRunnerLE_25_ATM_Network_Interface_(1)](assets/uploads/2015/01/ForeRunnerLE_25_ATM_Network_Interface_1-300x200.jpg)
@@ -99,7 +99,7 @@ Ellenben az interfészek témakör nem erről szól. Az interface esetünkben ha
 Definíciója így néz ki:
 
 ```
-<pre data-language="php">interface UnitInterface {
+interface UnitInterface {
       public function move();
 }
 ```
@@ -107,7 +107,7 @@ Definíciója így néz ki:
 Jellemzőjük még, hogy itt a metódusok definíciója véget ér az argumentumok megadásával, nincs tartalmuk. Mégis mire jók az interfészek? Az interfészek egyfajta szerződést jelentenek. A szerződés kulcsszava az `implements`. Az osztály, ami elfogadja a szerződést ( más néven "implementálja" az adott interfészt), vállalja, hogy az adott metódusokat tartalmazni fogja. Maradjunk az előző példánál és nézzük hogy is tudnánk az interfészeket meghonosítani egy ilyen egyszerű esetben.
 
 ```
-<pre data-language="php">abstract class AbstractUnit implements UnitInterface {
+abstract class AbstractUnit implements UnitInterface {
     protected $healthPoints, $movementSpeed;
     public function move() {}
 }
@@ -122,7 +122,7 @@ Itt létrehoztunk egy absztrakt osztályt, ami implementálja a fentebb definiá
 Ennek megvalósítása nem (vagy csak részben) lehetséges egy szülő osztály létrehozásával és annak öröklésével, mivel az osztályok nem egyforma módon érik el az adatot. Tehát itt jöhet képbe egy interface implenentálása, ami ha a gondunkat nem is oldja meg, de rákényszerít, hogy a két osztályunk kezelőfelülete egyforma legyen.
 
 ```
-<pre data-language="php">interface StorageInterface {
+interface StorageInterface {
    public function get($key);
    public function set($key, $value);
    public function touch($key);

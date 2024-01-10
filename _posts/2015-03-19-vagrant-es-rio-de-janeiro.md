@@ -58,7 +58,7 @@ Ha ezzel megvolnánk és a gépünkön fent van a VMWare, vagy VirtualBox, akkor
 Itt navigáljunk el egy ennek dedikált könyvtárhoz és írjuk be a következőt:
 
 ```
-<pre data-language="shell" style="text-align: justify;">vagrant init
+vagrant init
 ```
 
 Ez létrehoz az adott könyvtárban egy Vagrantfile nevű konfigurációs fájlt, amit majd később mi is fogunk molesztálni.  
@@ -67,7 +67,7 @@ Viszont ez még csak egy konfig fájl, hogy lesz ebből virtuális gép? Úgy, h
 Adjunk hozzá tehát egy általánosan használható boxot. Töröljük a fent említett konfig fájlt és írjuk be a következőt:
 
 ```
-<pre data-language="shell" style="text-align: justify;">vagrant init hashicorp/precise
+vagrant init hashicorp/precise
 ```
 
 A vagrant init parancsa első paraméterében egy box nevet vár, amit ő le is tölt majd. Ha ezek után beírjuk azt, hogy <del>buksi ül</del>`vagrant up`

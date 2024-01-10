@@ -90,7 +90,7 @@ Tehát az első lépés itt is, mint a legtöbb esetben, mikor megfordul a fejü
 [![recycling_iStock_000019128774XSmall (2)](assets/uploads/2016/04/recycling_iStock_000019128774XSmall-2.jpg)](assets/uploads/2016/04/recycling_iStock_000019128774XSmall-2.jpg)
 
 ```
-<pre data-language="php">interface PostRepository { // a nevezéktanról megoszlanak
+interface PostRepository { // a nevezéktanról megoszlanak
         public function getForMainPage(); // egyelőre csak egy metódussal mutatom meg
 }
 ```
@@ -98,7 +98,7 @@ Tehát az első lépés itt is, mint a legtöbb esetben, mikor megfordul a fejü
 Na most, hogy megvan mi is lesz az interfész, amit implementálhatunk, csináljunk egy egyszerű megvalósítást pl. Eloquent-el:
 
 ```
-<pre data-language="php">class SqlPostRepository implements PostRepository {
+class SqlPostRepository implements PostRepository {
 
        private $model;
 
@@ -116,7 +116,7 @@ Na most, hogy megvan mi is lesz az interfész, amit implementálhatunk, csinálj
 Na most nézzük meg a mongoDb-s verziót és utána majd beszélünk arról, hogy ez miért is nem jó még így ebben a formában:
 
 ```
-<pre data-language="php">class MongoPostRepository implements PostRepository {
+class MongoPostRepository implements PostRepository {
 
        private $collection;
 
@@ -140,7 +140,7 @@ Először akkor hozzunk létre egy osztályt amin keresztül megvalósítjuk a b
 > Mielőtt bárki a haját tépné, hogy az Eloquent legnagyobb előnyét eldobjuk, a példák alapvetően nem az active record megvalósításra összpontosítanak. Ha csak a tesztelhetőség a cél, amit szintén elősegít a repository, akkor dolgozhatunk végig aktív rekordos példányokkal.
 
 ```
-<pre data-language="php">class PostEntity {
+class PostEntity {
 
     private $title, $content, $excerpt, $date, $modified; // pár field-et felveszünk
 
@@ -166,7 +166,7 @@ Az objektumunk feladata hogy tárolja az állapotát és lehetőséget biztosít
 Akkor jöjjön az sql repository-s megvalósítás:
 
 ```
-<pre data-language="php">...
+...
  public function getForMainPage() {
              // kikérjük a 20 legújabb publikált bejegyzést és azt visszaadjuk egy collection-ben a hydrator metódusnak
              return 
@@ -190,7 +190,7 @@ Akkor jöjjön az sql repository-s megvalósítás:
 Amikor business entity-t adunk át a repository-nak, akkor pedig azt alakítjuk vissza. De nézzük a mongoDB-s megvalósítást, mert ott inkább jellemző ez a fajta megközelítés:
 
 ```
-<pre data-language="php">public function getForMainPage() {
+public function getForMainPage() {
              // kikérjük a 20 legújabb publikált bejegyzést és azt visszaadjuk egy collection-ben
              return $this->hydrateCollection(
                 $this->collection->find(["post_status" => "publish"])->orderBy("post_date", -1)->limit(20));
@@ -214,7 +214,7 @@ az egyes elemeket átadjuk a hydrateObjectnek és a visszatérési értékeket �
 Na most, hogy kész van a kétféle megvalósítás, akkor nézzük meg hogy is lehet ezt ügyesen cserélgetni!
 
 ```
-<pre data-language="php">class PostController extends Controller {
+class PostController extends Controller {
 
           private $postRepository;
 
@@ -232,7 +232,7 @@ Na most, hogy kész van a kétféle megvalósítás, akkor nézzük meg hogy is 
 A fenti példa egy laraveles controller, ami kontrollereket, mint tudjuk az ún. Service Containeren át példányosít a laravel. Tudom, még nem írtam a Laravel IoC containerről, de ez most csak egy aprócska szeglete lesz. A lényege annyi, hogy csúnya reflectionnel kiszedi a typehinteket a konstruktorból és metódusokból és próbálja megtalálni az oda illő service-t és azt átadva meghívni. Na most ha olyan osztályokat adunk meg, amiknek a konstruktora üres, akkor simán példányosítja azt és beilleszti. Ezzel nincs is probléma, viszont mi most interfészt adtunk meg, ami nem példányosítható. Ilyenkor jön az, hogy <del>akkora exceptiont dob, mint ide mátészalka</del> segítenünk kell az IoC containernek eldönteni, hogy az adott interfész melyik implementációja is kell itt. Ehhez az AppServiceProvider osztályban kell kicsit piszkálódnunk:
 
 ```
-<pre data-language="php">/**
+/**
  * Register any application services.
  *
  * @return void

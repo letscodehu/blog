@@ -85,7 +85,7 @@ Na de akkor jöjjön valami konkrét példa is. Tegyük fel, hogy egy (nem magen
 Mindennek alapja a termék (a mai világban mi más lenne?)!
 
 ```
-<pre data-language="php">class Product {
+class Product {
 
     private $productId;
     private $name;
@@ -96,7 +96,7 @@ Mindennek alapja a termék (a mai világban mi más lenne?)!
 Nem lett valami bonyolult, de akkor jöjjön az őt magába foglaló rendelés (ami szintén apróság lesz)!
 
 ```
-<pre data-language="php">class Order {
+class Order {
 
     private $products = [];
 
@@ -114,7 +114,7 @@ Hát ettől a classtól se megyünk a falnak, szimplán ki tudjuk kérni tőle a
 Na és most következzenek a fent említett service-ek lecsupaszított vázai:
 
 ```
-<pre data-language="php">// a raktárkészletért felelős
+// a raktárkészletért felelős
 class InventoryService {
 
     public function checkAvailability(Product $product) {
@@ -142,7 +142,7 @@ class ShippingService {
 Ugye ha a fentieket használni szeretnénk, akkor azokat megfelelő sorrendben, megfelelő paraméterekkel, stb. kellene elvégeznünk. Ez jelen esetben eléggé egyszerű, de sokkal bonyolultabb is lehetne. Ezt fogja megkönnyíteni a facade-ünk. Azonban mielőtt a konkrét osztályt létrehoznánk, gondoljunk a jövőre és csináljunk neki egy interfészt, ahogy a nagyok szokták és akkor a klienseink ezen interfésztől függnek, nem pedig a konkrét megvalósítástól:
 
 ```
-<pre data-language="php">interface OrderServiceInterface {
+interface OrderServiceInterface {
     public function makeOrder(Order $order);
 }
 ```
@@ -150,7 +150,7 @@ Ugye ha a fentieket használni szeretnénk, akkor azokat megfelelő sorrendben, 
 A képlet egyszerű: a kliensünk átpasszolja az Order ojjektumot a facade-nek, az pedig megoldja a dolgot, mi pedig hátradőlhetünk.
 
 ```
-<pre data-language="php">class OrderService implements  OrderServiceInterface {
+class OrderService implements  OrderServiceInterface {
 
     private $shippingService, $paymentService, $inventoryService;
 
@@ -191,7 +191,7 @@ A képlet egyszerű: a kliensünk átpasszolja az Order ojjektumot a facade-nek,
 Nos mi is történik odafent? Megnézzük, hogy van-e raktáron termék, ha nincs, akkor már nem is próbálkozunk meg a többivel, utána pedig megpróbáljuk leemelni a pénzt, valamint drónra tenni a cuccot és a végén pedig visszajelzünk, hogy minden flottul ment. Akkor nézzük ezt használat közben:
 
 ```
-<pre data-language="php">public function checkout(Order $order) {
+public function checkout(Order $order) {
     $success = $this->getOrderService()->makeOrder($order);
     return view(($success ? "order.finish" : "order.error"));
 }

@@ -59,14 +59,14 @@ Rendben, de mégis hogyan?
 Az üzlet/domain szemszögéből fogunk elindulni, ahogy annak mindig is történnie kellene. A kijelentés az volt, hogy 'lehet csak az email címet tudjuk', tehát hozzunk létre egy egyszerű Mailer interfészt, aminek aztán később tudunk csinálni egy fake implementációt. Amikor később megtaláljuk a megfelelő megoldást az emailek kiküldésére, szimplán létrehozunk egy adaptert, hogy a mostani interfészt és a specifikus implementációt összeházasítsuk. Ennyire egyszerű. Ez az interfész lesz a határ vagy gateway az e-mail küldés felé az arcihtekturánk szemszögéből.
 
 ```
-<pre class="graf graf--pre graf-after--p" id="8dae"><strong class="markup--strong markup--pre-strong">interface </strong>MailSender {
+MailSender {
 }
 ```
 
 Rendben, megvan az interfészünk, mit tegyünk bele? Nyílván lesz egy send metódusunk:
 
 ```
-<pre class="graf graf--pre graf-after--p" id="d9b6"><strong class="markup--strong markup--pre-strong">interface </strong>MailSender {
+MailSender {
 
     <strong class="markup--strong markup--pre-strong">public function </strong>send($from, $to, $subject, $content);
 
@@ -76,7 +76,7 @@ Rendben, megvan az interfészünk, mit tegyünk bele? Nyílván lesz egy send me
 Ha megvannak ezek a paraméterek, akkor a PHPMaileres implementációnk eléggé butácska lesz. Megkapja a paramétereket, kombinálja őket és átadja a PHPMailernek:
 
 ```
-<pre class="graf graf--pre graf-after--p" id="a458"><strong class="markup--strong markup--pre-strong">class </strong>PhpMailSenderAdapter <strong class="markup--strong markup--pre-strong">implements </strong>MailSender {
+MailSender {
 
     <em class="markup--em markup--pre-em">/**
      * </em><strong class="markup--strong markup--pre-strong"><em class="markup--em markup--pre-em">@var </em></strong><em class="markup--em markup--pre-em">PHPMailer
@@ -103,7 +103,7 @@ Ha megvannak ezek a paraméterek, akkor a PHPMaileres implementációnk eléggé
 Viszont ahogy mondtam, mi ezt az üzleti igények oldaláról közelítjük meg és tegyük fel, hogy csak egyfajta e-mailt küldünk, tegyük fel heti hírleveleket. Akkor nem szükséges ilyen generikus megoldás, nemde? Ezen felül szeretnénk minél tovább eltekinteni minden olyan tényezőtől, ami a konkrét e-mail küldéssel kapcsolatos, ahogy Uncle Bob is ajánlja a könyveiben. Nézzük, hogy is néz ki, ha létrehozunk egy szolgáltatást a konkrét feladatra:
 
 ```
-<pre class="graf graf--pre graf-after--p" id="1b9b"><strong class="markup--strong markup--pre-strong">interface </strong>MailSender {
+MailSender {
 
     <strong class="markup--strong markup--pre-strong">public function </strong>sendNewsletter($to, $content);
 
@@ -113,7 +113,7 @@ Viszont ahogy mondtam, mi ezt az üzleti igények oldaláról közelítjük meg 
 Minimális tartalmat adunk át neki: a címet, ahova küldjük a hírleveleket és az e-mail tartalmát. Ennélfogva ezeket valahogy össze kell gyűjtenünk az adapterünkben, különben ilyen beégetett adatokkal fogjuk végezni:
 
 ```
-<pre class="graf graf--pre graf-after--p" id="a7f9"><strong class="markup--strong markup--pre-strong">public function </strong>sendNewsletter($to, $content)
+sendNewsletter($to, $content)
 {
     $this->phpMailer->setFrom("noreply@letscode.hu");
     $this->phpMailer->addAddress($to);
@@ -127,7 +127,7 @@ Minimális tartalmat adunk át neki: a címet, ahova küldjük a hírleveleket �
 Rendben, tegyük fel, hogy össze tudtuk rántani a szükséges információkat ilyen-olyan szolgáltatásokon át, amik biztosítják a korábban beégetett adatokat és beinjektáltuk azokat DI segítségével:
 
 ```
-<pre class="graf graf--pre graf-after--p" id="a54a"><strong class="markup--strong markup--pre-strong">public function </strong>sendNewsletter($to, $content)
+sendNewsletter($to, $content)
 {
     $this->phpMailer->setFrom($fromAddress);
     $this->phpMailer->addAddress($to);
@@ -155,7 +155,7 @@ A fenti példában a konkrét e-mail kiküldés nem része a domainnek, hanem az
 Nézzük meg mi történik, akkor ha Swiftmailer mellett döntünk? Ebben az esetben szintén be kell vezetnünk a fent említett logikát az "adapterben". Ha ez a logika változik, akkor módosítanunk kell mindkét osztályt, pedig sem a PHPMailer, sem a SwiftMailer interfésze sem változott. Természetesen létrehozhatunk egy újabb absztrakciós réteget és elburkolhatjuk az adapterünket benne, miközben a szükséges információt átadjuk neki. Ésszerűnek hangzik, ugye?
 
 ```
-<pre class="graf graf--pre graf-after--p" id="65f0"><strong class="markup--strong markup--pre-strong">interface </strong>MailInterface {
+MailInterface {
 
     <strong class="markup--strong markup--pre-strong">public function </strong>send($from, $to, $subject, $content);
 
@@ -163,7 +163,7 @@ Nézzük meg mi történik, akkor ha Swiftmailer mellett döntünk? Ebben az ese
 ```
 
 ```
-<pre class="graf graf--pre graf-after--pre" id="1157"><strong class="markup--strong markup--pre-strong">class </strong>NewsletterService {
+NewsletterService {
 
     <em class="markup--em markup--pre-em">/**
      * </em><strong class="markup--strong markup--pre-strong"><em class="markup--em markup--pre-em">@var </em></strong><em class="markup--em markup--pre-em">MailInterface

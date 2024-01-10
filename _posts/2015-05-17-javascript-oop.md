@@ -80,13 +80,13 @@ Tegyük fel, hogy nem szeretnénk a globális névteret teleszemetelni, így né
 Mi sem egyszerűbb? Javascriptben az egész annyi, hogy létrehozzuk a hozzá tartozó objektumot:
 
 ```
-<pre data-language="javascript">var MyNamespace = {};
+var MyNamespace = {};
 ```
 
 Bumm, kész is van a névterünk! Viszont ezzel túl sokra nem megyünk, nem árt ha létrehozunk az adott névtéren belül valami osztályt (ami elég morbid lesz, mivel a javascript-ben nincs class keyword, hanem az osztályokat, mint function-öket fogjuk definiálni )
 
 ```
-<pre data-language="javascript">MyNamespace.Translate = function(locale){
+MyNamespace.Translate = function(locale){
     this.locale = locale; // ezt felfoghatjuk az osztályunk konstruktorának
 }
 ```
@@ -94,7 +94,7 @@ Bumm, kész is van a névterünk! Viszont ezzel túl sokra nem megyünk, nem ár
 A fenti osztály viszont példányosítás nélkül mit sem ér, tehát akkor hozzuk létre:
 
 ```
-<pre data-language="javascript">var trans = new MyNamespace.Translate("hu_HU"); // példányosítottuk és átadtuk neki a locale értékét, aztán letároltuk az osztályt a trans változóba
+var trans = new MyNamespace.Translate("hu_HU"); // példányosítottuk és átadtuk neki a locale értékét, aztán letároltuk az osztályt a trans változóba
 
 console.log(trans.locale); // "hu_HU" 
 
@@ -103,7 +103,7 @@ console.log(trans.locale); // "hu_HU"
 Na de akkor most jöjjön az ami miatt a legtöbben felhagynak a komplexebb javascript kódok írásával, a macera. Hozzunk létre egy függvényt az adott osztály alatt!
 
 ```
-<pre data-language="javascript">MyNamespace.Translate.trans = function(key) {
+MyNamespace.Translate.trans = function(key) {
  // ide jön valami roppant frappáns fordítási logika
  return value;
 }
@@ -119,7 +119,7 @@ Minden javascriptben példányosított objektum a példányosításkor megnézi 
 Tehát a megoldás a következő lesz:
 
 ```
-<pre data-language="javascript">MyNamespace.Translate.prototype.trans = function(key) { // a prototype objektumba elhelyezzük a mi kis bónuszunkat, így a példányosított osztályban már ott lesz a trans() metódus. Ez igaz a this context-ben meghívottakra is.
+MyNamespace.Translate.prototype.trans = function(key) { // a prototype objektumba elhelyezzük a mi kis bónuszunkat, így a példányosított osztályban már ott lesz a trans() metódus. Ez igaz a this context-ben meghívottakra is.
  // ide jön valami roppant frappáns fordítási logika
  return value;
 }
@@ -132,7 +132,7 @@ Ezzel ugye nem csak az egyes metódusait, de példányváltozókat is beregisztr
 Az iménti kódból kimaradt az a jóféle fordítási logika amit itt orvosolni fogunk. Az adott fordítási kulcs/ érték párok egy tömbben lesznek eltárolva, amin mi egy jól bevált forEach-el szimplán menjünk végig keresve az "igazit".
 
 ```
-<pre data-language="javascript">MyNamespace.Translate.prototype.trans = function(key) {
+MyNamespace.Translate.prototype.trans = function(key) {
 
 Mynamespace.Translate.keys.forEach(function(elem){ // végigiterálunk egy objektumokkal teli tömbön
  if(elem.key == key) // ha megvan az elem
@@ -146,7 +146,7 @@ Na most a fenti kód nekünk nem lesz jó, ugyanis a callback function scopejáb
 Ilyen esetekben létrehozhatunk egy változót, ami az osztálypéldányunkra mutat és a foreach callbacken belül használhatjuk ezt.
 
 ```
-<pre data-language="javascript">MyNamespace.Translate.prototype.trans = function(key) {
+MyNamespace.Translate.prototype.trans = function(key) {
 
 var self = this; // az osztályunk referenciáját egy globális változóba tesszük
 
@@ -165,7 +165,7 @@ Aki elég beteg, az eljutott eddig a cikkben, annak már valószínűleg nem fog
 Az alábbi példában létrehozok egy kaja osztályt, aztán abból leszármaztatok egy gyros osztályt (nem, nem vagyok éhes).
 
 ```
-<pre data-language="javascript">var kaja = function(kaloria) { 
+var kaja = function(kaloria) { 
    this.kaloria = kaloria; // ez itt a konstruktorunk ugye
 }
 
@@ -199,7 +199,7 @@ jofeleGyros.zaba(); // Épp most zabáltál fel 500 kalóriának megfelelő kaj�
 Ha a prototype kulcsszótól már herótunk van és nem akarjuk hosszan definiálgatni a dolgot, megoldhatjuk ezt úgy is, hogy minden alkalommal prototype objektumokat adunk át:
 
 ```
-<pre data-language="javascript">gyros.prototype = {
+gyros.prototype = {
  constructor: gyros, // átadjuk ugye a constructorunkat, nehogy elvesszen
  zaba : function(kaloria) { // mennyivel jobb, szárazabb érzés, ugye?
  } 

@@ -101,7 +101,7 @@ Na, most hogy már elérjük az ide tartozó funkciókat, akkor nézzük át a d
 A leggyakrabban használt funkció `opcache_compile_file `lesz, ami leginkább az include-hoz hasonlít, azzal az eltéréssel, hogy csak lefordítja a fájlt, de nem hajtja végre annak tartalmát és egy hozzá tartozó kulcsban tárolja, mint egy key => value szerver. Mikor legközelebb include-olnánk azt a fájlt (autoloaderrel vagy bárhogy), akkor először a cache-ben fogja automatikusan ellenőrízni az adott kulcsot, így ezzel a felével már nem kell törődnünk. Alább látható egy php.net-ről csent kis kódrészlet, amivel egy adott könyvtár tartalmát cache-lhetjük le rekurzívan.
 
 ```
-<pre data-language="php">function getfiles( $path , &$files = array() ) {
+function getfiles( $path , &$files = array() ) {
     if ( !is_dir( $path ) ) return null;
     $handle = opendir( $path );
     while ( false !== ( $file = readdir( $handle ) ) ) {

@@ -89,7 +89,7 @@ Na de térjünk vissza az eredeti témához és kezdjük az alapokkal. Beszélj�
 **Dummy**: ezek pontosan azok, amire a nevük is utal. Csak a helyet foglalják. Amikor szükséged van egy paraméterre valahol, ami egy meghatározott típusú, akkor erre lesz szükséged. Attól függően, hogy milyen nehéz példányosítani az adott osztályt, használhatsz egy valódi példányt, vagy a keretrendszer biztosíthat lehetőséget erre. Gyakran egy null érték is elegendő a feladatra. Az ökölszabály az, hogyha nehéz példányosítani, akkor inkább a keretrendszer segítségével hozzunk létre egyet. Bizonyos esetekben még ellenőrzéseket is hajtunk rajtuk végre, hogy biztosra menjünk, csak azért hozzuk létre és adjuk át őket, mert különben fordítás vagy futásidejű problémánk lenne. Tehát mikor meghívunk egy metódust egy ilyen objektumon, akkor bizony az nem elvárt működés, kivételt is dobunk:
 
 ```
-<pre class="graf graf--pre graf-after--p" id="c41a">```
+```
 class <strong class="markup--strong markup--pre-strong">DummyOrder</strong> extends <strong class="markup--strong markup--pre-strong">Order</strong> {
   @Override
   void <strong class="markup--strong markup--pre-strong">applyDiscount</strong>(){
@@ -106,7 +106,7 @@ Hogy megválaszoljuk a fentebbi kérdést is: amikor meghívod a createMock met�
 **Stub**: Rendben, tehát itt van a kollaborátorunk, tegyük fel, hogy valami factory és meghívjuk a create metódusát. Viszont korábban azt mondtuk a dummi esetén, hogy minden metódus nullt vagy primitív értékkel tér vissza. Viszont nekünk most egy valódi objektum kell, mert különben a következő sorban már kapjuk is a nullpointert. Egy pillanattal később már egy kollégád meg is jelenik egy kávéval és valami olyan tanáccsal, mint *"Hallod, használd az **expect** metódusát az EasyMocknak... de ne felejtsd el ellenőrízni minden metódushívást a teszted végén, különben nem lehetsz biztos benne, hogy meghívódott és... "*. Na jó, elég ebből, ignoráljuk most ezt az utóbbit. Tehát a stub az nem más, mint egy olyan dummy, aminek előre feltöltöttük a metódusait adattal. Felprogramozzuk, hogy *"amikor ez a metódus meghívódik, akkor add vissza ezt az objektumot amit az imént kaptál"*. Ha ez egy szimpla factory, akkor simán leszármaztathatod a tesztedben (legalábbis Javaban) és beleégetheted azt az egy értéket, amit szeretnél visszaadni belőle. De miért foglalkozunk ennyit a visszatérési értékekkel? Azért, mert azt akarjuk, hogy a tesztjeink determinisztikusak legyenek. Tehát akármikor futtatjuk a tesztet és az meghívja az előbb stubolt metódust, az mindig ugyanazzal az értékkel fog visszatérni, újra és újra. Kérdezhetnéd, hogy *"Miért tennék ilyet?".* Nos azért, mert ha a benetek változnak, de a kimenetek vagy a viselkedésbeli elvárások nem, akkor bizony törékeny, környezettől függő tesztekkel végzed. Tegyük fel, hogy tesztelni akarod az előfizetéseket. Minden rendben megy, egészen 2018-ig, de utána elkezdenek törni. Mindez csupán azért, mert egy valós DateTime osztályt használtál és 2018 után már kívül esik az előfizetés időtartamán. (Természetesen módosíthatod, hogy az elvárások az inputokhoz képest relatívak legyenek, de ez megint csak nyűg lenne).
 
 ```
-<pre class="graf graf--pre graf-after--p" id="758f">```
+```
 class <strong class="markup--strong markup--pre-strong">FixLocalDateTimeProvider</strong> extends <strong class="markup--strong markup--pre-strong">LocalDateTimeProvider</strong> {
   @Override
   void <strong class="markup--strong markup--pre-strong">get</strong>(){
@@ -123,7 +123,7 @@ Fentebb egy nagyon egyszerű stub, ami mindig ugyanazt a dátumot adja vissza.
 Tegyünk egy kis kitérőt most és beszéljünk ezekről az ellenőrzésekről. Tehát az állapot ellenőrzés, vagy idegen szóval state verification, az amikor bele tudunk nézni az objektumaink belsejébe és meg tudunk fogalmazni bizonyos elvárásokat. Vegyünk egy egyszerű példát, mondjuk egy settert. Megvizsgálhatnánk a tényleges metódushívást egy mock segítségével (ami viselkedés ellenőrzés, azaz behaviour verification), de meghívhatnánk az adott mezőhöz tartozó gettert is és megvizsgálhatnánk mit ad vissza, hogy ellenőrízzük. Természetesen sosem ellenőrzöd a setterek működését közvetlenül, de a lényeg, hogy a legtöbb esetben az állapot ellenőrzése elég. Na de mégis akkor miért használunk mockokat? Képzeljünk el egy void metódust, például egy aszinkron message publishert. Meg kell győződjünk róla, hogy az adott üzenet át lett adva neki. Létrehozhatnánk egy származtatott osztályt, amiben valamiféle számlálóval nézzük, hogy hányszor hívtuk azt meg (ami egy spy lenne), de ha a pontos átadott paramétereket kell vizsgálnunk, akkor kézenfekvő mockokat használni, hogy ellenőrízzük a hívást és a paramétereket.
 
 ```
-<pre class="graf graf--pre graf-after--p" id="355c">```
+```
 class <strong class="markup--strong markup--pre-strong">MockOrder</strong> extends <strong class="markup--strong markup--pre-strong">Order</strong> {
   private boolean discountApplied = false;
 
@@ -153,7 +153,7 @@ Na és el is értünk a kis kitérőnk végéhez: a **mockista** és **klasszici
 Kiváncsiak vagyunk, hogy ez adott metódus meghívásra került, netán a paraméterekre, amiket a teszt során kapott. Ehhez létre tudunk hozni egy spy-t, aminek vannak úgynevezett 'vallató' metódusai. Ezen metódusoka segítségével tudjuk ellenőrízni, hogy az adott spy-t megfelelően használták. A spy olyan, mint egy mock, azzal a különbséggel, hogy nem fogja önmagát ellenőrzni.
 
 ```
-<pre class="graf graf--pre graf-after--p" id="2bcf">```
+```
 class <strong class="markup--strong markup--pre-strong">SpyOrder</strong> extends <strong class="markup--strong markup--pre-strong">Order</strong> {
   private boolean discountApplied = false;
 
@@ -176,7 +176,7 @@ A fenti példában majdnem ugyanazt az osztályt használjuk, mint a mockok eset
 **Fake:** ezeknél van bizonyos működő implementáció, de sokkal egyszerűbb és emiatt nem használható éles környezetben. Vannak tipikus példái, mint az in-memory adatbázisok, fake JSON API-k és még sorolhatnánk. A céljuk szimplán annyi, hogy a tesztek futását gyorsítsák.
 
 ```
-<pre class="graf graf--pre graf-after--p" id="afe4">```
+```
 class <strong class="markup--strong markup--pre-strong">FakeUserRepository</strong> implements <strong class="markup--strong markup--pre-strong">UserRepository</strong> {
   
   private HashMap<Long, User> map = new HashMap<>();

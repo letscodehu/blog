@@ -33,7 +33,7 @@ Ahhoz, hogy mindenki jól járjon és <del>felesleges programokkal spammeljük t
 [Package](https://code.google.com/p/memcached/wiki/NewInstallFromPackage#Ubuntu_&_Debian)-ként is leszedhetjük, de aki esküszik a hardmode-ra, annak egy tarball-t kell letöltenie, kicsomagulnia, lefordítani és telepíteni:
 
 ```
-<pre data-language="shell">wget http://memcached.org/latest
+wget http://memcached.org/latest
 tar -zxvf memcached-1.x.x.tar.gz
 cd memcached-1.x.x
 ./configure && make && make test && sudo make install
@@ -56,7 +56,7 @@ Jöjjön a PHP, ez sem lesz sokkal bonyolultabb:
 Akinek fent van a PECL kiterjesztés, az a
 
 ```
-<pre data-language="shell">sudo pecl install memcached
+sudo pecl install memcached
 ```
 
 -el tudja feltenni, de többféle módon telepíthető, itt is vigyázni kell a dependenciákra, mert könnyen cs\*csre futhatunk.
@@ -87,14 +87,14 @@ A válaszom: nein! Ha a memória olyan olcsó lenne, mint a winchester, akkor va
 Adjunk hozzá valami kulcsot!
 
 ```
-<pre data-language="php">$ttl = 666; // so hardcore
+$ttl = 666; // so hardcore
 $m->set('ezIttegyBeszedesKulcs', $valamiGyakranHasznaltAdat, $ttl);
 ```
 
 Bumm, hozzá is adtuk. A TTL egy másodpercet jelöl, ameddig az adott kulcs él, tehát utána hiába van ott a kulcs, az már elavultnak minősül, így ha 666 másodperccel később a következő parancsot adjuk ki:
 
 ```
-<pre data-language="php">$valamiGyakranHasznaltAdat = $m->get('ezIttegyBeszedesKulcs');
+$valamiGyakranHasznaltAdat = $m->get('ezIttegyBeszedesKulcs');
 ```
 
 Akkor bizony a változónk értéke nem az lesz, amit szeretnénk, hanem false. Ennélfogva true és false értéket tárolni cache-ben nem épp ideális (arról nem is beszélve, hogy boolean értéket úgy egyáltalán nem lenne érdemes itt tárolni).

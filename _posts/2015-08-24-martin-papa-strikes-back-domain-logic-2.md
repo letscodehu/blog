@@ -83,7 +83,7 @@ A Table Module esetében azonban csak egy objektumpéldány fog tartozni egy kom
 A Table Module erőssége, hogy úgy tudjuk hozzácsapni az adatainkat a funkcionalitáshoz, hogy nem veszítjük el a relációs adatbázisok nyújtotta előnyöket. Az objektumunknak nincs fogalma arról, hogy éppen milyen ID-jú entitásokkal dolgozunk. Ennélfogva, ha egy alkalmazottunk címét le akarjuk kérni, akkor egy
 
 ```
-<pre data-language="php">EmployeeModule::getAddress($id);
+EmployeeModule::getAddress($id);
 ```
 
 -hez hasonló metódust használunk. Akármit akarunk csinálni az alkalmazottainkal, valamilyen egyedi azonosítót át kell adjunk. Ez általában a táblában meghatározott primary key.
@@ -123,7 +123,7 @@ Az osztályaink, amik ezt az adatot fogják molesztálni ugyanebben a formában 
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]C#\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="csharp">    public class TableModule
+    public class TableModule
     {
         protected DataTable table;
         protected TableModule(DataSet ds, String tableName)

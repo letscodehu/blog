@@ -75,7 +75,7 @@ tags:
 A mai téma egy roppant egyszerű tervezési minta lesz, amire - ahogy a későbbiekben kiderül - a ![3-31-Lead](assets/uploads/2015/07/3-31-Lead-1024x576.jpg)programnyelveink többségében már példát is találunk. Ha valaha volt már dolgod valamilyen adatbázissal (amit erősen remélek), legyen az mongo vagy épp SQL, akkor nagy az esély, hogy tömbökön másztál végig, mikor a lekérések eredményeit jelenítetted meg/végeztél vele műveletet. A végigjárásra a foreach parancsot használtad, amiről nem is sejtenéd, hogy mennyi köze lesz a mai témához. Ha objektumorientált programozásról van szó, akkor a puszta tömbök szép lassan kezdenek a háttérbe szorulni, hanem az őket elburkoló ún. Iterátorok lépnek előtérbe. De mi is az az iterátor? Az iterátor egy interfész lesz, ami lehetővé teszi, hogy az objektum által elburkolt tömbön lépkedjünk. De nézzük meg miről is van szó:
 
 ```
-<pre data-language="php">interface Iterator {
+interface Iterator {
 
      public function current(); // ezzel a metódussal tudjuk kikérni az aktuális elem értékét
      public function key(); // ezzel a metódussal tudjuk kikérni az aktuális elem indexét
@@ -91,7 +91,7 @@ A mai téma egy roppant egyszerű tervezési minta lesz, amire - ahogy a későb
 Most akkor valósítsuk mindezt meg egy konkrét osztályunkban:
 
 ```
-<pre data-language="php">class Resultset implements Iterator {
+class Resultset implements Iterator {
 
     private $array;
     private $index;
@@ -126,7 +126,7 @@ Most akkor valósítsuk mindezt meg egy konkrét osztályunkban:
 A fenti példában megvalósítottuk az összes metódust, amit az interfészünk megkövetelt, most pedig nézzük meg, hogy mit is csinál, ha kipróbáljuk egy foreach-el a dolgot:
 
 ```
-<pre data-language="php">$array = array( "ein", "two", "tres");
+$array = array( "ein", "two", "tres");
 
 $iterator = new Resultset($array);
 
@@ -153,7 +153,7 @@ A fenti kódot elnézve jogos lehet a kérdés: mégis mi értelme ennek, ha tö
 A másik ilyen előny lehet az, hogy osztályról lévén szó,továbbörökíthetjük és újabb tulajdonságokkal ruházhatjuk fel azt. Tételezzük fel, hogy szeretnénk lehetőséget biztosítani, hogy kinyerjük az iménti elburkolt tömböt:
 
 ```
-<pre data-language="php">class ResultsetWithToArray extends Resultset {
+class ResultsetWithToArray extends Resultset {
 
      public function toArray() {
           return $this->array;
@@ -172,7 +172,7 @@ var_dump($array === $array2 ); // bool(true) a két tömb megegyezik
 Ez még nem egy nagy újdonság, csupán lehetővé teszi, hogy a tömbön változtatásokat hajtsunk végre. De mi lehet még esetleg benne? Tegyük fel, hogy a tömbünk elemeit valamilyen filtereken keresztül szeretnénk a nagyközönség elé tárni. Erre is lehetőségünk adódik, mégpedig roppant egyszerű módon:
 
 ```
-<pre data-language="php">class ResultsetWithFilters extends Resultset {
+class ResultsetWithFilters extends Resultset {
 
      private $filters = array(); // az egyes filtereket tároló tömb
      

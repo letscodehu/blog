@@ -75,7 +75,7 @@ hogy mégis hogy néz ki egy ilyen sessionkezelés a gyakorlatban és mivel ez e
 Álljon itt hát egy komplett implementációja egy sessionmanager osztálynak:
 
 ```
-<pre data-language="php">class SessionManager extends Singleton { // a singleton osztályból örökölt osztályainkat csak a getInstance() statikus metódussal tudjuk meghívni, lásd singleton-os cikkem.
+class SessionManager extends Singleton { // a singleton osztályból örökölt osztályainkat csak a getInstance() statikus metódussal tudjuk meghívni, lásd singleton-os cikkem.
 
     const COOKIE = 'azEnFenemodEgyediSessionCookiem'; // ez lesz a session_cookie-nk neve
     const SESSIONSALT = 'ideIsTehetünkValamit';
@@ -98,7 +98,7 @@ Ezután még definiálunk egy sessionttl nevű konstanst, ami a munkamenetünk h
 A konstruktorunk következik ez alatt (ami a singleton behaviour miatt protected ugye), amiben meghívjuk az isValid metódusunkat és ennek false visszatérése esetén új session-t kezdünk a newSession()-el, true esetében pedig visszatérünk egy már megkezdett session-höz. Ha az adatbázisba is nyulkálunk, akkor azt szintén itt tudjuk inicializálni, lehetőleg az isValid meghívása előtt, mivel ez a függvény majd igényli azt.
 
 ```
-<pre data-language="php">    private function isValid() { // ez a függvényünk validálja a session dolgait
+    private function isValid() { // ez a függvényünk validálja a session dolgait
          // megnézzük, hogy rendelkezésre áll-e a session cookie-nk
          if (!$this->sessionCookieSet())
              return false;
@@ -111,7 +111,7 @@ A konstruktorunk következik ez alatt (ami a singleton behaviour miatt protected
 Az isValid metódusunkban megnézzük, hogy egyáltalán rendelkezésre áll-e a session cookie-nk és ha igen, akkor továbbadjuk a validálási folyamatot a sessionCookieValid metódusnak.
 
 ```
-<pre data-language="php">    
+    
     private function sessionCookieSet() {
            return isset($_COOKIE[self::COOKIE]); // ha van az általunk megadott cookie, akkor true-val tér vissza
     }
@@ -120,7 +120,7 @@ Az isValid metódusunkban megnézzük, hogy egyáltalán rendelkezésre áll-e a
 Ez egy elég szimpla metódus.
 
 ```
-<pre data-language="php">    private function sessionCookieValid() { // mostmár tudjuk, hogy van cookie, a kérdés az, hogy a hossza stimmel-e     
+    private function sessionCookieValid() { // mostmár tudjuk, hogy van cookie, a kérdés az, hogy a hossza stimmel-e     
          if (!strlen($_COOKIE[self::COOKIE]) != 40)
              return false;
          // a hossz stimmel, nézzük meg az adatbázisban, hogy találunk-e hozzá tartozó rekordot.
@@ -137,7 +137,7 @@ Ez egy elég szimpla metódus.
 A validálás további részében leellenőrízzük az id hosszát, ha az megfelel, megnézzük, hogy az adott id megtalálható-e az adatbázisban. Ha igen, akkor megnézzük, hogy a nem járt-e le, majd legvégül az id-t nézzük meg, hogy megfelelő-e.
 
 ```
-<pre data-language="php">    private function dbRecordFound() {
+    private function dbRecordFound() {
              // itt rákeresünk az adott ID-re az adatbázisban, és ha a talált sorok száma 1, akkor jók vagyunk, ellenkező esetben false-al térjünk vissza.
     }
 ```
@@ -145,7 +145,7 @@ A validálás további részében leellenőrízzük az id hosszát, ha az megfel
 Az adatbázis táblában az id alapján keresünk, itt ha mindent jól csináltunk, akkor csak egy mező fog maximum az adott id-hez tartozni.
 
 ```
-<pre data-language="php">    private function sessionIsRecent() {
+    private function sessionIsRecent() {
              // az id-hez tartozó adatbázis rekordra $record-ként fogok hivatkozni
              if (!$record['keep_me_logged_in']) // nem állítottuk be, hogy tartson minket bejelentkezve
                   if (($record['start_time'] + self::SESSIONTTL) < time())
@@ -159,7 +159,7 @@ Itt sessionünk élettartamát vizsgáljuk. Ha bejelentkezve tartjuk a userünke
 > Az adott rekordban keep\_me\_logged\_in mező csak akkor kap true értéket, ha bejelentkezett userről van szó. Mindenkihez rendelünk session-t, akár bejelentkezett, akár nem, hiszen pl. egy webáruházban lehet válogatni dolgokat akkor is, ha még nem is regisztráltunk.
 
 ```
-<pre data-language="php">    private function hashMatch() { // na itt történik a konkrét mágia
+    private function hashMatch() { // na itt történik a konkrét mágia
             // lekérjük a rekordot ami ide tartozik, $record névvel fogok rá hivatkozni
              $stringToHashed = $record['timestamp'].$_SERVER['REMOTE_ADDR'].$_SERVER['USER_AGENT'].self::SESSIONSALT; // az adatbázisban szereplő időt használjuk, hiszen az id generálásakor is azt használtuk. Az IP címből használhatjuk csak az első tagot, az ritkán változik, de legalább koreából nem próbálkoznak be, de akár ezt is és a user agentet is kihagyhatjuk belőle.
              if ($_COOKIE[self::COOKIE] !== hash('sha512', $stringToHashed)) // akármilyen hashelési (akár kétkulcsos) eljárást használhatunk.
@@ -172,7 +172,7 @@ Itt sessionünk élettartamát vizsgáljuk. Ha bejelentkezve tartjuk a userünke
 Itt vetjük össze a konkrét hash-eket, amik az sessionid-t adják. Ez az a rész, ahol mindenki testreszabhatja mennyire megy el a user-ek kényelme és mennyire a biztonság felé.
 
 ```
-<pre data-language="php">    private generateSessionId() {
+    private generateSessionId() {
          $time = time();
          $id = hash('sha512',$time.$_SERVER['REMOTE_ADDR'].$_SERVER['USER_AGENT'].self::SESSIONSALT);
          // majd beírjuk a dolgokat az adatbázisba.
@@ -183,7 +183,7 @@ Itt vetjük össze a konkrét hash-eket, amik az sessionid-t adják. Ez az a ré
 Itt generáljuk a session ID-t és itt fogjuk beírni az adatainkat az adatbázisba.
 
 ```
-<pre data-language="php">    private function newSession() {
+    private function newSession() {
         session_name(self::COOKIE); // belőjük a sessionünk nevét
         session_id($this->generateSessionId); // generálunk neki egy egyedi ID-t
         session_start(); // elindítjuk a session-t
@@ -194,7 +194,7 @@ Itt generáljuk a session ID-t és itt fogjuk beírni az adatainkat az adatbázi
 Új session-t készítünk, beállítjuk a nevét, az id-t és elindítjuk, valamint MINDEN változót törlünk ami a sessionhöz tartozik.
 
 ```
-<pre data-language="php">    private function resumeSession() {
+    private function resumeSession() {
         session_name(self::COOKIE); // belőjük a session cookie nevét
         session_start(); // elindítjuk a session-t
         // they see me rollin', they hatin'

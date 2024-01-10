@@ -79,7 +79,7 @@ Vegyünk egy konkrét példát:
 Van egy controllerosztályunk, legyen pl. AjaxController, amivel az oldalunkra érkező ajax lekéréseinket szeretnénk kezelni.
 
 ```
-<pre data-language="php">class AjaxController {
+class AjaxController {
   public function getController() { // a get kéréseinkhez tartozó action
      // itt valami roppant izgalmas történik
      return new JsonModel() {  } // egy Json modelt adunk vissza, amit aztán lerenderel a meghívó osztály
@@ -102,7 +102,7 @@ Ezekből, fajtánként (pl. HeadScript, InlineScript, HeadLink, HeadMeta) csak e
 Mik is kellenek egy ilyen osztályba? Mivel most a HeadScript-ről beszélünk, ezért fájlokat és script-eket is egyaránt szeretnénk hozzáadni, mégpedig metódusokkal.
 
 ```
-<pre data-language="php">class HeadScript extends Singleton {
+class HeadScript extends Singleton {
      
      private $scripts = array(); // a scriptjeinket tároló tömb
      public function appendFile($file, $type="text/javascript", $attr = array()) {
@@ -151,7 +151,7 @@ Igen, tudom, hogy mindenki jobban örülne, ha [O.C.C](https://s-media-cache-ak0
 Nos akkor tegyük fel, hogy a kedves i5-ös hajtotta laptopom elkezd haldokolni (ami egyébként tényleg így van) és szeretnék beruházni egy újba, mielőtt a GRUB-ig se jutok el indításkor. Én leszek ez esetben a kliens, aki megkéri a Builder-t (fenti barátunkat), hogy dobjon már össze egy jól szituált gépet. Elmondhatom neki úgy is, ahogy a gödöllői gyros-osnak, hogy "egy gyros tálat, elvitelre, csípős és hagyma nélkül.... mondom tálat, nem-nem kérek bele csípőst, a hagy.. mindegy", azaz egyesével elmondom neki, minden elemét a "specifikációnak", vagy valamennyire rábízhatom a döntést, hisz ő a szakavatott és csupán annyit mondok neki, hogy dobjön össze nekem egy "ütős gépet". Ő aztán <del>legjobb tudása szerint</del> összerakja nekem a gépet és a végén mond egy összeget (ami haveri alapon 110%). Na de nézzük meg ez hogy nézne ki a gyakorlatban!
 
 ```
-<pre data-language="php">class Tacsiazuma { // igen, én leszek a kliens
+class Tacsiazuma { // igen, én leszek a kliens
 
       private function ujGep() {
 
@@ -161,7 +161,7 @@ Nos akkor tegyük fel, hogy a kedves i5-ös hajtotta laptopom elkezd haldokolni 
 ```
 
 ```
-<pre data-language="php">interface Termek { // ez az interfész lesz az, amit minden hardverelemünk implementálni fog, csupán azért van rá szükség, hogy a srác nehogy mellényúljon és mákdarálót szereljen be procihűtő helyett
+interface Termek { // ez az interfész lesz az, amit minden hardverelemünk implementálni fog, csupán azért van rá szükség, hogy a srác nehogy mellényúljon és mákdarálót szereljen be procihűtő helyett
        public function nev(); // ez lesz az elem neve
        public function ar(); // ez pedig az ára
 }
@@ -170,7 +170,7 @@ Nos akkor tegyük fel, hogy a kedves i5-ös hajtotta laptopom elkezd haldokolni 
 Nos, akkor eddig megcsináltuk a kliensünket, aki majd meghívja a buildert, valamint egy interfészt, amit aztán ráhúzunk minden hardverelemre, hiszen mindnek lesz neve és ára, ingyen senki nem rakja össze. Akkor jöjjenek a termékcsoportok, amik implementálják ezt az interfészt és szűkítik a kört.
 
 ```
-<pre data-language="php">abstract class Processzor implements Termek {}
+abstract class Processzor implements Termek {}
 abstract class Alaplap implements Termek {}
 abstract class Memoria implements Termek {}
 abstract class VGA implements Termek {} // ilyenre nincs is szükségünk, nemde? :)
@@ -182,7 +182,7 @@ Szűkítettük a kört, megvannak a termékcsoportok, akkor most készítsünk e
 ###### Processzorok
 
 ```
-<pre data-language="php">class Core_I7 extends Processzor { // bang, közel 200k csak a procink
+class Core_I7 extends Processzor { // bang, közel 200k csak a procink
       public function nev() {
             return "Intel Core I7-5930K 3.50 GHz";
       }
@@ -203,7 +203,7 @@ class AMD_A10 extends Processzor { // ez egy sokkal szerényebb összegért a mi
 ###### Memória
 
 ```
-<pre data-language="php">class DDR4 extends Memoria { 
+class DDR4 extends Memoria { 
       public function nev() {
             return "16GB XPG Z1 DDR4 2400MHz";
       }
@@ -224,7 +224,7 @@ class DDR3 extends Memoria {
 ###### Alaplap
 
 ```
-<pre data-language="php">class SocketAM3 extends Alaplap { 
+class SocketAM3 extends Alaplap { 
       public function nev() {
             return "Crosshair IV Extreme";
       }
@@ -245,7 +245,7 @@ class SocketAM1 extends Alaplap {
 ###### VGA
 
 ```
-<pre data-language="php">class Nvidia extends VGA { // csak szolidan
+class Nvidia extends VGA { // csak szolidan
       public function nev() {
             return "PNY VCQK5000-PB Quadro K5000 4GB GDDR5 PCIE";
       }
@@ -266,7 +266,7 @@ class Integralt extends VGA { // ez egy sokkal szerényebb összegért a miénk 
 ###### Munkadíj
 
 ```
-<pre data-language="php">class HaveriAlapon extends Munkadij { // bang, közel 200k csak a procink
+class HaveriAlapon extends Munkadij { // bang, közel 200k csak a procink
       public function nev() {
             return "Ebből üzemeltetem a VPS-t";
       }
@@ -287,7 +287,7 @@ class MindenkiMasnak extends Munkadij { // ez egy sokkal szerényebb összegért
 Most, hogy ezekkel megvolnánk, jöjjön a komplett gép osztálya, amibe beleszuszakoljuk mindezt. Mielőtt lázadozni kezdenétek, hogy nincs benne egér, meg nem vizsgáltuk a foglalatokat, el kell keserítselek, hogy az időm véges, erre futotta 😛
 
 ```
-<pre data-language="php">class KomplettPc {
+class KomplettPc {
     
      $komponensek = array();
 
@@ -306,7 +306,7 @@ Most, hogy ezekkel megvolnánk, jöjjön a komplett gép osztálya, amibe belesz
 Na és akkor most boncoljuk fel a kollégát és lássuk hogy működik! Először is definiálok neki egy interfészt, de ez már csak az én rigolyám.
 
 ```
-<pre data-language="php">interface HardverBuilder {
+interface HardverBuilder {
     public function oltozzMaFel();
 }
 

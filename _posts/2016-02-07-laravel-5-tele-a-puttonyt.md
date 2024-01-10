@@ -65,7 +65,7 @@ Akkor most nyomjunk a lap alján egy mentést. Ezután visszadob bennünket a pr
 Nyissuk hát meg, nézzük mi is történt az imént! A buildeket minden projekt esetében számmal azonosítja a jenkins. E felé a szám felé véve az egeret meglátjuk a kis legördülőt, amiből válasszuk ki a console output-ot. Itt láthatjuk, hogy milyen parancsokat futtatott a jenkins és mi is volt rá a konzol kimenet.
 
 ```
-<pre class="console-output" data-language="shell">Building in workspace /var/lib/jenkins/jobs/Lara Admin/workspace
+Building in workspace /var/lib/jenkins/jobs/Lara Admin/workspace
 Cloning the remote Git repository
 remote: Counting objects
 remote: Compressing objects
@@ -95,7 +95,7 @@ Ugye az esetek többségében nem explicit verziót adunk meg, hanem wildcardoka
 Ahhoz, hogy a PHPUnit tudja a dolgát, szükségünk lesz egy XML fájlra, ami autentikusan leírja neki, hogy mégis mi a helyzet.
 
 ```
-<pre data-language="html"><?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
@@ -117,7 +117,7 @@ Na most mit is írtunk ide? Először is a bootstrap fájlnak megadtuk a compose
 Akkor most jöjjön az, hogy létrehozunk az említett projektben egy tests mappát, azon belül pedig egy AdminControllerTest osztályt:
 
 ```
-<pre data-language="php"><?php
+<?php
 
 namespace Letscode\Admin\Tests; // ez igazából lényegtelen, lévén nem öröklünk a tesztosztályaink közt, viszont ha igen, akkor fel kell vennünk a composer.json-be.
 
@@ -169,7 +169,7 @@ Na jó, az igazat megvallva szükség lesz még egy dologra, mégpedig egy jól 
 A build.xml a következőképp mutat:
 
 ```
-<pre data-language="html"><?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="lara-admin" default="quick-build">
     <property name="phpunit" value="phpunit"/>
     <target name="quick-build"
@@ -233,7 +233,7 @@ A fenti build.xml fájlt is commitoljuk be, és toljuk fel repoba őket. Ezután
 Láthatjuk, ahogy kicheckoutolja, lefut a php lint, leellenőrzi a fájlokat syntax error után kutatva, ha ezzel végzett, a composer leszedi a csomagfüggőségeket, ezután pedig a phpunit lecsekkolja azt az egy tesztünket és a végén:
 
 ```
-<pre class="console-output"><span class="ant-outcome-success">BUILD SUCCESSFUL
+BUILD SUCCESSFUL
 </span>Total time: 1 minute 8 seconds
 Finished: SUCCESS
 ```

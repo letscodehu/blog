@@ -79,7 +79,7 @@ A proxy pattern a struktúrális minták közé tartozik, lényegében egy olyan
 Most akkor csináljuk meg a fent említett webszerver/kliens/proxy triumvirátust a proxy pattern elemeit bemutatva!
 
 ```
-<pre data-language="php">class Client { // ezek vagyunk mi
+class Client { // ezek vagyunk mi
 
 private $server;
 
@@ -101,7 +101,7 @@ $this->server->incomingConnection($method, $url, $parameters); // nagyon leegysz
 Ebben eddig semmi érdekes nem volt, [typehinteltünk]({{ site.url }}/2015/01/21/oops-avagy-dependency-injection-praktikak/#typehint) a konstruktorban egy interfészt, így azon osztályok, amik implementálják azt az interfészt, hiba nélkül átadhatóak. Itt lesz a mi kis trükkünk, mivel mind a proxy, mind a webszerver osztályunk egyaránt implementálja majd az interfészt, ezáltal mindkettő használható lesz.
 
 ```
-<pre data-language="php">interface ServerInterface {
+interface ServerInterface {
 
 public function incomingConnection($method, $url, $parameters); // az interfészünk elég egyszerű lesz, egy metódust vittünk most bele
 
@@ -111,7 +111,7 @@ public function incomingConnection($method, $url, $parameters); // az interfész
 Nem is volt nehéz, ugye? Na de implementáljuk is ezt az interfészt a szerverünkben
 
 ```
-<pre data-language="php">class WebServer implements ServerInterface { // a webszerver osztályunk
+class WebServer implements ServerInterface { // a webszerver osztályunk
 
 public function incomingConnection($method, $url, $parameters) {
 
@@ -147,7 +147,7 @@ A fenti példában jól látni miről is szól a proxy patternünk. Meghívunk e
 Ha egyes osztályaink felé le akarjuk korlátozni a hozzáférést, akkor ilyen proxy-kon keresztül tudjuk elérni azt. Persze gyorsítótárazhatunk is, megvizsgálhatjuk ezt a kérést és még sok mást lehet beleszuszakolni ebbe a mintába, de most nézzünk pár példát mit lehet beletűzdelni:
 
 ```
-<pre data-language="php">class ProxyServer implements ServerInterface { 
+class ProxyServer implements ServerInterface { 
 
      public function __construct(WebServer $server, CacheInterface $cache) {
         // valamilyen cache-t is hozzáadunk és DI-zzük a szerverünket
