@@ -90,7 +90,7 @@ Az alábbi példa a ZF2-ben is megszokott asszociatív tömböt használja:
 Az első fájl egy ún. globális konfiguráció, aminek a lényege az, hogy a környezettől független. Tehát ugyanazt használja a devszerver is, mint az éles vagy a preview/teszt.
 
 ```
-<pre data-language="php">// config.global.php
+// config.global.php
 return array (
  'servicemanager' => array( // a confignak több kulcsa lehet, amiket szintén a servicemanager-en át érünk majd el, de erről később
 // itt találhatók az egyes service-ek, amiket felkonfigolunk
@@ -138,7 +138,7 @@ class Java {} // ez csak egy üres osztály lesz
 Ez itt egy lokális konfiguráció lesz, ami az egyes környezetektől függően változhat. A két fájlon rekurzívan végigmegyünk majd és a lokális minden esetben felülírja majd a globális értékét.
 
 ```
-<pre data-language="php">// config.local.php
+// config.local.php
 
 return array(
       'mailer' => array(
@@ -152,7 +152,7 @@ return array(
 Ez pedig egy tesztkörnyezetre jellemző lokális config:
 
 ```
-<pre data-language="php">// config.local.php.test
+// config.local.php.test
 
 return array(
       'mailer' => array(
@@ -168,7 +168,7 @@ Az egyes környezetekre jellemző lokális konfigokkal felül kell írni a confi
 Akkor most, hogy itt szétkonfiguráltunk mindent, jó lenne ezeket a dolgokat használni is.
 
 ```
-<pre data-language="php">class ServiceManager extends Singleton { // az egyszerűség kedvéért most singleton pattern-t aggatunk rá, így nem kell amiatt aggódni, hogy ha valahol meghívjuk, akkor nem lesznek benne a mi service-jeink, vagy hogy újra és újra berántja a config-ot.
+class ServiceManager extends Singleton { // az egyszerűség kedvéért most singleton pattern-t aggatunk rá, így nem kell amiatt aggódni, hogy ha valahol meghívjuk, akkor nem lesznek benne a mi service-jeink, vagy hogy újra és újra berántja a config-ot.
 
             private $services, $config; // public properties are the root of all evil
      public function __construct() {
@@ -207,7 +207,7 @@ Akkor most, hogy itt szétkonfiguráltunk mindent, jó lenne ezeket a dolgokat h
 Akkor nézzük, hogy mit is csináltunk az imént. A lényege az osztályunknak, hogy bárhonnan meghívható, a service-ek mindig rendelkezésünkre állnak majd a singleton viselkedésnek köszönhetően. Ahhoz viszont, hogy használni is tudjuk, valahol meg kell ezt hívjuk:
 
 ```
-<pre data-language="php">abstract class AbstractController { // hozzunk létre egy abstract controllert, ami a konstruktorában meghívja a servicemanagert
+abstract class AbstractController { // hozzunk létre egy abstract controllert, ami a konstruktorában meghívja a servicemanagert
  
      protected $sm; // protected servicemanager példányunk
 

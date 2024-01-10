@@ -86,7 +86,7 @@ Egyik ilyen opensource service a [RabbitMQ](https://www.rabbitmq.com/), amit mi 
 Két módszerrel tudjuk a gépünkre varázsolni, az egyik egy szimpla [letöltés](https://www.rabbitmq.com/install-debian.html), a másik az APT repository. Mivel a legtöbben nem fogják direktbe kitenni egy prod szerverre, ezért ne szemeteljük tele az APT repo listáját, maradjunk egy szimpla wget-nél (vagy kattintsunk a letöltés linkjére, kinek mi tetszik).
 
 ```
-<pre data-language="shell" style="text-align: justify;">wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.5.1/rabbitmq-server_3.5.1-1_all.deb
+wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.5.1/rabbitmq-server_3.5.1-1_all.deb
 ```
 
 Miután elindítjuk a telepítőt, futnak le a sorok és a végén ott állunk majd, hogy oké, hogy ez így elvileg megy a gépen, de mégis.. honnan tudom, hogy tényleg megy, egy ps | grep kombót leszámítva? Szerencsére erre gondoltak a fiúk és vannak hozzá pluginek, ami pluginek egyike a Web UI-s management. Ahhoz, hogy ezt fellőjük egy szimpla parancsot kell superuserként kiadni:
@@ -110,7 +110,7 @@ aztán a konzolban toljunk egy composer install-t és bumm, máris machinálhatu
 Írjunk hát egy script-et, ami feltol egy egyszerű üzenetet a queue-ba:
 
 ```
-<pre data-language="php" style="text-align: justify;">use PhpAmqpLib\Connection\AMQPConnection; // ez lesz maga a csatlakozási pontyunk
+use PhpAmqpLib\Connection\AMQPConnection; // ez lesz maga a csatlakozási pontyunk
 use PhpAmqpLib\Message\AMQPMessage; // ez az üzenet, amit feltolunk a queue-ba
 
 
@@ -165,7 +165,7 @@ Mint tudjuk minden sornak két vége van, a végén vannak <del>azok akik szívn
 Az egyszerűség kedvéért most simán parancssorban futtatjuk és figyeljük a kimenetet. A fenti script-et kössük be valamelyik aloldalunkra és figyeljük mi is történik a terminálban (Figyelem: az alábbi kódban nem kapcsoltam ki az output-ot, valamint át sincs irányítva logfájlba, hogy lássuk mi is történik, de ez egy daemon esetében nem járható út.)
 
 ```
-<pre data-language="php">use PHPMailer; // a jó öreg phpmailerrel fogjuk küldeni az üzenetet
+use PHPMailer; // a jó öreg phpmailerrel fogjuk küldeni az üzenetet
 use PhpAmqpLib\Connection\AMQPConnection; // a connection-re itt is szükségünk lesz
 use PhpAmqpLib\Message\AMQPMessage; // valamint az üzenetre is, hogy sikertelenség esetén újra sorbaállítjuk az üzenetet.
 

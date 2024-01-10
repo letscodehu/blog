@@ -79,7 +79,7 @@ Szemléltetésként nézzünk egy klasszikus példát a fenti esetre, amikor lé
 Ha a fentiek szerint terveztük meg a rendszerünket, akkor a magasszintű osztályba bele van betonozva a két alacsonyszintű implementáció. Ebben az esetben, ha meg akarnánk változatni a modul működését, hogy a nyomtató helyett egy fájlba írja azt, a FileWriter osztály segítségével, bizony bele kéne nyúlni a Copy osztályba (egy percre tételezzük fel, hogy rengeteg logikával van megáldva és nehezen tesztelhető):
 
 ```
-<pre data-language="php">class Copy {
+class Copy {
      
      private $reader, $writer;
 
@@ -122,7 +122,7 @@ Az új réteg szintén gondot okozna, ha ezt is az alacsonyszintű osztályokra 
 Akkor jöjjön a megvalósítás kódszinten:
 
 ```
-<pre data-language="php">interface Reader {
+interface Reader {
      public function read();
 }
 

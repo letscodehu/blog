@@ -72,7 +72,7 @@ Szükségünk lesz egy DTO-ra, ami az üzeneteket fogja tárolni.
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php"><?php
+<?php
 
 class MessageDTO {
 
@@ -118,7 +118,7 @@ Valamint kell egy, amiben a felhasználói adatokat tároljuk:
 \[tabs type="horizontal"\]\[tabs\_head\]\[tab\_title\]PHP\[/tab\_title\]\[/tabs\_head\]\[tab\]
 
 ```
-<pre data-language="php"><?php
+<?php
 
 class UserDTO {
 
@@ -139,7 +139,7 @@ Most, hogy megvan a DTO, szükségünk lenne a Domain Modeljeinkre. Ennek a logi
 \[tab\]
 
 ```
-<pre data-language="php"><?php 
+<?php 
 
 class Messages {
     
@@ -169,7 +169,7 @@ Na most, hogy a Domain Model kész van (ez egyébként a már fentebb említett 
 \[tab\]
 
 ```
-<pre data-language="php"><?php 
+<?php 
 
 class MessageAssembler {
 
@@ -222,7 +222,7 @@ De akkor nézzünk valami másfajta példát is (igen, C#), ami nem DTO-kkal man
 \[tab\]
 
 ```
-<pre data-language="csharp">class PersonGateway {
+class PersonGateway {
      public IDataReader FindAll() { // egy szimpla kérdezzünk le mindent
            String sql = "select * from person"; 
            return new OleDbCommand(sql, DB.Connection).ExecuteReader(); // viszatérünk a result settel

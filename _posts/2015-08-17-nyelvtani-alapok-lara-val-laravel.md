@@ -77,19 +77,19 @@ Na de mielőtt lázadást szítanék, amiért eltértem a témától, beszéljü
 A laravel beröccentéséhez mindenképp szükségünk lesz egy jól szituált [composerre]({{ site.url }}/2015/03/12/composer-a-php-fejlesztok-kedvenc-zeneszerzoje/). Ha ez megvan, és lehetőleg a $PATH-hoz is hozzáadtukm, akkor több módszerrel fel lehet rakni, de mi most a Laravel installert fogjuk használni. Ehhez az alábbi paranccsal fogunk indítani:
 
 ```
-<pre data-language="shell">composer global require "laravel/installer=~1.1"
+composer global require "laravel/installer=~1.1"
 ```
 
 Ez globálisan telepíteni fogja nekünk a laravel installerét, így a későbbiekben bárhol vagyunk a fájlrendszerben, könnyedén tudjuk telepíteni azt, a következő módon:
 
 ```
-<pre data-language="shell">laravel new [projekt-neve]
+laravel new [projekt-neve]
 ```
 
 Ha mégsem ezt a módszert választjuk, akkor a composer create-project módszer is megteszi:
 
 ```
-<pre class=" language-php" data-language="shell">composer create-project laravel/laravel --prefer-dist [projekt-neve]
+composer create-project laravel/laravel --prefer-dist [projekt-neve]
 ```
 
 ##### Zuhanjunk hát neki!
@@ -105,7 +105,7 @@ kép fogad bennünket. Nem egy codeigniter welcome page, amibe beleoktrojálták
 Mit is találunk a projektben:
 
 ```
-<pre data-language="shell">/app
+/app
 /bootstrap
 /resources
 /vendor
@@ -155,7 +155,7 @@ Az alkalmazásunk elindulásakor itt rántjuk be az autoloadereket és példány
 Ez lesz a tényleges alkalmazásunknak helyet adó könyvtár, amit tüzetesebben is meg kell vizsgálnunk!
 
 ```
-<pre data-language="shell">/Console
+/Console
 /Events
 /Http
 /Exceptions
@@ -179,7 +179,7 @@ routes.php
 Hacsak nem valami angular powered one-page application-t akarunk csinálni, akkor bizony (sőt, még akkor is) szükség lesz route-ok felállítására. Ezt a routes.php-ben tudjuk majd megtenni. Nézzünk bele és lessük meg hogy is működik!
 
 ```
-<pre data-language="php">Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 ```
@@ -197,14 +197,14 @@ A Route osztály statikus metódusai követik a HTTP request metódusokat. Tehá
 Nézzünk pár példát!
 
 ```
-<pre data-language="php">Route::post("/login", function() {
+Route::post("/login", function() {
 });
 ```
 
 A fenti route a /login-ra van ráaggatva, de csak POST esetében. Ha szimpla GET kérést indítunk oda, egy jóféle 404-es hibaoldal fogad.
 
 ```
-<pre data-language="php">Route::match(array('get', 'post'), "/login" , function () {
+Route::match(array('get', 'post'), "/login" , function () {
 })
 ```
 
@@ -215,7 +215,7 @@ Viszont ez az anonymous function dolog rossz javascript-es élményeket idéz, �
 Szerencsénkre ez roppant egyszerű:
 
 ```
-<pre class=" language-php" data-language="php">Route::get('/login', 'AuthController@login');
+Route::get('/login', 'AuthController@login');
 ```
 
 A fenti példában a login get kérésére az AuthController osztályunk login metódusa kerül meghívásra. Ügyeljünk a kis- és nagybetűkre, mert case-sensitive a cucc.
@@ -223,19 +223,19 @@ A fenti példában a login get kérésére az AuthController osztályunk login m
 De mi van akkor, ha szeretnénk route paramétereket is alkalmazni? Mi sem egyszerűbb!
 
 ```
-<pre data-language="php">Route::get("/post/{id}", "PostController@view");
+Route::get("/post/{id}", "PostController@view");
 ```
 
 A fenti módszerrel a /post/ után bármi következhet, paraméterként elérhető lesz a controllerünkből:
 
 ```
-<pre data-language="php">$id = $route->input('id');
+$id = $route->input('id');
 ```
 
 De mi van akkor, ha az ID-k formátumát le szeretnénk korlátozni? Ezt többféle módon meg tudjuk tenni:
 
 ```
-<pre data-language="php">Route::get("/post/{id}", "PostController@view")->where("id", '[0-9]+');
+Route::get("/post/{id}", "PostController@view")->where("id", '[0-9]+');
 ```
 
 Ezzel a módszerrel az egyes route-ok paraméterei tudunk reguláris kifejezésekkel szabályokat aggatni.
@@ -245,7 +245,7 @@ Viszont azt is megtehetjük, hogy az összes id nevű paraméterre ráhúzunk eg
 Itt tudunk globális szabályokat aggatni a Route osztályunkra (model binding, parameter patterns).
 
 ```
-<pre data-language="php">public function boot(Router $router)
+public function boot(Router $router)
 {
     $router->pattern("id",'[0-9]+');
     parent::boot($router);
@@ -255,7 +255,7 @@ Itt tudunk globális szabályokat aggatni a Route osztályunkra (model binding, 
 Ezek a paraméterek lehetnek opcionálisak is, ha a nevük végére odabiggyesztjük a C#-ból ismert '?'-t (nullable).
 
 ```
-<pre data-language="php">Route::get("/post/{id?}", "PostController@view");
+Route::get("/post/{id?}", "PostController@view");
 ```
 
 Ebben a formában a /post/ és a /post/akarmi is ugyanezt a route-ot fogja triggerelni.
@@ -263,13 +263,13 @@ Ebben a formában a /post/ és a /post/akarmi is ugyanezt a route-ot fogja trigg
 Az egyes route-jainknak nevet is adhatunk, ha a következő formában asszoc tömböt kapnak második paraméterként:
 
 ```
-<pre data-language="php">Route::get("/", [ 'as' => 'home', 'uses' => 'PostController@list'] );
+Route::get("/", [ 'as' => 'home', 'uses' => 'PostController@list'] );
 ```
 
 Ez akkor lehet fontos, ha nem bedrótozott URL-eket akarunk használni, hanem URL helpereket, amik összeszüttyögik számunkra az URL-eket:
 
 ```
-<pre class=" language-php" data-language="php">$url = route('home');
+$url = route('home');
 ```
 
 ##### Route group
@@ -283,7 +283,7 @@ A csoportokra bizonyos szabályokat tudunk így ráereszteni. Ilyen lehet pl. bi
 > A middleware-ek<del> a hardware és a software között elhelyezkedő nyúlós, de nem ragadós</del> alkalmasak arra, hogy az alkalmazásba beérkező HTTP kéréseken különböző műveleteket/ellenőrzéseket hajtsanak végre mielőtt az adott controller metódusához érkeznének. Képesek lehetnek akár redirektálni a kérést, logolni azt, <del>el die()-oltatni a \*\*\*\*be</del> stb. Ilyen beépített middleware például az autentikációra specializálódott, ami a sikertelen autentikáció esetén a loginoldalra redirektálja a felhasználót, a kért tartalom kiszolgálása helyett. Ezek definiálása egy későbbi cikkbe fér majd bele.
 
 ```
-<pre data-language="php">Route::group(["middleware" => ["auth"]], function() {
+Route::group(["middleware" => ["auth"]], function() {
 // az alábbi route-okra a dispatch előtt ráakasztjuk az auth nevű middleware-ünket. Többet is megadhatunk, amik a tömbbeli indexük szerinti sorrendben lesznek meghívva
     Route::get("/posts", "PostController@list");
     ...
@@ -293,7 +293,7 @@ A csoportokra bizonyos szabályokat tudunk így ráereszteni. Ilyen lehet pl. bi
 Alapesetben a controllerjeink a App\\Http\\Controllers névtérben találhatóak, ahogy az a RouteServiceProviderben definiálva van. Ha ezen kívül esnek, akkor a Controller@method páros prefixálnunk kell az adott névtérrel. Ha több controllert mozgatnánk ide-oda, akkor azért ez már elég sok prefixálgatni való, amit megspórolhatunk szintén Route group-okkal:
 
 ```
-<pre data-language="php">Route::group(["namespace" => "Blog"], function() {
+Route::group(["namespace" => "Blog"], function() {
 // a controllerünk az App\Http\Controllers\Blog névtérben van
     Route::get("/posts", "PostController@list");
     ...
@@ -305,7 +305,7 @@ Alapesetben a controllerjeink a App\\Http\\Controllers névtérben találhatóak
 Na de mi van akkor, ha nem a névtereinket akarjuk prefixálni, hanem a route-jainkat?
 
 ```
-<pre data-language="php">Route::group(["prefix" => "posts"], function() {
+Route::group(["prefix" => "posts"], function() {
           Route::get("/", "PostController@list"); // a /posts-ra hívódik meg
           Route::get("{id}", "PostController@view")->where("id", "[0-9]+"); // a /posts/434 -ra meghívódik, viszont a /posts/aaaa-ra már nem.
 });
@@ -316,7 +316,7 @@ Na és mi a helyzet a sub-domain route-okkal?
 Tegyük fel, hogy szeretnénk egy slack-hez hasonló szolgáltatást indítani?
 
 ```
-<pre data-language="php">Route::group(["domain" => "{account}.slack.com"],  function() {
+Route::group(["domain" => "{account}.slack.com"],  function() {
  // ha letscode.slack.com-on hívom meg, akkor az account paraméterben, bizony ott lesz a "letscode" string.
             Route::get("/", "AccountController@dashboard"); 
 });
@@ -341,7 +341,7 @@ Route::get("/view/{post}", "PostController@view");
 Na meg szükségünk lesz egy Post osztályra, úgyhogy az app könyvtáron belül hozzunk létre egy Models könyvtárat és azon belül pedig egy Post osztályt:
 
 ```
-<pre data-language="php"><?php
+<?php
 
 namespace App\Models;
 
@@ -359,7 +359,7 @@ A fenti a minimum, ami szükséges ahhoz, hogy a modellünket beinjektáljuk az 
 Most akkor nyissuk meg a PostControllerünket:
 
 ```
-<pre data-language="php"><?php
+<?php
 
 namespace App\Http\Controllers;
 

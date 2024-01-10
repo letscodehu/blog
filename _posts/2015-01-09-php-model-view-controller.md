@@ -41,7 +41,7 @@ De vegyünk egy átlagos workflow-t. Mint mondtam, mi minden esetben egy view-al
 Az ebben az esetben az indexAction (hogy Zendüljünk kicsit). Tehát a kliens (bármi csak ne IE) elküldi a kérést a webszervernek. A controller látja, hogy nem adtunk át paramétert, se semmit (na jó, legyen valami session cookie, hogy mégse a login oldalt lássuk), tehát az index oldalt akarjuk látni (legalábbis szerinte, azért a routing általában ennél bonyolultabb) és meghívja a modelt, azzal, hogy "add hát ide a hírfolyam elemeit, meg úgy az alap user related (oldalak, friendlist, stb) dolgokat".
 
 ```
-<pre data-language="php"><?php
+<?php
 
 class frontController {
 // ez az osztály ami értelmezi magát a lekérdezést, URI paraméterek, sütik, hasonlók alapján és meghívja a szükséges controller szükséges metódusát, ezáltal routing feladatot végez
@@ -79,13 +79,13 @@ A controller ezután meghívj egy másik modelt, ami az üzenőfalért felelős 
 Tehát ha megvannak a szükséges információk, akkor itt az ideje megjeleníteni. Van egy nagyon szép kis template-ünk, ami legyen .phtml (php és html) fájl. Sőt, lehet több is, hiszen az oldalainkon a header és footer gyakorta állandó.
 
 ```
-<pre data-language="php">// header.phtml
+// header.phtml
 <html>
 <head><title>Index</title></head> // ide is beszúrhatunk mindenfélét, headscript-et, a címet, css-t, csupán ezeket is át kell adnunk a view-nak (és például helperek segíthetnek az odavezető URL-t összerakni, stb.)
 ```
 
 ```
-<pre data-language="php">// indexcontent.phtml
+// indexcontent.phtml
 <body>
 <?php foreach ($this->news as $post): ?> // mivel az osztályon belül include-oltuk, ezért hozzáférünk a $this scope-hoz
 // és itt már csak a saját fantáziánkon múlik, hogy a kapott objektumot hogy érjük el és hogy rendezzük a kinézetét.
@@ -93,7 +93,7 @@ Tehát ha megvannak a szükséges információk, akkor itt az ideje megjeleníte
 ```
 
 ```
-<pre data-language="php">// footer.phtml
+// footer.phtml
 // ide pedig kerülhetnek a body script-ek, vagy bármi, amit szeretnénk.
 </body></html>
 ```

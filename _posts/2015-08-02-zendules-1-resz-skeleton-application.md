@@ -40,7 +40,7 @@ Akinek nem tiszta a composer és annak működése, az elöször olvassa el ezt 
 A composernek akad egy olyan parancsa, ami komplett projektek telepítésére szolgál és nem csak a vendor könyvtárunkat piszkálja. Ez a **create-project**. Több paramétere van, a kötelező természetesen az adott package neve. Mi egy specifikus könyvtárba akarjuk mindezt telepíteni, ezért a végére még hozzáfűzzük a könyvtár nevét is:
 
 ```
-<pre data-language="shell">composer create-project zendframework/skeleton-application zend
+composer create-project zendframework/skeleton-application zend
 ```
 
 #### Github
@@ -48,13 +48,13 @@ A composernek akad egy olyan parancsa, ami komplett projektek telepítésére sz
 A githubon is megtalálható a cucc, viszont itt, jó keresztényhez híven a függőségek nincsenek fent, hiszen ezek menedzselésére a composert használjuk, így ha lehúztuk a repo tartalmát:
 
 ```
-<pre data-language="shell">git clone https://github.com/zendframework/ZendSkeletonApplication.git
+git clone https://github.com/zendframework/ZendSkeletonApplication.git
 ```
 
 Akkor utána még vár ránk egy:
 
 ```
-<pre data-language="shell">composer install
+composer install
 ```
 
 Ami telepíti a composer.json fájlból a szükséges fájlokat a vendor könyvtárunkba.
@@ -64,7 +64,7 @@ Ami telepíti a composer.json fájlból a szükséges fájlokat a vendor könyvt
 A fenti parancsok valamelyikét követően, ha benavigálunk a zend nevű könyvtárba, akkor a következő látvány fogad minket:
 
 ```
-<pre data-language="shell">/config
+/config
 /data
 /module
 /public
@@ -105,13 +105,13 @@ application.config.php
 Az application.config.php döntő szerepet játszik, mivel ha megnézzük az index.php utolsó sorát:
 
 ```
-<pre data-language="php">Zend\Mvc\Application::init(require 'config/application.config.php')->run();
+Zend\Mvc\Application::init(require 'config/application.config.php')->run();
 ```
 
 Igen, ez a php fájl, habár nem függvény, mégis rendelkezik visszatérési értékkel, amit a require be is nyel és átad az application-nek. Nézzük meg, mégis mit adtunk át (a kikommentezett részek egy részét kivágtam):
 
 ```
-<pre data-language="php"><?php
+<?php
 return array(
  // This should be an array of module namespaces used in the application.
  'modules' => array(
@@ -186,7 +186,7 @@ A view mappában vannak a template fájljaink. Ezeknek a struktúráját és elr
 Nézzünk bele ebbe a module.config.php-ba!
 
 ```
-<pre data-language="php">return array(
+return array(
    'router' => array(
      'routes' => array(
        'home' => array(
@@ -314,7 +314,7 @@ Nem csak webalkalmazásokat lehet Zendre építeni, hanem CLI alkalmazásokat is
 Akkor most nézzük azt a bizonyos Module.php-t!
 
 ```
-<pre data-language="php">namespace Application;
+namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
@@ -356,7 +356,7 @@ A **getAutoloaderConfig**-ban pedig láthatjuk, hogy a fentebb említett src kö
 Akkor nincs más hátra, ha nem szimpla templateket akarunk nézegetni, már csak egy kontrollerünk maradt a modulon belül:
 
 ```
-<pre data-language="php">namespace Application\Controller;
+namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;

@@ -44,13 +44,13 @@ A require JS egy fájl és modulbetöltő tool, ami főleg akkor lehet hasznunkr
 Mit is szedjünk le? Jöjjön először a tipikus bootstrap, aminek a függősége lesz ugye a jQuery (amit a bower már a package infókból kiindulva leszed nekünk), majd lévén erről szól a cikk, szedjük le a requirejs-t is.
 
 ```
-<pre data-language="shell">bower install bootstrap requirejs
+bower install bootstrap requirejs
 ```
 
 Bowerrc fájl hiányában a bower\_components mappában már ott is figyel a három komponensünk, amiket majd igénybe vehetünk. Tudom, hogy már mindenkinek a könyökén jön ki, de az eredeti módszert is megmutatom, mert később ahogy projektünk bővül, jól látható lesz majd mennyiben másabb a dolog így requireJS-el.
 
 ```
-<pre data-language="html"><html>
+<html>
 <head>
 <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" /><!-- bootstrap css -->
 </head>
@@ -64,7 +64,7 @@ Bowerrc fájl hiányában a bower\_components mappában már ott is figyel a há
 Na, akkor most nyissuk meg a fenti html-t egy böngészőben. Minden css és js frankón betöltődött. Mindenki mehet haza, nincs itt semmi látnivaló, jó ez így, nem? Ha valóban ennyivel meg tudjuk oldani a dolgot, akkor tényleg nem kell bonyolítanunk, de maradjunk az egyszerű példáknál, így nézzük meg ezt is requireJS-el. Ahhoz, hogy mindezt életre leheljük, be kell hívnunk a hozzá tartozó Javascript fájlt. Utána több módon lehet beröccenteni a dolgot. Mi most az ún. data-main attribute módszert fogjuk használni. Ez arról szól, hogy a body végén behúzzuk a requireJS-t és az őt behívó script tag data-main attribútumának átadjuk a fő konfigurációs fájlunk elérési útját. Ezt az benyalja, és bumm, már kész is.. már ha nem hülyeségeket írtunk bele:
 
 ```
-<pre data-language="html"><html>
+<html>
 <head>
 <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" /><!-- bootstrap css, mi alapjáraton a JS-eket húzzuk be, de később kitérek erre is -->
 </head>
@@ -77,7 +77,7 @@ Na, akkor most nyissuk meg a fenti html-t egy böngészőben. Minden css és js 
 Akkor most hozzuk létre az app/main.js-t is, egyelőre csupán ennyivel:
 
 ```
-<pre data-language="javascript">require.config({});
+require.config({});
 ```
 
 Majd frissítsük a böngészőnket és.. nem történt semmi, lévén nem monduk meg a requireJS-nek, hogy mi legyen, viszont ha megnézzük, akkor azt láthatjuk, hogy async script tag-ként megjelent a headben a fentebb említett main.js.[![its_working_star_wars](assets/uploads/2015/12/its_working_star_wars.gif)](assets/uploads/2015/12/its_working_star_wars.gif)
@@ -95,7 +95,7 @@ A shimben lehet az egyes aliasokhoz megadni a függőségeket, export változót
 Na de nézzük meg, hogy is megy ez a gyakorlatban!
 
 ```
-<pre data-language="javascript">require.config({
+require.config({
   "baseUrl": "bower_components", // megadtuk, hogy a bower_componentsben keresse a dolgainkat (persze kipróbálja prefix nélkül is)
    paths : {
     "jquery" : "jquery/dist/jquery.min", // a jquery-re létrehoztunk egy alias-t, lévén a baseUrl megvan, bower_components már nem kell elé
@@ -113,19 +113,19 @@ Na de nézzük meg, hogy is megy ez a gyakorlatban!
 Akkor most a fenti konfiggal nézzük meg mi történik. Ha semmit nem írtunk el, akkor a szokásos semmi, de ezt egy bootstrap specifikus elemmel le tudjuk tesztelni (vagy megnézzük a devtools-t, de az buzis). Adjuk hozzá a body-hoz a következőt:
 
 ```
-<pre data-language="html"><a id="teszt" class="btn btn-default">Teszt</a>
+<a id="teszt" class="btn btn-default">Teszt</a>
 ```
 
 Nos a fenti példa ugyan működik, bootstrap-like lett a gomb, de önmagában sokra még nem megyünk vele, lévén mi magunk is fogunk JS-t hákolni, így azt is be kéne húzni, nem? Hozzuk létre az app/index.js-t és ha már van jQuery, akkor írjuk át a gomb szövegét, lássuk az is működik-e:
 
 ```
-<pre data-language="javascript">$("#teszt").html("Ha ez megy akkor minden");
+$("#teszt").html("Ha ez megy akkor minden");
 ```
 
 De ahhoz, hogy ez az index.js is bekerüljön a rendszerbe, a requireJS-nek be kell húznia azt, méghozzá úgy, hogy a bootstrap és a jQuery is betöltődjön előtte, nemde? Írjuk hát át a konfigot ennek megfelelően:
 
 ```
-<pre data-language="javascript">require.config({
+require.config({
    "baseUrl": "bower_components",
     paths : {
      "jquery" : "jquery/dist/jquery.min",
@@ -153,7 +153,7 @@ Viszont valami még mindig nem kóser. Emlékeztek a gonoszra, a kopasz csúf no
 Ugye ami a globális névtérben történik, az a globális névtérben is marad<del> egészen a delete meghívásáig, de ezt most hagyjuk</del>. Ahhoz, hogy ezt elkerüljük, függvényekbe csomagoljuk mindazt, amink van. Mindezt meg tudjuk tenni a requireJS-el is, mégpedig nem is akárhogy. A függőségekből exportált modulokat különböző változóneveken át tudjuk adni a kódunknak. Erre szolgál lehetőséget a define függvény, aminek első paramétere a függőségek azonosítóiból álló tömb, a második paraméter pedig egy callback function, ami szépen sorban megkapja a modulokból exportált változókat. Nézzük akkor ezt a gyakorlatban, nyissuk meg az index.js-t:
 
 ```
-<pre data-language="javascript">define(["jquery"], // a jquery-re van itt szükségünk. Ez ne tévesszen meg senkit, ez nem egyenlő azzal, amit a konfigban megadtunk. Itt is lehet függőségeket megadni, így ha pl. a konfigban ezt nem tesszük meg, akkor ugyanúgy behívásra kerülnek az itteni alias-ok, azzal a különbséggel, hogy itt átadhatjuk őket paraméterként.
+define(["jquery"], // a jquery-re van itt szükségünk. Ez ne tévesszen meg senkit, ez nem egyenlő azzal, amit a konfigban megadtunk. Itt is lehet függőségeket megadni, így ha pl. a konfigban ezt nem tesszük meg, akkor ugyanúgy behívásra kerülnek az itteni alias-ok, azzal a különbséggel, hogy itt átadhatjuk őket paraméterként.
 function(zsekveri) { // paraméterként átadtam a jquery-t, így zsekveri-ként lehet rá hivatkozni
  zsekveri("#teszt").html("Működik a zsékveri!");
 });
@@ -168,7 +168,7 @@ Azonban ez még mindig semmiség, hiszen melyik az az oldal, ahol mindent egy js
 Szedjük le hozzá a C3-at és a CKEditort.
 
 ```
-<pre data-language="shell">bower install c3 ckeditor
+bower install c3 ckeditor
 ```
 
 Hozzunk létre az app könyvtárban három új fájlt. Az egyik a common.js legyen, ez lesz az adminfelület egészére érvényes javascript. Legyen egy blog.js, ahol a blogbejegyzéseket tudjuk majd szerkeszteni. Ehhez kell majd a CKEditor is, majd legyen egy message.js, ami a rendszerüzenetekért felelős aloldalunkhoz tartozik. A C3 pedig az index.js-hez tartozik majd, hisz a dashboard lesz tele shiny diagramokkal, nemde?
@@ -191,7 +191,7 @@ bower_components/
 Ha ezzel megvónánk' akkor jöhet az a bizonyos konfig fájl:
 
 ```
-<pre data-language="javascript">require.config({
+require.config({
       "baseUrl": "bower_components",
       paths : {
         "jquery" : "jquery/dist/jquery.min",
@@ -224,7 +224,7 @@ Ha ezzel megvónánk' akkor jöhet az a bizonyos konfig fájl:
 Ahhoz, hogy mindezt működésre bírjuk, elég lesz a backendről egy változót generáljunk a head-be script tag-ek közé, hogy azt a konfignak át tudjuk adni. Viszont lévén most HTML-el van dolgunk, simán írjuk be azt:
 
 ```
-<pre data-language="html"><script>
+<script>
 /* <![CDATA[ */
 var app = "blog";
 /*]]> */
@@ -234,7 +234,7 @@ var app = "blog";
 Ha mindent jól csináltunk, akkor most lefrissítve az oldalt a gomb felirata az lesz, amit a blog.js-ben megadtunk és a script-ek közt megtaláljuk a CKEditort. Ha átírjuk a fenti változó tartalmát pl. index-re, akkor annak függvényében változnak a dolgok. Elértük, hogy egy fájlban vannak menedzselve az egyes függőségek és nem okádtuk tele a view fájlokat, meg backendből generáltuk és hasonlók. Viszont a kérdés a CSS-ek terén továbbra is fennáll. Az egyes könyvtárspecifikus CSS-eket hogy tudjuk behúzni? Mivel ez aszinkron történik, ezért itt nem árt egy preloadert elhelyezni, mert idő, mire elér oda, hogy CSS-t is behúzzon. Erre pedig a következő JS függvény lesz alkalmas, mivel sajna a requireJS nevéből adódóan <del>és böngészőkompatibilitási okokból</del> a CSS-eket nem húzza be helyettünk:
 
 ```
-<pre data-language="javascript">function loadCss(url) {
+function loadCss(url) {
  var link = document.createElement("link");
  link.type = "text/css";
  link.rel = "stylesheet";

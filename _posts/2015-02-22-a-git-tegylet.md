@@ -89,7 +89,7 @@ Vegyünk egy példát. Töltsük le a [git](http://git-scm.com/downloads)-et, te
 A példák a sokak által nem kedvelt terminálon keresztül mennek majd, de sok IDE rendelkezik pluginnel hozzá, így nem olyan macerás a munka vele, de erre majd kitérek később. Először is keressünk egy a projektünknek megfelelő könyvtárat, ahol pötyögjük be:
 
 ```
-<pre data-language="shell">git init /path/to/project/
+git init /path/to/project/
 ```
 
 Ezzel inicializáltunk is egy lokális repository-t a gépünkön a megadott elérési úton. Ha ezután belenézünk a mappánkba, akkor láthatjuk is, hogy egy rejtett .git mappa létrehozásra is került.
@@ -103,7 +103,7 @@ Ez a repository még eléggé üres, hozzunk létre egy fájlt. Lépjünk bele a
 A következő parancs, amit meg kell ismerni az a `git commit`. Ezzel tudjuk a módosításokat jóváhagyni, írjuk is be a terminálba, projektünk gyökerében:
 
 ```
-<pre data-language="php">git commit -m "valamilyen hozzáfűzött leírás, szöveg. Enélkül nem enged commitolni"
+git commit -m "valamilyen hozzáfűzött leírás, szöveg. Enélkül nem enged commitolni"
 ```
 
 Hoppá, valami nem kóser. Azt írta a rendszer, hogy nothing to commit. Ahhoz, hogy miért van ez, mutatnék egy ábrát, hogy megértsük hogy a projektünk fájljainak mi is a három fázisa.
@@ -115,7 +115,7 @@ A .git könyvtár maga a repository, itt tárolódik minden információ, nem é
 Amikor a projektünkben egy fájlt módosítunk, akkor az szimplán módosítva van, de a git még nem figyeli azt a fájlt, ekkor még a working directory-ban van, mint **modified**. Ahhoz, hogy figyelje, hozzá kell azt adjuk az index-hez (**staging area**), így amikor a commit parancsot végrehajtjuk, akkor az indexből lássa, hogy igen, ezt a fájlt is követni kell, nem csak egy Asztal Parancsikonja.lnk, ami véletlenül be lett húzva. Ehhez a parancs a `git add.<br></br>`
 
 ```
-<pre data-language="shell"># ezzel hozzáadjuk a projektünkben szereplő összes fájlt az indexhez, de lehet egyesével is, lsd. dokumentáció
+# ezzel hozzáadjuk a projektünkben szereplő összes fájlt az indexhez, de lehet egyesével is, lsd. dokumentáció
 git add -A
 ```
 
@@ -134,7 +134,7 @@ A checkout kibányássza a working directory-ba (vagy a paraméterekben megadott
 Ahhoz, hogy ezt lekérjük, a git log parancsát fogjuk igénybe venni, a következő módon:
 
 ```
-<pre class="instructions" data-language="shell">git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
+git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
 ```
 
 Így egy szép formátumban kiíratjuk a képernyőre az összes eddigi commitunkat és a hozzá tartozó hash-t (ez lesz a legelső karakterlánc). Emlékszünk, hogy kötelező volt üzenetet hozzátársítani? Így ha több revízióval lépünk vissza, akkor a hozzá kapcsolt üzenetből tudjuk azt beazonosítani és nem a hash-re kell emlékeznünk. Így már mindjárt egyszerűbb lesz, nemde?
@@ -148,7 +148,7 @@ Az eddigi módosítások a helyi, azaz local repository-n zajlottak, még intern
 Tegyük fel, hogy elkezdtünk melózni egy helyen (vagy github-on beszállunk valami projektbe), a legelső amit meg kell tennünk az az, hogy <del>sshfs-en belebarbárkodunk a development szerver kódjába</del> lemásoljuk a repository tartalmát a saját gépünkre. Erre a mi parancsunk a `git clone` lesz. A git több protokollt támogat, amin keresztül kommunikálhatunk, mi most egy szimpla ssh-t fogunk használni.
 
 ```
-<pre data-language="shell">git clone ssh://username@hostname/path/to/repository /path/to/local/working/dir
+git clone ssh://username@hostname/path/to/repository /path/to/local/working/dir
 ```
 
 Ezzel a paranccsal az adott repository-t lemásoljuk a saját gépünkre. Az adott könyvtárban ott lesz a .git (a konkrét repository) könyvtár, valamint a legújabb revízió fájljai checkout-olva (kivéve, ha paraméterekben ezt kikötjük).
@@ -158,7 +158,7 @@ Ezzel a paranccsal az adott repository-t lemásoljuk a saját gépünkre. Az ado
 Helyileg tudunk commitolgatni, azonban ez egyelőre csak a mi repository-nkban érvényes. Ahhoz, hogy ezt felvigyük az adott szerverre, az ún. push-ra lesz szükségünk.
 
 ```
-<pre data-language="shell">git push ssh://username@hostname/path/to/repository
+git push ssh://username@hostname/path/to/repository
 ```
 
 Ezzel a paranccsal feltoljuk az általunk commitolt revíziókat a távoli szerverre és ha nincs ütközés, akkor azt bizony engedni is fogja (kivéve ha force update-et használunk, de erről később).

@@ -150,7 +150,7 @@ Egy egyszerű, kezdetben szép metódus egyre jobban elkezd hízni, mert innen-o
 Mikor legközelebb rápillantunk, akkor a metódusunk valahogy így néz ki:
 
 ```
-<pre data-language="php">public function authGoogle(Request $request) {
+public function authGoogle(Request $request) {
     $client = new \Google_Client();
 
     $client->setClientId(env('OAUTH2_CLIENT_ID'));
@@ -188,7 +188,7 @@ Mikor legközelebb rápillantunk, akkor a metódusunk valahogy így néz ki:
 Nem valami szép, ugye? Na most erre már ránézve is el kell gondolkozni, hogy vajon mit is csinál, nemde? Ez amúgy egy webes felületet biztosít arra, hogy a háttérben jobként zajló youtube feltöltésekhez ne kézzel kelljen valahol felvenni a tokent, hanem azt valahol a cache-ben letárolja. Több sebből is vérzik, mert nem controllerben kellene mindezt, de egyelőre csak a hosszúsággal foglalkozzunk. Az első módszer, amit itt alkalmazunk az ún. extract method lesz. A $client inicializálása semmit se használ a kapott paraméterekből, szóval egy metódusból nyerjük azt ki.
 
 ```
-<pre data-language="php">/**
+/**
  * Returns a preconfigured google client with youtube upload scope, and '{host}/api/auth-google' redirect url already set.
  * @return \Google_Client
  */
@@ -209,7 +209,7 @@ private function getGoogleClient()
 Ezután jöjjön a másik nagyobb falat. Ha az authorizációs kódot megtaláljuk a request paraméterei közt, tehát redirect volt, akkor annak segítségével kinyerjük a refreshtokent és access tokent, majd tároljuk őket cacheben. Ezután visszaadunk egy sima plaintext response-t.
 
 ```
-<pre data-language="php">/**
+/**
  * Authenticate and refreshes the cache with the newly aquired tokens
  * 
  * @param $client
@@ -229,7 +229,7 @@ private function refreshCachedTokenByAuthCode($client)
 Ezután már némileg javult a helyzet az actionüknben, bár még mindig hagy némi kívánnivalót maga után:
 
 ```
-<pre data-language="php">public function authGoogle(Request $request) {
+public function authGoogle(Request $request) {
     $client = $this->getGoogleClient();
     if (Cache::has("token")) {
         $client->setAccessToken(Cache::get("token"));
@@ -252,7 +252,7 @@ Ezután már némileg javult a helyzet az actionüknben, bár még mindig hagy n
 Na és a refaktorálás itt fog véget érni, mert a további módosításokhoz a működést kell megváltoztatni. Fel kell ismét venni a gányerkipát. Ha megfigyelitek több hiba is van a dologban. Az egyik, hogy a középen rejlő else ág habár frissíti a tokent és el is tárolja azt, mégis megjeleníti az auth felületet, pedig a frissítés után ugyanúgy ki kéne írnia azt (ami igazából csak debug purpose), mert felesleges újra belépni. Tehát ezt az egész if ágat ki kéne egyenesíteni:
 
 ```
-<pre data-language="php">if (Cache::has("token") && Cache::has("refresh_token")) {
+if (Cache::has("token") && Cache::has("refresh_token")) {
     $client->setAccessToken(Cache::get("token"));
     $state = "még él";
     if ($client->isAccessTokenExpired()) {
@@ -271,7 +271,7 @@ Na és a refaktorálás itt fog véget érni, mert a további módosításokhoz 
 Ezek után ezt az egészet ki lehet mozgatni egy másik metódusba:
 
 ```
-<pre data-language="php">/**
+/**
  * If both token set in the session, we check for the expiry of the access token
  * if expired, use the refresh token to refresh it. Then provide a simple response in order to inform the user.
  * @param $client
@@ -297,7 +297,7 @@ private function mayRefreshAccessTokenByRefreshToken($client)
 Ha ezzel is megvagyunk, akkor az eredeti metódusunk így fest:
 
 ```
-<pre data-language="php">/**
+/**
  * Gets google client. If both tokens are set then 
  * provides a response about them, and refresh the access token if needed
  * If no token provided, but auth code is given, fetch the token by it. 
@@ -325,7 +325,7 @@ Azért némileg egyszerűbb ezek után felfogni, hogy mi is a célja, nemde? Né
 Amikor három, vagy annál több paraméterrel hívunk meg egy metódust, akkor ott van rá egy reális esély, hogy bizony sz\*r van a palacsintában. Ezt orvosolni kell és az alábbi egy elég jó példája lesz annak, hogy is néz ki egy ilyen. Szolid hat paraméterünk van, amiket felhasználunk egy e-mail kiküldésére. Konfigurációban van egy tömbünk, amivel kurzushoz tartozó kulcs alapján kiszedjük a hozzá tartozó nevet.. (miért konfigból? miért nem adatbázisban tároljuk az ilyesmit?). Példányosítunk egy viewmodelt, feltöltjük változókkal kikérjük a belőle nyert HTML-t, majd azzal szimplán küldünk egy e-mailt a névre és címre:
 
 ```
-<pre data-language="php">public function sendCourseNotification($name, $phone, $date, $email, $course, $price) {
+public function sendCourseNotification($name, $phone, $date, $email, $course, $price) {
     $courses = Config::getInstance()->get("courses");
     $course = array_keys($courses, $course)[0];
     $template = ViewModel::get()
@@ -348,7 +348,7 @@ Na most így elsőre csúnya a dolog, mert a viewmodelbe töltjük fel változó
 De nézzük először a legegyszerűbbet, ha magát a ViewModelt adjuk át. Ezen, hogy némi logikát is hagyjunk már ebben a metódusban, hiszen ez lenne a dolga, beállítjuk a template-et, majd kikérjük a generált markupot és ezzel küldjük el az e-mailt:
 
 ```
-<pre data-language="php">/**
+/**
  * Sends a course application notification to the given user/email pre-filled
  * with the variables in the viewmodel using the course/app template.
  * @param string $name

@@ -107,7 +107,7 @@ Ha nem akarjuk mindig felpattintani az SQL-t vagy akármilyen db-t használunk, 
 A kliens megkapja a választ, feldolgozza azt és egy újabb lekérést intéz a szerver felé (Pl a JQuery féle $.ajax() complete fieldjében elhelyezve, így mindig megvárja, hogy az előző kapcsolat lezáruljon, és csak utána indít egy újat). Persze itt most nem térek ki arra, hogy a kliens/szerver hogy szinkronizálja össze az üzeneteket, és hasonlókra, a lényeg, hogy a kapcsolat hosszú időn át nyitva marad, mert válasz nem érkezik.
 
 ```
-<pre data-language="javascript">function requestStuffFromDaServer() {
+function requestStuffFromDaServer() {
 $.ajax({
         type: "POST",
         url: host.url,
@@ -125,7 +125,7 @@ $.ajax({
 Ez volna a javascript oldala nagyon leegyszerűsítve. Jöjjön a PHP oldala:
 
 ```
-<pre data-language="php">class ApiController extends SomeController {
+class ApiController extends SomeController {
 
         public function __construct() {
               if (!$this->getRequest()->isPost()) // elkérjük a lekérésből generált Request objektumot és vizsgáljuk meg, hogy a lekérés POST request-e. Ez nem csak annyiból áll, hogy a $_POST tömböt vizsgáljuk, hanem megnézzük, hogy van-e benne a már korábban említett csrf_token és az valid-e, ha nem, akkor töröljük a $_POST tömböt és az isPost false-al térjen vissza.

@@ -160,7 +160,7 @@ Az implicit grant type azért fontos, mert lévén frontenden vagyunk, nem tudju
 A kérés így néz ki ebben az esetben:
 
 ```
-<pre class=" language-http">```http
+```http
 <span class="token keyword">curl -X GET "http:</span>//apigility.localhost.hu/oauth/authorize?response_type=token&client_id=testclient&redirect_uri=http://apigility.localhost.hu/oauth/receivecode&state=xyz"
 
 ```

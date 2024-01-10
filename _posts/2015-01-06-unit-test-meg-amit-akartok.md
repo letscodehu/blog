@@ -86,7 +86,7 @@ Unit testing esetében a unit ( magyarul egység) az a legkisebb darabja a progr
 A programozási nyelvek többségében szerepel egy assert névvel (vagy éppen funkcióval) bíró függvény.
 
 ```
-<pre data-language="php">assert(TRUE);
+assert(TRUE);
 assert(1==1);
 ```
 
@@ -95,7 +95,7 @@ Ezt leginkább egy `if - else` elágazáshoz lehetne hasonlítani, azzal az elt�
 Unit tesztelés során a különböző egységeket ilyen módon vizsgáljuk, az egyes nyelvekre specifikus unit testing framework-ök segítségével (persze mi is összeügyeskedhetünk valami egyszerűbbet ). Php esetében ilyen lehet például a [PHPUnit](https://phpunit.de/), Javascript esetében pedig a [QUnit](http://qunitjs.com/). Ezeknek az installálásra nem térnék ki részletesebben, elég jól leírják a honlapjukon, inkább nézzünk egy tesztelni kívánt osztályt/metódust és egy arra írt tesztet.
 
 ```
-<pre data-language="php"> <?php
+ <?php
 
 class ClassToBeTested {
      
@@ -108,7 +108,7 @@ class ClassToBeTested {
 Rémegyszerű a képlet, van egy osztályunk, azon belül van egy publikus metódusunk, ami nem vár paramétert és 42-t ad vissza. Nézzünk rá egy tesztet:
 
 ```
-<pre data-language="php"><?php
+<?php
 
 use PHPUnit_Framework_TestCase as TestCase; // a PHPUnit tesztesetét használjuk fel
 

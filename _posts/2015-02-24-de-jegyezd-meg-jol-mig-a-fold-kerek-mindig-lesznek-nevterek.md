@@ -84,7 +84,7 @@ Amikor valaki nem használ névtereket, akkor is használja őket, illetve csak 
 Deklaráljunk hát egy névteret!
 
 ```
-<pre data-language="php"><?php
+<?php
 namespace System;
 class MeinClass {
 }
@@ -93,7 +93,7 @@ class MeinClass {
 Fontos megjegyezni, hogy névtereket mindig a fájl elején deklaráljunk, különben nyávogni fog a parser. Ez a névtér az egész fájlra érvényes lesz, ha egy fájlon belül több névtért szeretnénk deklarálni, akkor kapcsos zárójeleket használjunk a következő módon:
 
 ```
-<pre data-language="php">namespace System {
+namespace System {
 class MeinClass {}
 }
 namespace AnotherNamespace {}
@@ -121,7 +121,7 @@ use System\MeinClass as Mc; // az előbbi System névtérben található MeinCla
 Ha egy egyszerű autoloadert összedobunk a projektünk gyökerében (ami ugye egy index.php-t tartalmazó public folder felett van egy szinttel, ugye?) és az nemes egyszerűséggel így néz ki:
 
 ```
-<pre data-language="php"><?php
+<?php
 define('DS', DIRECTORY_SEPARATOR); oprendszere vállógatja
 define('APP_ROOT', __DIR__. DS); // definiáltuk a gyökérkönyvtárat
 

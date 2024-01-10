@@ -70,7 +70,7 @@ tags:
 Az objektumorientáltság a PHP nyelvben is magával hordozta azt a tényt, hogy webalkalmazásaink egyre nagyobbra nőnek, és ahogy több és több könyvtárat használunk programunkhoz, az
 
 ```
-<pre data-language="php">require(), include()
+require(), include()
 ```
 
 blokkok is gyarapodnak.
@@ -82,7 +82,7 @@ a PHP nyelvben az 5.0-ás verzió hozta magával az \_\_autoload() mágikus füg
 Ezzel a függvénnyel és a beleprogramozott logikával könnyebbé tudtuk tenni az életünket, de persze csak egy bizonyos fokig. A függvény akkor hívódik meg, mikor futásidőben olyan osztályt, interfészt használtunk fel, amit előzőleg nem deklaráltunk. Ez egyfajta utolsó esély volt, hogy ne szálljon el hibával a program.
 
 ```
-<pre data-language="php">function __autoload($className) {
+function __autoload($className) {
       $className = $className . ".php";
       if (file_readable($className) {
          include($className);
@@ -103,7 +103,7 @@ spl_autoload(), spl_autoload_register()
 függvények. Ez utóbbival lehetőségünk nyílt arra, hogy több, különböző autoloader függvényt regisztráljunk, melyeket azok regisztrációjának sorrendjében (paraméterekkel lehet változtatni) hív meg a program. A szintaxisa roppant egyszerű:
 
 ```
-<pre data-language="php">spl_autoload_register("autoloadController"); // először az autoloadController nevű függvényt hívja meg 
+spl_autoload_register("autoloadController"); // először az autoloadController nevű függvényt hívja meg 
 spl_autoload_register("autoloadModel"); // utána pedig az autoloadModel nevűt
 ```
 
@@ -127,7 +127,7 @@ Alább álljanak a PSR-0 feltételei:
 Mit is jelent mindez? Azt, hogyha a jövőben a saját kis könyvtárunkon dolgozunk, akkor érdemes figyelembe venni a fent leírtakat, írni rá egy autoloadert, amit aztán a komolyabb framework-ökbe való implementálás esetén el is lehet hagyni, hisz azoknak ez már részét képezi. Ezzel megkönnyíthetjük a saját dolgunkat, hiszen elkerülhetetlen, hogy ne dolgozzunk Zend/Symfony vagy a többi nagy keretrendszer valamelyikével a jövőben és ott már csak bemásoljuk a megfelelő fájlokat a könyvtárstruktúrából, az adott fájlok elejére írjuk a
 
 ```
-<pre data-language="php">use SajatKonyvtar\SajatCsomag\SajatOsztaly;
+use SajatKonyvtar\SajatCsomag\SajatOsztaly;
 ```
 
 sorokat és máris kész vagyunk, mert a PSR-0 szabványt követő autoload megoldja a többit helyettünk.

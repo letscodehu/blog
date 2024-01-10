@@ -80,7 +80,7 @@ Akkor nézzünk erre egy jó példát és aztán nézzünk egy olyat, ami autent
 Egy roppant egyszerű és nehezen elrontható példa a Command pattern lesz:
 
 ```
-<pre data-language="php">interface SolrCommand {
+interface SolrCommand {
 
     public void execute(SolrConnection $connection);
 }
@@ -89,7 +89,7 @@ Egy roppant egyszerű és nehezen elrontható példa a Command pattern lesz:
 Az implementációja pedig:
 
 ```
-<pre data-language="php">class PingCommand {
+class PingCommand {
 
     public void execute(SolrConnection $connection) {
          return $connection->get("/admin/ping");
@@ -102,7 +102,7 @@ Ez egy elég gyenge példa, mert egy interfész esetében nem nehéz úgy megír
 De akkor nézzük hogy is lehet olyat írni, amire a fentiek nem igazak:
 
 ```
-<pre data-language="php">final class WontExtend {
+final class WontExtend {
      
 }
 ```
@@ -110,7 +110,7 @@ De akkor nézzük hogy is lehet olyat írni, amire a fentiek nem igazak:
 Na jó, ez kb. csalásnak is betudható, hiszen, ha szándékosan finalként deklarálunk egy osztályt, azt valószínűleg okkal tettük, hogy senki ne is bővítse azt. Persze még itt is van lehetőség egy decoratorral bővíteni mindezt. Ugyanez igaz akkor, ha az osztályunkban kulcsfontosságú metódusok finalnek vannak deklarálva.
 
 ```
-<pre data-language="php">class Shape { // miért nem interfész? bár maximum marker interfész lehetne
+class Shape { // miért nem interfész? bár maximum marker interfész lehetne
     const CIRCLE = 1;
     const RECTANGLE = 2;
 }
@@ -146,7 +146,7 @@ Ahhoz, hogy az illető használni tudja a fenti osztályt, vagy le kell extendel
 A fenti probléma miatt találták ki a [strategy pattern]({{ site.url }}/2015/09/03/strategy-pattern-az-objektumok-lazadasa/)-t, hogy a megvalósítás logikáját kiemeljük innen és új és új osztályok létrehozásával, az eredeti osztályt érintetlenül hagyva tudjuk bővíteni azt. Ebben az esetben a shapedrawer valahogy így nézne ki:
 
 ```
-<pre data-language="php">interface ShapeDrawingStrategy {
+interface ShapeDrawingStrategy {
        public void draw(Shape $shape);
 }
 
@@ -175,7 +175,7 @@ class ShapeDrawer {
 Persze van aki már egyből a Shape interfészben helyezné el a draw metódust, ez igazából csak annak kérdése, hogy a Shape implementációink mi célt szolgálnak? Ha simán value object-ek, akkor nem illik oda a lerajzolásuk logikája. Ha a céljuk simán a kirajzolás, akkor azzal is meg lehet oldani és akkor egy
 
 ```
-<pre data-language="php">$shape->draw();
+$shape->draw();
 ```
 
 hívással váltjuk ki a fentit.

@@ -81,7 +81,7 @@ A CSRF támadások azt használja ki, hogy az adott oldal megbízik a felhaszná
 A CSRF támadások általában fórumokról indulnak, ahol az egyes hozzászólások szövegét az XSS-nél említett htmlentities-el már hatástalanították, így javascript kódot nem tudnak posztolni, ellenben képet igen. A képek src attributumában el lehet helyezni ártalmas kódot, a következőképpen:
 
 ```
-<pre data-language="html"><img src="http://letscode.hu/wp-admin/post.php?post=243&action=delete" />
+<img src="http://letscode.hu/wp-admin/post.php?post=243&action=delete" />
 ```
 
 Ugye mikor a böngészőnk ezt meglátja, akkor azt feltételezi, hogy az src-ben szereplő lekérés egy képet fog majd visszaadni, így küld egy lekérést oda is.
@@ -125,7 +125,7 @@ A probléma abban rejlik, hogy a php által generált és sütik közt elhelyeze
 Generálunk valami cifra session ID-t, mégpedig úgy, hogy hasheljük a felhasználónk IP-jét, User Agent-jét, a timestampet és esetleg megsózzuk\*.
 
 ```
-<pre data-language="php">define('SESSION_SALT', 'EzIttenASó12%+!#');
+define('SESSION_SALT', 'EzIttenASó12%+!#');
 $quiteSaferSessionId = sha2($_SERVER['USER_AGENT'].$_SERVER['REMOTE_ADDR'].time().SESSION_SALT);
 ```
 

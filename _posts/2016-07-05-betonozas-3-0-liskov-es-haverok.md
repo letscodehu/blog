@@ -48,7 +48,7 @@ A liskov féle elv kimondja, hogy a leörökített osztályainkat behelyettesít
 Sajnos nem minden esetben, főleg ha az objektumstruktúránkat rosszul terveztük meg. Nézzünk egy jóféle violationt a témában, amikor azt hinnénk, hogy az adott objektumhierarchia, lévén az életből átemelt, fasza lesz, de a végén rájövünk, hogy mégsem.
 
 ```
-<pre data-language="php">class Rectangle {
+class Rectangle {
     protected $width, $height;
 
     public function setWidth($width) {
@@ -68,7 +68,7 @@ Sajnos nem minden esetben, főleg ha az objektumstruktúránkat rosszul tervezt�
 Tipikus példa erre, téglalap. Ugye ha emlékszünk a geometria órákra, akkor tudjuk, hogy a négyzet, az egy speciális téglalap lesz, aminek ugye mindkét oldala egyenlő. Ha ebből indulunk ki, hogy a négyzet, **az egy** téglalap, akkor jön egyből, hogy az lesz az ősosztályunk.
 
 ```
-<pre data-language="php">class Square extends Rectangle {
+class Square extends Rectangle {
     public function setWidth($width) {
           $this->width = $width;
           $this->height = $width;
@@ -83,7 +83,7 @@ Tipikus példa erre, téglalap. Ugye ha emlékszünk a geometria órákra, akkor
 Ez itt logikusnak tűnik, ugye? Ha a négyzeten beállítjuk a magasságot, vagy a szélességet, az magával vonzza a másik attribútum beállítását is. Tök jó, azonban van egy kis gond. Írjunk egy tesztet a Rectangle-re:
 
 ```
-<pre data-language="php">class RectangleTest extends TestCase {
+class RectangleTest extends TestCase {
    
    /** @test */
    public function it_returns_the_area() {
@@ -100,7 +100,7 @@ A tesztünk pofonegyszerű, példányosítjuk az osztályt, beállítjuk a magas
 A gond az, hogy a Square úgy módosítja a Rectangle működését, hogy az visszafelé nem lesz kompatibilis, lévén a setHeight a width értékét is felülcsapja. Persze ha tudjuk, hogy ott egy square jön, akkor a kliens igazodhat hozzá, de ezt miért is tudnánk, lévén nem mi fogjuk azt példányosítani, hanem a DI. Nézzük az alábbi példakódot a kliensünknek:
 
 ```
-<pre data-language="php">public function doStgWithRectangles(Rectangle $rekt) {
+public function doStgWithRectangles(Rectangle $rekt) {
    $rekt->setWidth(5);
    ...
 }

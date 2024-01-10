@@ -74,7 +74,7 @@ Most, hogy megvan az angularos appunk alapja, nem ártana, hogy építsünk is v
 Lévén nem barbárok, hanem szoftverfejlesztők vagyunk, első lépésként megtervezzük az alkalmazásunkat... ha máshol nem is, de legalább fejben. Először is emlékezzünk vissza, hogy milyen építőelemeink is voltak? Modulok, valamint a kisebb komponensek. Használjuk az előző [cikkben]({{ site.url }}/2016/10/10/angular-2-typescript-modra/) létrehozott template-et, kiürített app mapppával. Mivel egy idő után zavaró lehet a sok .ts/.js/.js.map fájl, ezért szedjük ki a TypeScript fájljainkat a lefordított tartalomból és hozzunk létre egy src mappát. A másik lépés az lesz, hogy megmondjuk a TypeScript fordítónak, hogy bizony az app mappába fordítsa a dolgokat:
 
 ```
-<pre data-language="javascript">{
+{
  "compilerOptions": {
    ...
  "outDir": "app",
@@ -94,7 +94,7 @@ Mivel az app mappába fordulnak a dolgaink, ezért a systemJS konfigjához nem k
 Mit is jelenít meg egy blog? Bejegyzéseket, tehát a komponens, amit létrehozunk legyen pl. `post-list.component.ts`:
 
 ```
-<pre data-language="javascript">import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
  selector: 'post-list',
@@ -109,7 +109,7 @@ Most nem egy beégetett templatet használunk, hanem külön template fájlokat,
 Ahhoz, hogy legyen mivel feltölteni, azonban adatok szükségesek, ami adatoknak jelen esetben biza típusa is lesz. Ez a típus legyen most a Post, amit az` app/domain/post.ts` fájlba helyezzünk:
 
 ```
-<pre data-language="javascript">export class Post {
+export class Post {
  post_title : string;
  post_content : string;
 }
@@ -118,7 +118,7 @@ Ahhoz, hogy legyen mivel feltölteni, azonban adatok szükségesek, ami adatokna
 Most, hogy ez megvan, importáljuk is be a komponensünk elején, valamint vegyük fel mint privát változót, kívülről nem akarjuk ugye piszkálni:
 
 ```
-<pre data-language="javascript">import { Post } from '../domain/post';
+import { Post } from '../domain/post';
 
 export class PostListComponent {
     private posts: Post[]; // ez egy Post-okból álló tömb lesz, ami jelenleg még üres
@@ -128,7 +128,7 @@ export class PostListComponent {
 Emlékszünk hogy is csináltuk ezt még Angular 1 alatt? Bizony, a szervízbe injektáltunk egy http komponenst, ami szervízt pedig a kontrollerbe injektáltunk be. Itt nincs kontrollerünk, helyette van egy komponensünk. Na de nem visszafele haladunk, először kell a service, ami képes http segítségével lekérni a dolgokat, pl. `post.service.ts`:
 
 ```
-<pre data-language="javascript">import { Http } from '@angular/http'; // kikérjük a Http kliens a Http modulból
+import { Http } from '@angular/http'; // kikérjük a Http kliens a Http modulból
 import { Injectable } from '@angular/core'; // az Injectable annotációra szükségünk lesz, hogy be tudjuk injektálni a service-ünket
 import { Post } from '../domain/post'; // a Post-ra szükségünk lesz a típus miatt
 import 'rxjs/add/operator/toPromise'; // az rxjs-re azért lesz szükségünk, hogy Promise-á tudjuk alakítani az Observable-t amit az angular visszaadna
@@ -167,7 +167,7 @@ Egyelőre egy metódusunk lesz, amivel az összes Postot szeretnénk lekérni. E
 A következő lépés az lesz, hogy ezt a kapott értéket valahogy átadjuk a komponensünknek a` post-list.component.ts`-ben:
 
 ```
-<pre data-language="javascript">import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {PostService} from '../services/post.service'; // a service-t behúzzuk
 import {Post} from '../domain/post'; // behúzzuk a Post-unkat
 
@@ -195,7 +195,7 @@ A konstruktorban való munka nem szép, de majd találunk rá jobb módszert, ho
 Nézzük most a template-ünket! Nem fogunk egyelőre semmi fancy-t csinálni, csak működésre akarjuk bírni, ugye?
 
 ```
-<pre data-language="html"><div class="container">
+<div class="container">
  <div class="post-preview" *ngFor="let post of posts">
  <h3 class="post-title">{{post.post_title}}</h3>
  </div>
@@ -207,7 +207,7 @@ Egyelőre csak a címeket jelenítjük meg, hogy lássuk működik-e. Ha igen, a
 Na akkor most jön még egy elem, ami változik az [előző cikk]({{ site.url }}/2016/10/10/angular-2-typescript-modra/) óta, az` app.module.ts`. Ne feledjük, már átkerült az `app/modules` mappába:
 
 ```
-<pre data-language="javascript">import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PostListComponent } from '../components/post-list.component';
 import {HttpModule} from '@angular/http';
@@ -225,7 +225,7 @@ A változás annyi, hogy behúzzuk a szükséges HttpModule-t valamint importál
 Az `app/main.ts `annyiban változik, hogy máshol található a modulunk:
 
 ```
-<pre data-language="javascript">import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './modules/app.module';
 const platform = platformBrowserDynamic();
 platform.bootstrapModule(AppModule);
@@ -236,7 +236,7 @@ Na már csak pár apró lépés!
 Először is a `posts.json` tartalmát fel kellene töltenünk, nemde?
 
 ```
-<pre data-language="javascript">{
+{
  "data": [
  {
  "post_title": "That is a title",
@@ -253,7 +253,7 @@ Először is a `posts.json` tartalmát fel kellene töltenünk, nemde?
 Ezen felül még az `index.html`-be kell belenyúlni, hiszen már nem a `my-app` selectorra akasztjuk rá a komponensünket, hanem a `post-list`-re:
 
 ```
-<pre data-language="html"> <body>
+ <body>
  <post-list>Loading...</post-list>
  </body>
 ```
@@ -269,19 +269,19 @@ Az első lépés az lesz, hogy lévén lusta vagyok és a <del>design érzékem 
 Akkor kezdjünk is neki:
 
 ```
-<pre data-language="shell">npm install bootstrap
+npm install bootstrap
 ```
 
 Ha ez megvolt, akkor az index.html tetejébe biggyesszük be:
 
 ```
-<pre data-language="html"><link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 ```
 
 Ha ez megvolt, akkor nézzük a `post-list.html`-t:
 
 ```
-<pre data-language="html"><div class="container">
+<div class="container">
  <div class="post-preview" *ngFor="let post of posts">
  <h3 class="post-title">{{post.post_title}}</h3>
  <p class="post-excerpt">{{post.post_content}}</p> <!-- felvettünk egy plusz elemet a sorba, a kontent ide kerül majd -->
@@ -296,7 +296,7 @@ Ezután, ha frissül az oldal, akkor a következő látvány fogad bennünket:
 Ójaj, nagy a baj! Mivel a CMS-ek nem sima szöveget tárolnak el, hanem markupot, ezért amikor azt megjelenítjük, az Angular kérdés nélkül kiescapeli azt. Ez nekünk nem a megfelelő működés, ezért egy gonosz hackhez folyamodunk:
 
 ```
-<pre data-language="html">  <div class="post-excerpt" [innerHTML]="post.post_content"></div>
+  <div class="post-excerpt" [innerHTML]="post.post_content"></div>
 ```
 
 A kapcsos zárójelek közötti elemekkel az adott elem attribútumára tudunk ráhatni, így itt a paragraph innerHTML-jét tudjuk beállítani. Az eredmény magáért beszél:
@@ -310,7 +310,7 @@ WordPress adatbázisra fogunk Apigility segítségével egy REST API-t ültetni,
 A WordPress egy `\<!--more--> `tag-et helyez el és e mentén tudjuk darabolni az előnézet és annak további részét. Tehát kell csinálnunk valamiféle filtert, ami e mentén elhasítja a dolgot. Pontosabban ehhez nem filterre, hanem ún. Pipe-ra lesz szükségünk, hiszen már Angular 2-ről van szó. Hozzunk létre tehát egy `app/pipes/preview.ts`-t:
 
 ```
-<pre data-language="javascript">import {Pipe, PipeTransform} from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'preview'
@@ -331,7 +331,7 @@ Először is behúzzuk a `Pipe` annotációt, amivel megjelöljük, hogy ez biza
 Ahhoz, hogy ez működjön, a modulban fel kell vegyük, mint declarations eleme:
 
 ```
-<pre data-language="javascript">import {HttpModule} from '@angular/http';
+import {HttpModule} from '@angular/http';
 import {PreviewPipe} from '../pipes/preview';
 
 
@@ -346,13 +346,13 @@ export class AppModule { }
 A templateben is kell némi módosítást megejtenünk:
 
 ```
-<pre data-language="html">    <div class="post-excerpt" [innerHTML]="post.post_content | preview"></div>
+    <div class="post-excerpt" [innerHTML]="post.post_content | preview"></div>
 ```
 
 A szintax hasonló, mint angular 1-ben volt, a '|' után jön az adott pipe neve és mindez működik a \[\] szintaxissal is. A `posts.json` tartalmát szerkesszük az alábbiak szerint:
 
 ```
-<pre data-language="javascript">{
+{
     "data": [
         {
             "post_title": "That is a title",

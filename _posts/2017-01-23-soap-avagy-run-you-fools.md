@@ -56,7 +56,7 @@ Route::get("/", function(SoapClient $client) { // akinek nem tiszta a Laravel, e
 Ha meglőjük ezt az URL-t, akkor egy szép 4 elemű tömböt fog nekünk kiírni:
 
 ```
-<pre class="sf-dump" data-indent-pad=" " id="sf-dump-1579285012">array:4 [&#9660;
+array:4 [&#9660;
  0 => "GetWeatherResponse GetWeather(GetWeather $parameters)"
  1 => "GetCitiesByCountryResponse GetCitiesByCountry(GetCitiesByCountry $parameters)"
  2 => "GetWeatherResponse GetWeather(GetWeather $parameters)"
@@ -73,7 +73,7 @@ Na most a `dd` az egy formázott `var_dump` és `die` kombója. A \_\_getFunctio
 Ennek a kimenete az előbbihez hasonló, megmutatja, hogy az egyes típusok hogy is épülnek fel:
 
 ```
-<pre class="sf-dump" data-indent-pad=" " id="sf-dump-738412102">array:4 [&#9660;
+array:4 [&#9660;
  0 => """
  struct GetWeather {\n
  string CityName;\n
@@ -107,7 +107,7 @@ dd($client->GetCitiesByCountry(["CountryName" => "Hungary"])->GetCitiesByCountry
 Na most mi is történik itt fent? Meghívjuk a fent megadott távoli eljárást, átpasszolunk neki egy asszociatív tömböt, aminek a fieldjei megegyeznek a szükséges objektum fieldjeivel és a kapott objektumnak pedig lekérjük azt a mezőjét, amiben a válasz található. Na és ez pedig egy böszme nagy XML lesz, természetesen String formájában, amiket aztán kedvünkre parse-olhatunk:
 
 ```
-<pre class="sf-dump" data-indent-pad=" " id="sf-dump-1238765562"><span class="sf-dump-str" title="1230 characters"><NewDataSet></span>\n
+\n
 <span class="sf-dump-str" title="1230 characters">  <Table></span>\n
 <span class="sf-dump-str" title="1230 characters">    <Country>Hungary</Country></span>\n
 <span class="sf-dump-str" title="1230 characters">    <City>Békéscsaba</City></span>\n

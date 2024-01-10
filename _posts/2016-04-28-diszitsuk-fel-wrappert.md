@@ -85,7 +85,7 @@ Akkor nézzük hogy is lehet ezt szebben megoldani!
 Először is szükségünk lesz egy <del>rücsök</del>interfészre:
 
 ```
-<pre data-language="php">interface PostRepository {
+interface PostRepository {
       public function getForMainPage();
       public function getPostById($id);
       public function getPostBySlug($slug);
@@ -96,7 +96,7 @@ Először is szükségünk lesz egy <del>rücsök</del>interfészre:
 Na most hogy megvan az interfész, jöhet is a konkrét megvalósítás, hiszen konkrét adatforrásra szeretnénk illeszteni:
 
 ```
-<pre data-language="php">class SqlPostRepository implements PostRepository {
+class SqlPostRepository implements PostRepository {
       
       public function getForMainPage() {
            // sima SQL cucc
@@ -118,7 +118,7 @@ Na most hogy megvan az interfész, jöhet is a konkrét megvalósítás, hiszen 
 Ez ugye az egyik megvalósítás, most akkor írjuk meg ugyanezt mongoDB-re is.
 
 ```
-<pre data-language="php">class MongoPostRepository implements PostRepository {
+class MongoPostRepository implements PostRepository {
       
       public function getForMainPage() {
            // sima Mongo lekérés
@@ -144,7 +144,7 @@ Na most hogy megvan a kétféle megvalósítása interfészünknek, nézzük meg
 Először is csináljunk egy absztrakt osztályt a decorator-nak:
 
 ```
-<pre data-language="php">abstract class PostRepositoryDecorator implements PostRepository {
+abstract class PostRepositoryDecorator implements PostRepository {
 
       protected $repository;
 
@@ -175,7 +175,7 @@ Az abstract osztályunk még semmi mást nem csinál, csak annyit, hogy a reposi
 Jöjjön akkor a konkrét megvalósítás:
 
 ```
-<pre data-language="php">class CachedPostRepository extends PostRepositoryDecorator {
+class CachedPostRepository extends PostRepositoryDecorator {
 
       private $cache;
 
@@ -200,7 +200,7 @@ Jöjjön akkor a konkrét megvalósítás:
 Na most akkor mi is történt az imént? Példányosításkor várunk egy cache-t, valamint a repository-t. Ha a főoldalra kellenek a posztok, akkor azt lecache-eljük, a többihez nem nyúlunk, csak simán kiszolgáljuk az eredeti repository-ból. Miért is jó ez? Nem kell belenyúlni az eredeti osztályba, hogy plusz funkcionalitást kapjunk, az interfész ugyanaz, tehát ahol nem konkrét osztályt várnak (mert az nem szép dolog, ugye?) ott ezt az osztályt is átadhatjuk és a kliensünknek fogalma se lesz róla, hogy valami változott. De jöjjön a bónusz.. ezeket lehet egymásba csomagolni ám! Tehát csináljunk most valami loggert, aminek jelen esetben nem sok értelme lesz, de a példa kedvéért megteszi:
 
 ```
-<pre data-language="php">class LoggingPostRepository extends PostRepositoryDecorator {
+class LoggingPostRepository extends PostRepositoryDecorator {
 
       private $logger;
 
@@ -223,7 +223,7 @@ Na most akkor mi is történt az imént? Példányosításkor várunk egy cache-
 Na most hogy bonyolódott a helyzet, nézzük meg mi is történik, ha használjuk mindezt:
 
 ```
-<pre data-language="php">// ezt ugye IoC csinálja majd helyettünk
+// ezt ugye IoC csinálja majd helyettünk
 $cache = new Cache(); // implementálja a CacheInterface-t
 $logger = new Logger();  // implementálja a LoggerInterface-t
 $repository = new LoggingPostRepository(

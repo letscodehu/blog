@@ -53,4 +53,4 @@ Na de mi a helyzet a kereséssel az oldalon? Backend nélkül hogy lehet ezt meg
 
 ## Service worker
 
-Egy gond van vele, hogy az indexelés bizony lassú. Pár bejegyzésnél ez még nem vészes, de több száz esetében másodpercekig tart.
+Egy gond van vele, hogy az indexelés bizony lassú. Pár bejegyzésnél ez még nem vészes, de több száz esetében másodpercekig tart. Sajnos JavaScriptről lévén szó, ilyenkor az oldal teljesen megakad, ami nem a legjobb UX szempontból. Erre szerencsénkre van megoldás, még akkor is , ha a JavaScript eredendően egy szálon működik. A trükk az, hogy egy másik szálon futó JavaScriptnek átdobjuk az indexelés és a keresés feladatát is. Erre lesznek jók a service workerek, amik egy másik szálon futnak. A két folyamat között lehetőségünk van üzeneteket küldeni, igy az indexelést, sőt, a komplett keresés felelősségi körét át tudjuk adni. Ez persze limitálja a lehetőségeinket, régi böngészőket nem fog támogatni.

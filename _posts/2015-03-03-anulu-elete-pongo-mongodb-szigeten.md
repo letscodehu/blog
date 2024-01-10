@@ -84,7 +84,7 @@ Az ilyen adatok tárolására nyújt nekünk segítséget a MongoDB. Ez az adatb
 Nézzük meg, hogy néz ki egy ilyen dokumentum MongoDB-ben:
 
 ```
-<pre data-language="javascript">{"_id" : "4332adf34f2d4f4432d4f4e",
+{"_id" : "4332adf34f2d4f4432d4f4e",
   "content" : {
       "subcontent" : {
           "key" : "value",
@@ -104,25 +104,25 @@ A telepítéshez egy igen jó útmutatót találunk a [mongoDb](http://docs.mong
 Először is szükségünk lesz a public key-re, amivel ellenőrízni tudja a <del>K</del>ubuntu a letöltött csomagok valódiságát. Ezt a következő paranccsal tudjuk elérni:
 
 ```
-<pre data-language="shell">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 ```
 
 Ha ezzel megvagyunk, akkor elvileg a saját kis repository-nkba már importáltuk is Richard Kreuter barátunk publikus kulcsát. Utána tudatnunk kell a dpkg-vel, hogy a mongodb forrásfájlokat merre is találja:
 
 ```
-<pre data-language="shell">echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 ```
 
 Miután a rendszer már felvette a saját kis listájára a mongo forrásfájlokat, nem ártana frissíteni a package-ek listáját se:
 
 ```
-<pre data-language="shell">sudo apt-get update
+sudo apt-get update
 ```
 
 Most, hogy felvettük a package-k listájára a mongodb-t, nem fog hülyét kapni a rendszer a következő parancs láttán, amivel a tényleges telepítést végezzük:
 
 ```
-<pre data-language="shell">sudo apt-get install -y mongodb-org
+sudo apt-get install -y mongodb-org
 ```
 
 Amíg ezt leszedjük, addig dőljünk hátra, mert ez jópár megát leszed/telepít.
@@ -130,7 +130,7 @@ Amíg ezt leszedjük, addig dőljünk hátra, mert ez jópár megát leszed/tele
 Ha kész, akkor elviekben magától el is indítja a mongodb-t, de ha mégse tenné, akkor a következő paranccsal lehet életet lehellni a rendszerbe:
 
 ```
-<pre data-language="shell">sudo service mongod start
+sudo service mongod start
 ```
 
 #### Feltelepült, melyik testrészemhez nyúljak?
@@ -140,7 +140,7 @@ Például az egér, mint periféria pont megfelelő lenne. Ha feltelepült és a
 A szintaxis javascript-et idéző, úgyhogy senkinek ne legyen Deja vu érzése, nincs hiba a mátrixban:![DieHardOriginal500](assets/uploads/2015/03/DieHardOriginal500.jpg)
 
 ```
-<pre data-language="shell">>db.trolo.save({"Bruce Willis":"Yipikaye"})
+>db.trolo.save({"Bruce Willis":"Yipikaye"})
 ```
 
 A fenti paranccsal létrehoztunk egy elemet a test adatbázison (ezt hozza létre telepítéskor) belül trolo collection-ben, aminek egy field-je van (az \_id mezőn felül, ami minden dokumentumhoz szükséges a kereséshez), Bruce Willis névvel és ennek értéke Yipikaye.
@@ -154,7 +154,7 @@ WriteResult({nInserted: 1})
 Na most messziről jött ember azt mondd, amit Laci, ezért nem hisszük csak úgy a terminalnak, hogy tényleg beszúrt egy elemet kérdezzük hát le a trolo collection elemeit:
 
 ```
-<pre data-language="shell">>db.trolo.find()
+>db.trolo.find()
 ```
 
 Oké, úgy néz ki a mongodb maradhat, mert képes volt a CRUD első tagját végrehajtani, upvote!

@@ -30,7 +30,7 @@ Amikor az ember fejlesztésbe kezd, és eljut arra a pontra, hogy egy kódrészl
 Ahhoz, hogy valid composer package-et hozzunk létre, mindenképp szükségünk lesz egy composer.json fájlra a projektünk gyökerében. Ebben fogjuk megadni a projekt nevét, függőségeket, stb. Hozzunk létre egy új könyvtárat valahol, amit később git verziókövetni fogunk. A gyökerében hozzunk létre egy composer.json fájlt (le is generálhatjuk composer inittel, ha már menők vagyunk):
 
 ```
-<pre data-language="javascript">{
+{
 	"name": "letscode/admin-interface", // ez pedig az elnevezés, ez alapján fogja a könyvtáratakat is legenerálni a composer
 	"description": "A database interface package for Laravel", // leírás
 	"homepage": "http://letscode.hu", // honlapunk, ha valaki esetleg a csomag után érdeklődne, ez privát csomagok esetén irreleváns
@@ -63,7 +63,7 @@ Ha ezek után lefuttatjuk a composer install-t, akkor belövi nekünk a névtere
 Hozzunk létre az src mappában egy AdminInterfaceProvider.php-t:
 
 ```
-<pre data-language="php"><?php 
+<?php 
 
 namespace Letscode\Admin;
 
@@ -86,7 +86,7 @@ Itt hozzunk létre egy tests mappát is, amiben helyezzük el a ProviderTest.php
 > Ez nem lesz igazi teszt, csak arra vagyunk kíváncsiak, hogy az autoloaderek jól összeálltak-e
 
 ```
-<pre data-language="php"><?php
+<?php
 
 require "../vendor/autoload.php"; // behúzzuk az autoloadert
 
@@ -98,7 +98,7 @@ Ha a fenti kód hiba nélkül lefut, akkor összeolajozódtak az autoloaderek, m
 Ehhez fel kell vennünk a projektünk composer.json-jébe a következőt:
 
 ```
-<pre data-language="javascript">"repositories": [
+"repositories": [
   {
    "url": "http://eleresi-ut/a/sajat/reponkhoz.git", // a repo-k közé felvesszük a sajátunkat, lévén a mi csomagunk nincs publikálva packagistre
    "type": "git"
@@ -117,7 +117,7 @@ Ehhez fel kell vennünk a projektünk composer.json-jébe a következőt:
 Ha mindent jól csináltunk, akkor egy composer update után, a fájlok, névterek és minden a helyén van. Ezt legegyszerűbben úgy tudjuk ellenőrízni, ha a fent létrehozott providerünket beregisztráljuk. Ha valami nem jól lett volna összeröffentve, akkor ott biztos hibát dobna. Vegyük fel hát a config/app.php-ban:
 
 ```
-<pre data-language="php">$providers => [
+$providers => [
  // többi provider
     'Letscode\Admin\AdminInterfaceProvider'
 ];
@@ -130,7 +130,7 @@ Most, hogy ezzel megvagyunk, elkezdhetünk benne valami kódot ügyködni, nemde
 A csomagunk könyvtárszerkezete a következőképp fog alakulni:
 
 ```
-<pre data-language="shell">src/ #forráskódunk
+src/ #forráskódunk
      Commands/ # a commandok kerülnek ide értelemszerűen 
      Controllers/ # a kontroller osztályaink
      Models/ # a model osztályaink
@@ -156,7 +156,7 @@ Nagy szerencsénk van, mert a laravelben létezik egy command arra, ami a beregi
 Na de térjünk csak vissza a stubra. Ugye generálni lehetne úgy is a fájlokat, hogy szépen tokenekből felépítenénk azt, mielőtt beolvastunk X fájlt, ellenőríztünk névtereket, stb. Viszont jelen esetben nem lesz erre szükség, mert pontosan tudjuk, hogy mit akarunk az adott fájlba írni, maximum az osztály neve és egy névtér változhat, nemde? Tegyük fel, hogy írtunk egy controller osztályt a vendorban. Tegyük is azt meg:
 
 ```
-<pre data-language="php"><?php
+<?php
 // /vendor/letscode/admin-interface/src/Controllers/AdminController.php
 
 namespace Letscode\Admin\Controllers;
@@ -174,7 +174,7 @@ class AdminController extends Controller
 Most, hogy ez megvan, nézzük meg hogy is használnánk mindezt az app könyvtárunkban:
 
 ```
-<pre data-language="php"><?php
+<?php
 // app/Http/Controllers/Admin/AdminController.php
 
 namespace App\Http\Controllers\Admin;
@@ -192,7 +192,7 @@ class AdminController extends ParentController
 Most kössünk rá egy route-ot az app/Http/routes.php-ben és nézzük meg, hogy működik-e:
 
 ```
-<pre data-language="php">Route::get('/', 'Admin\AdminController@index');
+Route::get('/', 'Admin\AdminController@index');
 ```
 
 Ha megpingeljük a hostunkat és minden csillag jól összeállt <del>mint kislányok a csoportselfiehez</del>, akkor a böngészőben megjelent a múkodik szöveg.
@@ -208,7 +208,7 @@ Amikor kiadjuk a **php artisan vendor:publish** parancsot, akkor a laravel végr
 Először kezdjük a stub controllerekkel. A serviceproviderünk boot metódusába másoljuk be az alábbiakat:
 
 ```
-<pre data-language="php">$this->publishes([
+$this->publishes([
     __DIR__.'/../stub/AdminController.php' => base_path('app/Http/Controllers/Admin/AdminController.php'),
 ]); // ez a stub könyvtárból átmásolja az admincontrollert a megadott helyre. Ha könyvtárat adunk meg, akkor annak teljes tartalmát átmásolja a célhelyre.
 ```
@@ -220,7 +220,7 @@ Ha megpingeljük ismét az url-t, akkor ismét a múkodik szöveg jelenik meg. E
 Publisholjuk így hát ezt is és húzzuk be a fájlt a boot metódusban:
 
 ```
-<pre data-language="php">$this->publishes([
+$this->publishes([
     __DIR__.'/../stub/routes.php' => base_path('app/Http/admin-routes.php'),
 ]); // a route-jainkat ide publisholjuk
 
@@ -236,13 +236,13 @@ Múko... ReflectionException. He?
 A helyzet az, hogy a boot metódusban meghívott route-oknál a fully qualified classname-el tudunk hivatkozni a controllerekre, így az Admin\\AdminController nem elég:
 
 ```
-<pre data-language="php">Route::get('/admin', 'App\Http\Controllers\Admin\AdminController@index');
+Route::get('/admin', 'App\Http\Controllers\Admin\AdminController@index');
 ```
 
 De ugye emlékszünk még a route groupokra? Felvesszük a route-jainkat egy csoportba, és prefixáljuk őket a megfelelő névtérrel:
 
 ```
-<pre data-language="php">Route::group(["namespace" => 'App\Http\Controllers'], function() {
+Route::group(["namespace" => 'App\Http\Controllers'], function() {
 
     Route::get('/admin', 'Admin\AdminController@index');
 
@@ -254,7 +254,7 @@ De ugye emlékszünk még a route groupokra? Felvesszük a route-jainkat egy cso
 Ahhoz, hogy csomagunkban lévő view fájlokat elérjük, be kell őket regisztrálnunk, szintén a boot metódusban:
 
 ```
-<pre data-language="php"> $this->loadViewsFrom(__DIR__.'/../views', 'lara-admin'); // az első paraméter az elérési út, a második pedig a csomagnév, amivel regisztráljuk
+ $this->loadViewsFrom(__DIR__.'/../views', 'lara-admin'); // az első paraméter az elérési út, a második pedig a csomagnév, amivel regisztráljuk
 
  $this->publishes([
  __DIR__.'/../views' => base_path('/resources/views/vendor/lara-admin'), // a vendor publish-ra ide fogjuk őket publisholni
@@ -266,7 +266,7 @@ Akkor nézzük hogy is fogja nekünk resolve-olni az adott view-kat a laravel. A
 A továbbörökített controllerünkben ne statikus szöveget, hanem view-t adjunk vissza:
 
 ```
-<pre data-language="php">// vendor/letscode/lara-admin/src/Controllers/AdminController.php
+// vendor/letscode/lara-admin/src/Controllers/AdminController.php
 
 public function index() {
     return view("lara-admin::index");
@@ -292,7 +292,7 @@ Ha lefrissítjük a böngészőt, akkor bang! a fenti szövegre módosult, tehá
 A public mappába nem lesz nagy bonyodalom megoldani mindezt, itt szimplán publish-ra van szükségünk:
 
 ```
-<pre data-language="php">$this->publishes([
+$this->publishes([
     __DIR__.'/../assets' => base_path('public/assets'),
 ]);
 ```
@@ -302,7 +302,7 @@ Persze ahhoz, hogy ezeket behúzzuk már kellene valami értelmesebb HTML szerke
 Hozzunk létre akkor egy layout.blade.php-t a csomagunk views mappájában:
 
 ```
-<pre data-language="html">
+
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
@@ -319,7 +319,7 @@ Hozzunk létre akkor egy layout.blade.php-t a csomagunk views mappájában:
 Majd módosítsuk az index.blade.php-t:
 
 ```
-<pre data-language="php">@extends("lara-admin::layout")
+@extends("lara-admin::layout")
 
 @section("content")
     Múkodik view-al is!

@@ -37,7 +37,7 @@ Tegyük fel, hogy összedobtunk egy betyárjó MVC keretrendszert, ami annyira n
 Ahhoz, hogy ezt megvalósíthassuk, elsőnek szükségünk lesz egy interfácséra.
 
 ```
-<pre data-language="php">interface RenderinStrategyInterface {
+interface RenderinStrategyInterface {
     public function render(ViewModel $model); // az interfész egy metódust követel meg, ami paraméterként egy viewmodelt vár
 }
 ```
@@ -45,7 +45,7 @@ Ahhoz, hogy ezt megvalósíthassuk, elsőnek szükségünk lesz egy interfácsé
 Most, hogy az interfész megvan, nézzük csak meg mi is ez a ViewModel? Ez csupán a teljesség kedvéért és a példa miatt tettem bele, jelenleg csak a view-nak átadott változókat és a template nevét fogja tartalmazni:
 
 ```
-<pre data-language="php">class ViewModel {
+class ViewModel {
 // csak a teljesség igénye miatt
     private $variables, $template;
 
@@ -70,7 +70,7 @@ Most, hogy az interfész megvan, nézzük csak meg mi is ez a ViewModel? Ez csup
 Amint láthatjuk csak setterek és getterek vannak benne. Példányosításkor megadhatjuk neki a változókat, amiket meg akarunk jeleníteni/használni a view-ban. Jöjjenek akkor maguk a stratégiák!
 
 ```
-<pre data-language="php">class PhpRenderingStrategy implements RenderingStrategyInterface {
+class PhpRenderingStrategy implements RenderingStrategyInterface {
     public function render(ViewModel $model) {
         // ez nagyon buta példa, ilyet úgysem fogunk csinálni :D
         foreach ($model->getVariables() as $key => $value) {
@@ -85,7 +85,7 @@ Amint láthatjuk csak setterek és getterek vannak benne. Példányosításkor m
 A fenti lesz a PHP template fájlokért felelős stratégia. Viselkedését tekintve roppant egyszerű. Az átadott viewmodelből kinyeri a változókat, berántja őket az adott scope-ba, utána include-olja a template fájlt és azzal a lendülettel meg is jeleníti azt. A másik a JSON kimenetért felelős stratégia lesz:
 
 ```
-<pre data-language="php">class JsonRenderingStrategy implements RenderingStrategyInterface {
+class JsonRenderingStrategy implements RenderingStrategyInterface {
     public function render(ViewModel $model) {
         echo json_encode($model->getVariables(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); // csak szimplán gyártunk egy json stringet a változókból és kiíratjuk
     }
@@ -97,7 +97,7 @@ A fenti lesz a PHP template fájlokért felelős stratégia. Viselkedését teki
 A fenti JSON stratégia még egyszerűbb, hiszen csupán átengedi a viewmodelben található tömböt egy json\_encode-on és kiíratja annak tartalmát. Az alábbi pedig a fent contextként említett ViewRenderer class lesz, aminek átadjuk a stratégiát (amit egyébként megoldhatunk, hogy viewmodel alapján ő maga kiválasszon) és a viewmodelt. A render metódust pedig szimplán továbbforwardoljuk az irányába. Ennek a renderer osztálynak nem kell tudnia az egyes megjelenítésekhez tartozó logikát, stb. ezt a stratégiák felé kiszerveztük.[![greeble-corona-2m-comp](assets/uploads/2015/09/greeble-corona-2m-comp-1024x576.jpg)](assets/uploads/2015/09/greeble-corona-2m-comp.jpg)
 
 ```
-<pre data-language="php">class ViewRenderer {
+class ViewRenderer {
 
     private $strategy;
 
@@ -116,7 +116,7 @@ A fenti JSON stratégia még egyszerűbb, hiszen csupán átengedi a viewmodelbe
 Jöjjön akkor a fent említett template fájl tartalma:
 
 ```
-<pre data-language="php"><html lang="hu">
+<html lang="hu">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -133,7 +133,7 @@ Jöjjön akkor a fent említett template fájl tartalma:
 Na és akkor nézzük az összhatást:
 
 ```
-<pre data-language="php">$view = new ViewModel(
+$view = new ViewModel(
      array(
      'title' => 'Strategy pattern, az objektumok lázadása', 
      'name' => 'Tacsiazuma',

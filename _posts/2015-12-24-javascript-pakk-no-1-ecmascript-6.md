@@ -43,7 +43,7 @@ const PI = 3.141593
 ```
 
 ```
-<pre data-language="javascript">// ES5-ben az object helperekkel lehetett megvalósítani
+// ES5-ben az object helperekkel lehetett megvalósítani
 // és azt is csak global scope-ba
 Object.defineProperty(typeof global === "object" ? global : window, "PI", { 
   value: 3.141593, 
@@ -58,13 +58,13 @@ Object.defineProperty(typeof global === "object" ? global : window, "PI", {
 A nyelvben eddig nem volt lehetőség ún. block-scoped változók deklarálására. Két opció volt eddig, mikor globális változót hoztunk létre, sima értékadással:
 
 ```
-<pre data-language="javascript">pi = 3.14; // globális, a definiálás helyétől függetlenül
+pi = 3.14; // globális, a definiálás helyétől függetlenül
 ```
 
 A másik opció, mikor a var kulccsó használatával lokális változót hozunk létre.
 
 ```
-<pre data-language="javascript">function scoping() {
+function scoping() {
    var teszt = 5; // a létrehozó function-ön belül elérhető
    console.log(teszt); // 5
 }
@@ -84,7 +84,7 @@ console.log(teszt2); // undefined
 Na és akkor jöjjön az újdonság az ES6 oldalról. A let kulcsszó segítségével ún. block scoped változókat tudunk létrehozni, amik nem lesznek az egész tartalmazó function-ön belül elérhetőek (ahogy azt minden normális nyelvben is lehet):
 
 ```
-<pre data-language="javascript">function teszt() {
+function teszt() {
    let teszt = 36
    for (var x = 0; x < 10; x++) {
       let teszt = 5; // csak az adott blokkon belül (jelen esetben a for ciklus) érhető el
@@ -100,14 +100,14 @@ Na most akkor ismét idézném a kedves orosz kollégát.. *How cool is that?[![
 Aki foglalkozott már valaha C#-al, az már bizonyára belefutott az ún. lambda kifejezésekbe. Hasonló (de működését tekintve más) szintax érkezett most az ES6-al. Akinek új: röviden egy egyszerűbb és átláthatóbb szintaxis a [closure](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#Closure)-ök létrehozására:
 
 ```
-<pre data-language="javascript">// ES5 módi
+// ES5 módi
 
 valamilyen.metodus(function(x) { return x + 1; }); // ez eddig is ment, nincs ebben semmi új, igaz?
 valamilyen.metodus(function(x,y) { return x + y;}); // ez se új
 ```
 
 ```
-<pre data-language="javascript">// ES6
+// ES6
 valamilyen.metodus(x => x + 1); // he? várjunk csak.. ez annyira nem bonyolult.. sőt, egész jó, nem?
 // akkor most bonyolítsuk kicsit
 valamilyen.metodus((x,y) => x + y); // hoppá, megy ez több paraméterrel is? Hol volt az az orosz idézet?
@@ -116,7 +116,7 @@ valamilyen.metodus((x,y) => x + y); // hoppá, megy ez több paraméterrel is? H
 Nézzük meg mindezt pl egy forEach-nek átadott functionben!
 
 ```
-<pre data-language="javascript">// (Good) Plain old ES5
+// (Good) Plain old ES5
 tomb.forEach(function(v) {
      if (v % 5 === 0) {
          fives.push(v);
@@ -138,7 +138,7 @@ Emlékeztek még arra, amikor javascriptben nem kellett újraassign-olni az aktu
 Maradjunk az előbbi forEach példánál:
 
 ```
-<pre data-language="javascript">// ES5 style
+// ES5 style
 var self = this;
 this.nums.forEach(function(v) {
     if (v % 5 === 0) {
@@ -166,7 +166,7 @@ this.nums.forEach(function(v) {
 Akik PHP-vel foglalatoskodnak, azoknak nem lesz újdonság, hogy ún. alapértelmezett értékekkel adjuk át a függvényeinknek a paramétereket. Tehát ha az adott paraméter nem kerül átadásra, akkor is hozzárendel valami értéket. Persze jól szituált hákolással ez is megvalósítható volt eddig, nézzük hogy is zajlott mindez:
 
 ```
-<pre data-language="javascript">function f (x, y, z) {
+function f (x, y, z) {
  if (y === undefined)
  y = 7;
  if (z === undefined)
@@ -179,7 +179,7 @@ f(1) === 50; // jóféle hákolás, mi?
 Akkor nézzük meg mennyivel egyszerűsödik le az életünk most az ES6-al:
 
 ```
-<pre data-language="javascript">function f (x, y = 7, z = 42) {
+function f (x, y = 7, z = 42) {
  return x + y + z
 }
 f(1) === 50
@@ -192,7 +192,7 @@ Hát komolyan, szóhoz se lehet jutni, már kezd olyan lenni az egész, mintha v
 A napfényes polimorfizmus egyik formája az ún. method overload. Sajnos ezen nyelvben erre nincs lehetőség olyan formában, mint pl. Javaban vagy C#-ben, viszont amit pluszban odapasszolunk a függvényünknek, azt be tudjuk csomagolni egy tömbbe:
 
 ```
-<pre data-language="javascript">// ES5 módi
+// ES5 módi
 function f (x, y) {
  var a = Array.prototype.slice.call(arguments, 2); // fogjuk és levágjuk az első két elemét az átadott paraméterek alkotta tömbnek
  return (x + y) * a.length;
@@ -203,7 +203,7 @@ f(1, 2, "hello", true, 7) === 9;
 Akkor nézzük mennyivel közelebb áll ez a világunkhoz az ES6:
 
 ```
-<pre data-language="javascript">function f (x, y, ...a) { // a ...a jelenti az összes többi argumentumot tömbbé alakítva, amiket esetleg megkap a függvényünk
+function f (x, y, ...a) { // a ...a jelenti az összes többi argumentumot tömbbé alakítva, amiket esetleg megkap a függvényünk
  return (x + y) * a.length
 }
 f(1, 2, "hello", true, 7) === 9
@@ -212,7 +212,7 @@ f(1, 2, "hello", true, 7) === 9
 Ha már ennyire szétbontunk mindent tömbökre, akkor nézzük hol lehet még a spreading syntaxot használni?
 
 ```
-<pre data-language="javascript">// ES5 style
+// ES5 style
 var params = [ "hello", true, 7 ]; // alap tömbünk
 var other = [ 1, 2 ].concat(params); // [ 1, 2, "hello", true, 7 ] // régen ezt csak concattal lehetett beleoktrojálni a másikba
 f.apply(undefined, [ 1, 2 ].concat(params)) === 9; // az előző függvényünket használva kipróbáljuk azt
@@ -232,7 +232,7 @@ var chars = [ ...str ] // [ "f", "o", "o" ] spread a stringet is :O
 PHP-ben már korábban is jelen volt (és egyes esetekben okozhatott meglepetéseket) a következő feature. Javascriptben eddig, ha változókat akartunk behelyettesíteni stringbe, akkor a string replace-el vagy épp egyesével összerakosgatva tudtuk megtenni azt. PHP-ben a ""-ök közötti stringekben elhelyezett változók értékét automatikusan behelyettesítette a rendszer, hasonló került most be az ES6-al, de nézzük az eddigi hákolásos megoldásokat:
 
 ```
-<pre data-language="javascript">// ES5 : Based on a true story 
+// ES5 : Based on a true story 
 var customer = { name: "Foo" };
 var card = { amount: 7, product: "Bar", unitprice: 42 };
 message = "Hello " + customer.name + ",\n" + // a jó öreg összeollózott karakterliterál
@@ -243,7 +243,7 @@ message = "Hello " + customer.name + ",\n" + // a jó öreg összeollózott kara
 ES6-ban is jelölnünk kell, hogy a következő string bizony template, amibe változókat szeretnénk behelyettesíteni. Ehhez a szokásos " helyett ` karakterek közé kell azt tennünk, az alábbi módon:
 
 ```
-<pre data-language="javascript">var customer = { name: "Foo" }
+var customer = { name: "Foo" }
 var card = { amount: 7, product: "Bar", unitprice: 42 }
 message = `Hello ${customer.name},
 want to buy ${card.amount} ${card.product} for
@@ -257,7 +257,7 @@ Gondolom akárkit kérdeznék, aki foglalkozik más komolyabb objektumorientált
 Nézzük csak az osztálydefiníciót:
 
 ```
-<pre data-language="javascript">// ES5 - From hell
+// ES5 - From hell
 var Shape = function (id, x, y) { // őő.. igen, ez egy konstruktor, a Shape meg egy osztály, fúj.
  this.id = id;
  this.move(x, y);
@@ -271,7 +271,7 @@ Shape.prototype.move = function (x, y) { // Ennek nem az osztálydefiníción be
 Akkor most vegyünk egy mély lélegzetet, számoljunk el tízig és nézzük meg a következőt:
 
 ```
-<pre data-language="javascript">class Shape { // osztálydefiníció?
+class Shape { // osztálydefiníció?
  constructor (id, x, y) { // konstruktor
  this.id = id
  this.move(x, y)
@@ -288,7 +288,7 @@ Akkor most vegyünk egy mély lélegzetet, számoljunk el tízig és nézzük me
 Ha ez nem lett volna elég, hogy instant nekiess a specifikációnak, akkor jöjjön a következő lépés. Mi a helyzet, ha öröklődést akarsz megvalósítani?
 
 ```
-<pre data-language="javascript">// Kérem felkészülni, felkavaró ES5 öröklődés következik:
+// Kérem felkészülni, felkavaró ES5 öröklődés következik:
 var Rectangle = function (id, x, y, width, height) { // still szép konstruktor
  Shape.call(this, id, x, y); // az a bizonyos "super"
  this.width = width;
@@ -307,7 +307,7 @@ Circle.prototype.constructor = Circle;
 Akkor jöjjön mindez ES6-ban:
 
 ```
-<pre data-language="javascript">class Rectangle extends Shape { // extends? :O
+class Rectangle extends Shape { // extends? :O
  constructor (id, x, y, width, height) { 
  super(id, x, y) // super??
  this.width = width
@@ -329,7 +329,7 @@ Kérem tegye fel a kezét, aki szerint ez utóbbi sokkal inkább OO-style!
 Akár hiszitek, akár nem, ezzel még mindig nincs vége. Lassan kukát fejelek, ahogy írom, mert inkább JS-eznék (na jó, ez hazugság, inkább valami erősen típusos nyelv, de psszt! ):
 
 ```
-<pre data-language="javascript">// ES5
+// ES5
 var Rectangle = function (id, x, y, width, height) {
  // "konstruktor"
 };
@@ -349,7 +349,7 @@ var defCircle = Circle.defaultCircle();
 Ezt mondjuk kitaláltuk volna, de nézzük már meg, hogy mi a változás, hé!
 
 ```
-<pre data-language="javascript">class Rectangle extends Shape { 
+class Rectangle extends Shape { 
  …
  static defaultRectangle () { // na ne.. tényleg képesek voltak beletenni végre egy static kulcsszót?
  return new Rectangle("default", 0, 0, 100, 100)
@@ -372,7 +372,7 @@ var defCircle = Circle.defaultCircle()
 Újabb adatszerkezetek érkeznek a nyelvbe, hogy a gyakran használt struktúrák helyét átvegyék és mindeközben frissebb-lágyabb-jobb érzéssel töltsenek el minden Coccolino macit. Ezek egyike lett a set ojjektum.
 
 ```
-<pre data-language="javascript">// ES5 
+// ES5 
 var s = {}; // sima ojjektum
 s["hello"] = true; s["goodbye"] = true; s["hello"] = true; // feltöltjük elemekkel, a hello lévén ismétlődik, felülcsapja az előzőt
 Object.keys(s).length === 2; // 2 elem van benne
@@ -393,7 +393,7 @@ for (let key of s.values()) // values-al szedjük ki a cuccot
 [![maps](assets/uploads/2015/12/maps-1024x574.png)](assets/uploads/2015/12/maps.png)Ez gondolom még senkit sem vág a falhoz, szóval akkor jöjjön a következő... <del>Goole</del> Map<del>s</del>! Javascriptben, eddig ha ún. HashMap vagy PHP-s körökben asszociatív tömb kellett, akkor a nyelv ezt egy sima object kulcsaiban tárolta, ez szép és jó, csak semmiféle plusz, Mapre jellemző funkcionalitással nem bírtak a plain objecten felül:
 
 ```
-<pre data-language="javascript">var m = {}; // sima object
+var m = {}; // sima object
 m["hello"] = 42; // beleoktrojáljuk "kulcsként"
 for (key in m) {
  if (m.hasOwnProperty(key)) { 
@@ -416,7 +416,7 @@ Fasza, ugye? Akkor jöjjön az amitől a Java fejlesztők elalélnak majd!
 Ha valaki belefutott már egy autentikus memory leakbe, akkor annak nem kell mondanom mennyire kardinális kérdés ez. Amikor csak 1 lekérés erejéig él az alkalmazás, akkor még annyira nem kardinális a dolog, viszont ha hosszú időn át fut, akkor jön elő mennyire durva a helyzet. Frontendnél még annyira nem szoktak ilyenek előjönni, ahhoz nagyon nagy baklövés kell, de backenden egy kellően szarul megírt node tud finomságokat produkálni. Persze a rendszer nem úgy működik, mintha C-ben írnánk, azért tesz értünk és fut az a bizonyos GC, de ha referenciák beragadnak, akkor bizony az óhatatlanul ottmarad és csámcsog a heap tetején. Hogy megkönnyítsék az életünket, itt is megjelentek az ún. weak reference-ek, illetve azoknak két konkrét "megvalósítása". Ez esetünkben nem a konkrét Mapra és Setre, hanem a benne tárolt kulcsokra vonatkozik, tehát ha valahol az adott kulcson csücsülő ojjektum eredeti referenciáját kitakarítjuk, akkor nem marad benne ezekben az adatszerkezetekben. Lévén ilyet nem lehetett ES5-ben csinálni, ezért csak az ES6 példa jöjjön:
 
 ```
-<pre data-language="javascript">let isMarked = new WeakSet() // az a bizonyos weak referenciákkal vértezett set
+let isMarked = new WeakSet() // az a bizonyos weak referenciákkal vértezett set
 let attachedData = new WeakMap() // és map
 export class Node { // csinálunk egy ojjektumot
  constructor (id) { this.id = id }

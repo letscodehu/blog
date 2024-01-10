@@ -86,7 +86,7 @@ Laravel, ahogy több keretrendszer (nem csak PHP-ben) biztosít számunkra egy �
 Amikor egy objektumot a konténeren keresztül kapunk meg, akkor azt a rendszer előtte csodálatos reflectionnel feltérképezi és a hozzá szükséges függőségeket betölti. Az első ilyen objektum, amit a konténerből kapunk meg, az a controllerünk lesz. Ez lesz a leggyakoribb módszer, amit alkalmazunk. Nézzünk egy példát:
 
 ```
-<pre data-language="php">class PostController extends Controller {
+class PostController extends Controller {
      public function index(PostRepository $postRepository) {
           return view('index')->with('posts', $postRepository->getForMainPage()); 
      }
@@ -96,7 +96,7 @@ Amikor egy objektumot a konténeren keresztül kapunk meg, akkor azt a rendszer 
 A fenti példában, ha nem végeztünk semmiféle előzetes konfigurációt, akkor a container megpróbálja majd számunkra megkeresni a PostRepository osztályt (FQCN-re hivatkozva) és példányosítani azt. Nézzük most ezt a PostRepository osztályt!
 
 ```
-<pre data-language="php">class PostRepository {
+class PostRepository {
     
     private $model;
 
@@ -114,7 +114,7 @@ Hoppá, bajban lesz a container, mert ezt az osztályt nem lehet csak úgy péld
 Persze nem csak így lehet a példányokhoz hozzájutni. Képzeljük el, hogy tesztelni szeretnénk a fenti repository-t, de nem kívánunk a tesztkódunkba hosszasan építgetni a függőségi fát. Szerencsénkre a TestCase osztályban elérjük az App instance-t, amin keresztül szintén le tudjuk kérni a fenti repository-t:
 
 ```
-<pre data-language="php">/** @test */
+/** @test */
 public function how_cool_is_that() {
       $postRepository = $this->app->make('PostRepository'); // a make metódus fog kinyúlni a konténerbe érte
       $postRepository = $this->app['PostRepository']; // ugyanaz a hatás, más syntax
@@ -127,7 +127,7 @@ public function how_cool_is_that() {
 Természetesen a fenti példák rendkívül leegyszerűsítettek, mivel legtöbbször nem tudja a konténer kiszolgálni a kérésünket, vagy nem pont úgy, ahogy mi szeretnénk. Gondoljunk csak bele, ha példányosítás után szeretnénk pl. settereken át beállítani más függőségeket. Ahhoz, hogy be tudjunk regisztrálni egy service-t (vagy komponenst, az szebben hangzana), ahhoz a ServiceProvider osztályokban kell matatni. Legyen most ez az AppServiceProvider, ahol a $this->app változón át van referenciánk az applikációra:
 
 ```
-<pre data-language="php">public function register() {
+public function register() {
         // a PostRepository névre bekötjük a closure visszatérési értékét
         $this->app->bind('PostRepository', function($app) { // paraméterként megkapjuk az applikációt
               $repo = new PostRepository(); // példányosítjuk noarg konstruktorral
@@ -143,7 +143,7 @@ Természetesen a fenti példák rendkívül leegyszerűsítettek, mivel legtöbb
 Természetesen szükségünk lehet singleton-okra is, egy loggert például nem akarunk 10 alkalommal példányosítani, ugye?:)
 
 ```
-<pre data-language="php">$this->app->singleton('PostRepository', function($app) { // paraméterként megkapjuk az applikációt
+$this->app->singleton('PostRepository', function($app) { // paraméterként megkapjuk az applikációt
               $repo = new PostRepository(); // példányosítjuk noarg konstruktorral
               $repo->setCache($app['SomeCache']); // egy másik objektumot kikérünk a konténerből és átadjuk paraméterként
               return $repo; // visszatérünk vele  
@@ -153,7 +153,7 @@ Természetesen szükségünk lehet singleton-okra is, egy loggert például nem 
 A fenti példányt egyszer fogja csak létrehozni, majd becache-eli a konténerben és később azzal tér vissza, ha hívjuk. Természetesen megtehetjük azt is, hogy nem Closure-t, hanem már kész objektumot adunk át második paraméterként:
 
 ```
-<pre data-language="php">        $this->app->singleton('PostRepository', $repo);
+        $this->app->singleton('PostRepository', $repo);
 ```
 
 #### Interface -> Implementation
@@ -161,7 +161,7 @@ A fenti példányt egyszer fogja csak létrehozni, majd becache-eli a konténerb
 Na de mi van akkor, ha valaki igényesen írta a kódját és a typehintekben nem konkrét megvalósítások vannak, hanem interfészek? Nézzünk egy példát:
 
 ```
-<pre data-language="php">class PostController extends Controller {
+class PostController extends Controller {
      public function index(IPostRepository $postRepository) { // interfészt typehintelünk
           return view('index')->with('posts', $postRepository->getForMainPage()); 
      }
@@ -171,7 +171,7 @@ Na de mi van akkor, ha valaki igényesen írta a kódját és a typehintekben ne
 Lévén interfészt nem lehet példányosítani, de a rendszer mégis megpróbálja, ezért csodás 500-as hibával elszáll a kód. Hogy tudjuk ezt kikerülni? Tegyük fel, hogy csináltunk háromféle megvalósítást:
 
 ```
-<pre data-language="php">class SqlPostRepository implements IPostRepository { 
+class SqlPostRepository implements IPostRepository { 
 // megvalósítás 
 }
 class MongoPostRepository implements IPostRepository { 
@@ -199,7 +199,7 @@ Ellenben itt előjön az újabb probléma, mert lehet, hogy ugyanazt az interfé
 A kontextushoz tudjuk kötni a típust, amit az adott typehintre a konténer szolgáltat. Tehát megmondhatjuk, hogyha A interfészt látjuk, de a megvalósítás B, akkor ne a szokásos módon resolveolja, hanem adja ide a C-t.
 
 ```
-<pre data-language="php">$this->app->when('App\Http\Controller\PostController') // ha a postcontrollerből kérjük, akkor
+$this->app->when('App\Http\Controller\PostController') // ha a postcontrollerből kérjük, akkor
              ->needs('IPostRepository') // tekintsünk el a névterektről most
              ->give('SqlPostRepository'); // sql megvalósítást adunk
 ```
@@ -211,7 +211,7 @@ A konténerünk amikor felold egy függőséget, akkor meghív egy eseményt, am
 Van egy tanfolyamokkal foglalkozó oldalunk, ahol online lehet az egyes tanfolyamokra jelentkezni. Erről kap értesítést a felhasználó, az admin, valamint az adatbázisba is bekerül, értelemszerűen. A service, ami összefogja ezt a jelentkezés dolgot, legyen pl. az CourseService facade, amiben lekódoltuk az összes lépést. Ez, lévén függősége a mailer, az adatbázis, valamint az aktuális CourseOrder, a konténeren keresztül kérjük le:
 
 ```
-<pre data-language="php">// jöjjék hát a betonszimpla kontroller:
+// jöjjék hát a betonszimpla kontroller:
 class CourseController extends Controller {
 
      public function order(CourseService $service, CourseOrder $order) { 
@@ -229,7 +229,7 @@ class CourseController extends Controller {
 Na most, hogy is lesz ott nekünk az a CourseOrder példányunk? Korábban már volt róla szó, hogy a providerben fel tudjuk ezt venni:
 
 ```
-<pre data-language="php">$this->app->bind('CourseOrder', function($app) {
+$this->app->bind('CourseOrder', function($app) {
       return CourseOrder::hydrateFromRequest($app['\Illuminate\Http\Request']); 
       // kikérjük a http requestet és abból szűrjük át a változókat az orderbe
 });
@@ -238,7 +238,7 @@ Na most, hogy is lesz ott nekünk az a CourseOrder példányunk? Korábban már 
 A Service-ünk doMagicje alább néz ki:
 
 ```
-<pre data-language="php">class CourseService {
+class CourseService {
 
     private $logger;
  
@@ -266,7 +266,7 @@ Lévén a konstruktorban nem szerepel a logger, így alapból nem hízlaljuk a f
 Ha a facade-ünket simán resolveolja a konténer, akkor mi nem szeretnénk beleavatkozni a dologba, ellenben mielőtt azt megkapjuk máshol, szeretnénk a loggert hozzáadni. Ezt úgy tudjuk megcsinálni, hogy feliratkozunk a resolve eseményére:
 
 ```
-<pre data-language="php">$this->app->resolving(function(CourseService $serv, $app) {
+$this->app->resolving(function(CourseService $serv, $app) {
      $serv->setLogger($app->make('Logger')); // az objektumhoz hozzáadjuk a loggert.
 });
 ```

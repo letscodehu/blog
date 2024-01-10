@@ -96,7 +96,7 @@ A definícióban ez áll:
 Hát ezzel nem vagyunk sokkal előrébb, nemde? Kicsit fordítottja annak, mint amit várnánk. A lényege annyi, hogy az osztályainknak csupán egy felelőssége legyen. Azáltal, hogy egy feladatot végez, csupán akkor kell belenyúlnunk az osztályba, ha ennek a feladatnak a logikája/megvalósítása megváltozik. Tehát csak ekkor "van oka az osztálynak megváltozni". Akkor most nézzük meg milyen is az SRP tipikus megsértése:
 
 ```
-<pre data-language="php"><?php
+<?php
 
 namespace System\StdLib\MvcEvent;
 
@@ -262,7 +262,7 @@ De nézzük inkább, hogy is lehetne ezt kipofozni!
 Kezdjük a nevezéktannal. Ez itt nem egy MvcEvent. Az elnevezés a Zend Frameworkből származik (a koncepció azonban igencsak egyedi 😀 ), ahol egy-egy lekérést végigkövet egy esemény, aminek különböző életciklusaira fel lehet iratkozni. Itt is történik valami hasonló, de mérhetetlen zűrzavar közepette.
 
 ```
-<pre data-language="php">class Application {
+class Application {
 
     private function __construct() {   }
 
@@ -291,7 +291,7 @@ Első lépésként létrehozzuk az Application class-t és kiemeljük bele a sta
 A toRoute metódus, ami igazából egy redirect, kikerülhet egy redirect osztályba, ami a response interfészt fogja implementálni, hiszen redirect válasszal is visszatérhetünk.
 
 ```
-<pre data-language="php">interface Response {
+interface Response {
 // a konkrét metódusokba még ne menjünk bele
 }
 
@@ -311,7 +311,7 @@ class Redirect implements Response {
 Akkor jöjjön a következő két csúnyaság, mégpedig a hibakezelés. Két metódus is szerepel, ami hasonló dolgot végez. Az egyikük a console errorokat jeleníti meg, a másik pedig egy error handlerként funkcionál. Erre a célra, lévén elég sokféle lehet a hibák természetese és azok megjelenítési módja, szintén külön osztályokba tesszük:
 
 ```
-<pre data-language="php">interface ErrorHandler {
+interface ErrorHandler {
       public function handle(\Exception e);
 }
 
@@ -331,7 +331,7 @@ Az SRP lényege tehát az lenne, hogyha van egy osztályunk, ami X dolgot csiná
 Ha valaki megkérdezi egy osztályunkról vagy metódusunkról (bár ez utóbbi már nem SRP, hanem clean code), hogy mit is csinál és mikor elmeséljük neki, használnunk kell az 'és', 'de' és hasonló kötőszavakat, akkor bizony nagy az esélye, hogy ott van mit darabolni. Ez kommentekben is elő tud jönni, pl.
 
 ```
-<pre data-language="php">// load and call the router
+// load and call the router
 
 // validate, save
 ```
@@ -339,7 +339,7 @@ Ha valaki megkérdezi egy osztályunkról vagy metódusunkról (bár ez utóbbi 
 Persze akad, amikor jól elnevezzük a metódust és itt látszik majd a hiba:
 
 ```
-<pre data-language="php">public function getAndCheck(...);
+public function getAndCheck(...);
 
 public function generateAndSaveThumbnails(...);
 ```

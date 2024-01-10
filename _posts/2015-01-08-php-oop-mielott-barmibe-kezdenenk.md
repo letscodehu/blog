@@ -78,13 +78,13 @@ Először is szeretném leszögezni, hogy nem attól lesz valami objektum-orient
 Az objektumorientált programozásban az osztályt úgy kell elképzelni, mint egy öntőformát, egy tervet, ami tervnek a megvalósítása lesz az osztály egy példánya, ami egy objektum. Definiálni minden nyelven roppant egyszerű, de maradjunk a PHP-nál:
 
 ```
-<pre data-language="php">class adatbazis {} // továbbra is <del>imádjuk</del> a magyar elnevezéseket
+class adatbazis {} // továbbra is <del>imádjuk</del> a magyar elnevezéseket
 ```
 
 Bumm, meg is volnánk, de jelen esetben nem tudunk vele túl sokat kezdeni, hiszen ez csak egy terv, le kell gyártanunk a terv alapján valamit:
 
 ```
-<pre data-language="php">$db = new adatbazis();
+$db = new adatbazis();
 ```
 
 A kulcsszó esetünkben a `new` szócska lesz, tehát egy új példányt kérünk, ami azt takarja, hogy meghívódik az osztályunk `__construct` (vagy épp ami a nyelv sajátja) nevű mágikus függvénye (esetünkben ez nincs definiálva), elvégzi az általunk definiált prekonfigurációt és visszaad egy példányt az osztályból. Tehát a $db nem az osztályra, hanem az abból példányosított objektumra hivatkozik. Más módon közvetlenül az osztályra nem lehet hivatkozni, csak annak statikus elemeire, de erről picit később.
@@ -94,7 +94,7 @@ A kulcsszó esetünkben a `new` szócska lesz, tehát egy új példányt kérün
 Ha már van egy objektumunk, akkor annak lehetnek tulajdonságai is, amik az adott példányra jellemzőek.
 
 ```
-<pre data-language="php">class Wallet {
+class Wallet {
 
       private $cash;
       private static $staticCash;
@@ -125,7 +125,7 @@ Az előbbi példában lehetett találni egy kulcsszót, amiről nem esett szó, 
 A hivatkozás static esetében az alábbi módon történik:
 
 ```
-<pre data-language="php">Wallet::$staticCash
+Wallet::$staticCash
 ```
 
 tehát az osztály nevét használjuk. Az osztályon belül, akár a példányokon át is hivatkozhatunk rá, ellenben ekkor a `$this->` módszer statikus "átiratát" kell használnunk, így kerül képbe a `self::$staticCash`.

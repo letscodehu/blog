@@ -78,7 +78,7 @@ A fenti kép is jó például szolgálhat. A laptopunk akkumulátorát és a kon
 Ellenben írjunk egy példát, az mindig segít. Tegyük fel, hogy oldalunk egy külső API-t használ és ez a szolgáltatás lassú/netán nem mindig elérhető, így a tartalmát szeretnénk gyorsítótárazni, na meg az API kulcsunkat se akarjuk mindenáron pörgetni, nehogy túllépjük a limitet. Ezt a gyorsítótárazást először balga módon a fájlrendszerbe tesszük.
 
 ```
-<pre data-language="php">class FileSystemCache {
+class FileSystemCache {
 
     public function cacheToFile($key, $contentToCache) {
     // itt megy a magic: file_put_contents vagy hasonló barbárkodás :D
@@ -95,7 +95,7 @@ A dolog rendkívül szimpla, példányosítjuk az osztályunkat, meghívjuk anna
 Telnek múlnak a napok, mire a kedves ügyfél megjegyzi, hogy bizony ez a folyamat lassú. Nem lehetne gyorsítani a dolgon? Utánajárunk és megdöbbenve tapasztaljuk, hogy a memória pár százszor gyorsabban dolgozik, mint a HDD (és az SSD-nek is odaver továbbra is), így inkább a memóriában kéne tároljuk a dolgot. Egyik kollégánk rögtön jön is az ötlettel, hogy biza ő nem nagyon konyít a PHP-hoz, de ha socketeket használunk, akkor neki bizony van egy key-value szervere, amit még kisovisként írt C-ben és szívesen rendelkezésünkre bocsájtja. Kapunk is az alkalmon és megírjuk rá az osztályunkat.
 
 ```
-<pre data-language="php">class CacheLayerByRandomColleague {
+class CacheLayerByRandomColleague {
      public function cacheToTheService($key, $value) {
          // itt is történik valami socket alapú feketemágia 3:)
      }
@@ -110,7 +110,7 @@ A fenti funkció hasonlóképp működik, mint amit az imént leírtunk, csak a 
 Ha a fenti osztályok mindegyikét mi írtuk, akkor segíthetünk magunkon úgy, hogy egy közös CacheInterface-t implementálnak. Ez is egy megoldás, de ez még nem lesz adapter pattern, mivel ott különböző interface-eket hozunk össze. Készítsünk először egy-egy interfészt a két megoldáshoz, hogy lássuk a dolog lényegét.
 
 ```
-<pre data-language="php">interface MultiCacheInterface {
+interface MultiCacheInterface {
       public function getFromService($key);
       public function cacheToService($key, $value);
       public function getFromFile($key);
@@ -120,7 +120,7 @@ Ha a fenti osztályok mindegyikét mi írtuk, akkor segíthetünk magunkon úgy,
 ```
 
 ```
-<pre data-language="php">class FileSystemCache implements MultiCacheInterface {
+class FileSystemCache implements MultiCacheInterface {
  // az interfész által előírt metódusok
 
    public function cacheToService($key, $value) {} // ez nem csinál semmit 
@@ -130,7 +130,7 @@ Ha a fenti osztályok mindegyikét mi írtuk, akkor segíthetünk magunkon úgy,
 ```
 
 ```
-<pre data-language="php">class CacheLayerByRandomColleague implements MultiCacheInterface
+class CacheLayerByRandomColleague implements MultiCacheInterface
 {
 // az interfész által előírt metódusok
 
@@ -142,7 +142,7 @@ Ha a fenti osztályok mindegyikét mi írtuk, akkor segíthetünk magunkon úgy,
 Amint látjuk az osztályaink két különböző interfészt implementálnak, ezért az adatainkat különböző metódusok elérésével érjük el. Így a két megoldás közti váltáshoz bele kell nyúlni a kódunkba, mégpedig minden egyes helyen, ahol ezekre hivatkozunk. Ennek az áthidalásához készítünk most egy adaptert:
 
 ```
-<pre data-language="php">interface StorageAdapter {
+interface StorageAdapter {
 public function get($key);
 public function set($key, $value);
 public function touch($key);
@@ -152,7 +152,7 @@ public function touch($key);
 Ugye itt csináltunk egy általános interfészt az adapterünknek.
 
 ```
-<pre data-language="php">class CacheAdapter implements StorageAdapter {
+class CacheAdapter implements StorageAdapter {
 
     private $cacheService, $cacheType;      
 
@@ -188,7 +188,7 @@ Ugye itt csináltunk egy általános interfészt az adapterünknek.
 Na, kész is vagyunk, nézzük hát mit is csináltunk. Csináltunk egy interfészt a cache osztályunk számára, amit habár implementálnak, de az első megoldásnál nem feltétel ennek megléte, viszont a typehintelt konstruktor injectionnél már igen. A lényege a dolognak annyi, hogy egy réteget hoztunk létre a két osztályunk felé. A kliensnek nem kell ismernie azok interfészét, vagy épp típusát, mivel ezt a részét az adapter végzi. Ezen osztályunk tudja, hogy épp milyen cache-el van dolga és annak megfelelő metódusokat hív meg.
 
 ```
-<pre data-language="php">$cache = new CacheLayerByRandomColleague();
+$cache = new CacheLayerByRandomColleague();
 $cache->getFromService($key);
 
 $cache2 = new FileSystemCache();
@@ -198,7 +198,7 @@ $cache2->getFromFile($key);
 Amint látjuk alapesetben így érjük el a két osztályt, különböző interfészeken, de az adapterünkkel ezt megoldottuk:
 
 ```
-<pre data-language="php">$cache = new CacheAdapter("randomcolleague");
+$cache = new CacheAdapter("randomcolleague");
 $cache2 = new CacheAdapter("filesystem");
 $cache->get($key);
 $cache2->get($key);

@@ -135,7 +135,7 @@ Viszont ez a cikk nem a tranzakciókról, commitokról és rollback-ekről szól
 Szóval ott jártunk, hogy corrupted adatokat sikerült pistikének lementenie és ez ellen szeretne tenni valamit. Erre az egyik opció, hogy arra a rövid időre, amíg dumpol, maintenance módba helyezi az oldalt, dumpol, aztán visszakapcsolja. A laravelben az artisan CLI-jében van is erre parancs:
 
 ```
-<pre class=" language-php">```php
+```php
 php artisan down
 ```
 ```
@@ -143,7 +143,7 @@ php artisan down
 és visszakapcsolni:
 
 ```
-<pre class=" language-php">```php
+```php
 php artisan up
 ```
 ```

@@ -49,7 +49,7 @@ Ez a script fog először lefutni amikor commitolunk, még a commit message kép
 Na de nézzük meg hogy is lehet ebbe a fájlba beleoktrojálni valami finomságot (és nem, most nem evil perl script lesz az, ami életünk hátralevő részében kísérteni fog, hanem plain PHP)!
 
 ```
-<pre data-language="php">#!/usr/bin/env php // php lesz az interpreterünk
+#!/usr/bin/env php // php lesz az interpreterünk
 <?php 
 
 $allFiles = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__."/../../")); // itt egy recursive iteratoron át lekérjük a könyvtárban található összes fájlt
@@ -74,7 +74,7 @@ A fenti script segíthet nekünk abban, hogy végignyálazzuk a fájljainkat, sy
 Ez a script akkor fut le, mikor az iménti pre-commit végzett és még nem készült el a commit message, viszont egy default message már készen áll. Ennek a default message-nek a szerkesztésére és módosítására szolgál ez a hook. Itt már paraméterként kapunk ezt-azt, mégpedig: a fájl nevét, amiben a commit message található amit megadtunk az -m paraméterrel, a commit típusát, valamint a SHA-1 azonosítóját a commitnak, ha amend commitról van szó. Nézzük csak meg, mit tudunk ezzel kezdeni!
 
 ```
-<pre data-language="php">#!/usr/bin/env php
+#!/usr/bin/env php
 <?php 
 
 $name = "user.name="; // a config kiíratásakor ebben a sorban lesz a név
@@ -107,7 +107,7 @@ A fenti hook sem túl bonyolult, csupán annyit csinál, hogy a már meglévő c
 Ez a hook a commit message validálására szolgál. Ha 0-tól különböző kóddal tér vissza, akkor a commit folyamat megszakad.
 
 ```
-<pre data-language="php">#!/usr/bin/env php
+#!/usr/bin/env php
 <?php
 if (array_key_exists(1,$argv)) {
  $commit_msg = file_get_contents($argv[1]); // kinyerjük a commit message-et

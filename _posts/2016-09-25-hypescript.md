@@ -90,7 +90,7 @@ Na de sok volt a beszéd, inkább nézzük meg mi is ez az egész!
 Ahhoz, hogy működjön a dolog, első körben szükségünk lesz a typescript npm csomagjára:
 
 ```
-<pre data-language="shell">npm install -g typescript
+npm install -g typescript
 ```
 
 És bumm, kész is vagyunk, mehetünk haza!
@@ -98,14 +98,14 @@ Ahhoz, hogy működjön a dolog, első körben szükségünk lesz a typescript n
 Sajnos ez nem lesz ilyen egyszerű, ezért most mindenki platformtól függően keressen valami olyan IDE-t, ami támogatja a typescriptet. WebStorm, Visual Studio, VS Code, stb. elég sok editor támogatja már. A példákban a képek a <del>csodás</del> VS Code-ból valóak lesznek. Emlékszünk még az [ES6]({{ site.url }}/2015/12/24/javascript-pakk-no-1-ecmascript-6/) syntaxra? Sokban hasonlítani fogunk arra:
 
 ```
-<pre data-language="javascript">class Starter {
+class Starter {
 }
 ```
 
 Ezt mentsük le egy starter.ts fájlba, majd fordítsuk le és nézzük mi is lesz belőle!
 
 ```
-<pre data-language="shell">tsc starter.ts
+tsc starter.ts
 ```
 
 > Alapesetben ugyanoda fogja fordítani a fájlokat, de később majd megnézzük, hogy is lehet konfigurálni a typescript compilerét.
@@ -113,7 +113,7 @@ Ezt mentsük le egy starter.ts fájlba, majd fordítsuk le és nézzük mi is le
 A generált fájl a starter.js lesz:
 
 ```
-<pre data-language="javascript">var Starter = (function () {
+var Starter = (function () {
  function Starter() {
  }
  return Starter;
@@ -123,7 +123,7 @@ A generált fájl a starter.js lesz:
 Hát nem mondanánk valami szépnek, ugye? Na de az imént típusokról volt szó, nemde? Akkor nézzük csak miről is volt szó!
 
 ```
-<pre data-language="javascript">class Starter {
+class Starter {
   private startingNumber : number;
  
   public constructor(startingNumber : number) {
@@ -164,7 +164,7 @@ Mi az helyzet az interfészekkel?
 Na ez egy kicsit más tészta, mint amit más nyelvekben láthattunk, ugyanis az interfészeket nem kell implicit implementálnunk, elég ha a belső szerkezete hasonló:
 
 ```
-<pre data-language="javascript">interface Rucsok {
+interface Rucsok {
  hoursSlacked : number;
 }
 
@@ -189,7 +189,7 @@ Na de ha már típusok, milyen típusokat ismerünk?
 **boolean:**
 
 ```
-<pre data-language="javascript">let b : boolean = true;
+let b : boolean = true;
 ```
 
 Hé, álljunk csak meg egy szóra! Mi ez a let? hát nem a var kulcsszóval tudunk változót deklarálni? De igen, azonban a var scopingja nem az igazi, ennélfogva ha ún. block scopingot szeretnénk a változónknak, akkor a let kulcsszóval érdemes azt tenni. Később még kitérünk a kettő közti különbségre.
@@ -197,7 +197,7 @@ Hé, álljunk csak meg egy szóra! Mi ez a let? hát nem a var kulcsszóval tudu
 **number:**
 
 ```
-<pre data-language="javascript">let workHours : number = 8;
+let workHours : number = 8;
 ```
 
 A number, ugyanúgy ahogy a sima JavaScriptben, floating point, annyi, hogy a sima decimális és hexa forma mellett oktális és bináris formában is megadhatjuk azt.
@@ -205,7 +205,7 @@ A number, ugyanúgy ahogy a sima JavaScriptben, floating point, annyi, hogy a si
 **string:**
 
 ```
-<pre data-language="javascript">let joker : string = "Why so serious?";
+let joker : string = "Why so serious?";
 ```
 
 Ez még semmi extra, viszont bejöttek az ún. template stringek, amik az eddigi összefűzögetést hivatottak kiküszöbölni. Ezeket nem simple/duble quote-al tudjuk meghatározni, hanem az ún. backquote-al (`). Bennük változókat is meghatározhatunk, mégpedig a ${ expression } szintaxissal. A másik plusz, hogy több soron átívelhetnek, ellenben az eddigi string literálokkal, amiket soronként le kellett zárni és + jelekkel összefűzni.
@@ -213,7 +213,7 @@ Ez még semmi extra, viszont bejöttek az ún. template stringek, amik az eddigi
 **template string:**
 
 ```
-<pre data-language="javascript">let quote : string = `- ${ joker },
+let quote : string = `- ${ joker },
   let's put a smile on this face!`;
 ```
 
@@ -224,13 +224,13 @@ Eddig még semmi varázslat nem történt, nézzünk a tömbökkel mi a helyzet?
 Na most hasonlóan pl. a C#-hoz, tömböt a \[\]-val fogjuk jelölni, ígye:
 
 ```
-<pre data-language="javascript">let fibonacci : number[] = [0, 1, 1, 2, 3, 5, 8];
+let fibonacci : number[] = [0, 1, 1, 2, 3, 5, 8];
 ```
 
 A másik megadási mód már sokkal fancybbnek hat, mégpedig generikus Array objektumként:
 
 ```
-<pre data-language="javascript">let fibonacci : Array<number> = [0,1,1,2,3,5,8];
+let fibonacci : Array<number> = [0,1,1,2,3,5,8];
 ```
 
 > Bizony, lesznek itt generikusok is, de erre majd még visszatérünk!
@@ -242,7 +242,7 @@ Na ez miféle csodabogár?
 Ebben az esetben egy olyan tömböt szeretnénk deklarálni, amiben bizonyos indexekhez fix típust rendelünk. Például akarunk egy string-string párost:
 
 ```
-<pre data-language="javascript">let entry : [string, string];
+let entry : [string, string];
 
 entry = ["Star", "Wars"]; // funktzioniert
 
@@ -253,7 +253,7 @@ entry = ["Star Wars", 7]; // csecsre fut
 Amikor kikérjük az elemet az adott indexen, akkor a fordító tudni fogja, hogy milyen típust is ad vissza. Ha olyan elemet hívunk meg, amit nem határoztunk meg, akkor egyfajta uniót képez a típusok között:
 
 ```
-<pre data-language="javascript">let entry : [string, number];
+let entry : [string, number];
 
 entry[5] = "yepp"; // string, belefér
 
@@ -271,7 +271,7 @@ Hohohó, lassan már Java ez, nem is JS, nemde?
 Ez egy teljesen új típus, ami nem létezik JavaScript alatt, ezért egy furcsa objektumszerkezettel írja le fordítás után:
 
 ```
-<pre data-language="javascript">enum Situation {BAD, WORSE, WORST}
+enum Situation {BAD, WORSE, WORST}
 
 let szitu : Situation = Situation.BAD;
 ```
@@ -279,7 +279,7 @@ let szitu : Situation = Situation.BAD;
 Ebből a fordítás után a következő JS kód keletkezik:
 
 ```
-<pre data-language="javascript">var Situation;
+var Situation;
 (function (Situation) {
  Situation[Situation["BAD"] = 0] = "BAD";
  Situation[Situation["WORSE"] = 1] = "WORSE";
@@ -291,7 +291,7 @@ var szitu = Situation.BAD;
 Azért így történik, mert nem csak a kulcs alapján, de index alapján is elérjük az értékeit egy enumnak. Alapesetben a hozzárendelt értékek 0-tól indexeklődnek, de mindezt felülbírálhatjuk:
 
 ```
-<pre data-language="javascript">enum Situation {BAD = 42, WORSE = 75, WORST = 88 }
+enum Situation {BAD = 42, WORSE = 75, WORST = 88 }
 ```
 
 A fentiek főleg ott használhatóak, ahol már meglévő TypeScript kóddal lépünk kapcsolatba, azonban a legtöbb esetben sima JS third party library-kat és hasonlókat is használunk, amikhez nincs ún. definition fájl (majd erről is beszélünk) és ennélfogva az ott szereplő típusokról gőzünk sincs. Ekkor jön képbe az ún. **any** típus.
@@ -299,7 +299,7 @@ A fentiek főleg ott használhatóak, ahol már meglévő TypeScript kóddal lé
 Ezt akkor használjuk, amikor az adott változó típusellenőrzését a compiler figyelmen kívül hagyja:
 
 ```
-<pre data-language="javascript">let someJQueryStuff : any = $("#whatever");
+let someJQueryStuff : any = $("#whatever");
 someJQueryStuff = 36;
 someJQueryStuff = "how about no?";
 ```
@@ -307,7 +307,7 @@ someJQueryStuff = "how about no?";
 Jól látható, hogy bármit is rendelünk hozzá, nem fog beszólni a compiler. Itt ránkbízza a dolgot a compiler, tehát észnél kell lenni, hogy mi is történik. Tömbökre is alkalmazható:
 
 ```
-<pre data-language="javascript">let couldBeAnything : any[] = [5, "string", false];
+let couldBeAnything : any[] = [5, "string", false];
 ```
 
 Akkor most jöjjön, ami pont az any ellenkezője, a **void** "típus":
@@ -317,7 +317,7 @@ Akkor most jöjjön, ami pont az any ellenkezője, a **void** "típus":
 Amikor egy metódusunk nem tér vissza semmivel, akkor alkalmazzuk a void típust. Ezt nem lehet változóhoz rendelni, hanem függvény visszatérési értéknek:
 
 ```
-<pre data-language="javascript">function wontReturnAnything() : void {
+function wontReturnAnything() : void {
   return;
 }
 ```
@@ -329,7 +329,7 @@ Vannak még más speciális típusok ha visszatérési értékekről van szó. A
 Az egyik ilyen, mikor kivételt dobunk:
 
 ```
-<pre data-language="javascript">function wontReturnEver() : never {
+function wontReturnEver() : never {
   throw new Error("Oops");
 }
 ```
@@ -351,7 +351,7 @@ Rafkós a rendszer, mert nem lehet könnyen átverni:
 A harmadik eset pedig amikor ezen metódusokat hívjuk és ezek visszatérési értékét adjuk vissza:
 
 ```
-<pre data-language="javascript">function noShitSherlock() : never {
+function noShitSherlock() : never {
  return wontReturnEver();
 }
 ```
@@ -363,7 +363,7 @@ A voidhoz hasonlóan akad még két másik típus, ami önmagában nem valami ha
 Alapesetben a null és az undefined altípusai az összes más típusnak, ennélfogva null-t vagy undefined-ot hozzárendelhetünk pl. egy stringhez vagy array-hez akár.
 
 ```
-<pre data-language="javascript">let test : number[] = null;
+let test : number[] = null;
 let test2 : number[] = undefined;
 ```
 
@@ -376,7 +376,7 @@ A név kissé becsapós, mert itt semmi runtime ráhatása nem lesz a dolognak, 
 Vegyünk egy alapesetet, hogy meghákoljuk a polimorfizmust:
 
 ```
-<pre data-language="javascript">export class Rucsok{
+export class Rucsok{
  public randomNumber : number;
 }
 
@@ -390,7 +390,7 @@ Ezután ha megpróbálunk valamit csinálni az obj változón, akkor bizony nem 
 Na akkor most vessük be a type assertion-t!
 
 ```
-<pre data-language="javascript">let rnd : number = (obj as Rucsok).randomNumber; // ez az as kulcsszóval működő 
+let rnd : number = (obj as Rucsok).randomNumber; // ez az as kulcsszóval működő 
 
 rnd = (<Rucsok>obj).randomNumber; // ez pedig a kifordított generikus módszer
 ```
@@ -398,7 +398,7 @@ rnd = (<Rucsok>obj).randomNumber; // ez pedig a kifordított generikus módszer
 Ismét kihangsúlyoznám, hogy ennek semmi runtime hatása nem lesz, a generált kódban:
 
 ```
-<pre data-language="javascript">var rnd = obj.randomNumber;
+var rnd = obj.randomNumber;
 rnd = obj.randomNumber;
 ```
 
@@ -419,7 +419,7 @@ Kicsit rendszerezzük a projektünket, hozzunk létre egy src mappát és egy di
 A konfig fájl tartalma legyen a következő:
 
 ```
-<pre data-language="javascript">{
+{
  "include": [
  "src/**/*"
  ],
@@ -433,7 +433,7 @@ A konfig fájl tartalma legyen a következő:
 Itt beállítjuk, hogy a generált fájlokat a dist mappába fogja tenni, AMD szerint hozza létre őket és az src mappából rekurzívan minden fájlt behúz. Hozzunk létre az src mappában egy some-module.ts-t:
 
 ```
-<pre data-language="javascript">import {AnotherModule} from "./another-module";
+import {AnotherModule} from "./another-module";
 
 export class SomeModule {
  private property : AnotherModule;
@@ -447,7 +447,7 @@ export class SomeModule {
 Valamint az általa hivatkozott another-module.ts-t:
 
 ```
-<pre data-language="javascript">export enum AnotherModule {
+export enum AnotherModule {
  NOTHING, HERE
 }
 ```
@@ -455,7 +455,7 @@ Valamint az általa hivatkozott another-module.ts-t:
 Végül az őket használó main.ts-t:
 
 ```
-<pre data-language="javascript">import {AnotherModule} from "./another-module";
+import {AnotherModule} from "./another-module";
 import {SomeModule} from "./some-module";
 
 var mod : SomeModule = new SomeModule(AnotherModule.NOTHING);
@@ -466,7 +466,7 @@ Ezután nézzük mit sikerült a rendszernek forgatnia belőle!
 **some-module.js**
 
 ```
-<pre data-language="javascript">define(["require", "exports"], function (require, exports) {
+define(["require", "exports"], function (require, exports) {
  "use strict";
  var SomeModule = (function () {
  function SomeModule(dependency) {
@@ -483,7 +483,7 @@ Ebben a modulban ugyan függünk az another-module-tól, azonban itt mégsem jel
 **another-module.js**
 
 ```
-<pre data-language="javascript">define(["require", "exports"], function (require, exports) {
+define(["require", "exports"], function (require, exports) {
  "use strict";
  (function (AnotherModule) {
  AnotherModule[AnotherModule["NOTHING"] = 0] = "NOTHING";
@@ -498,7 +498,7 @@ Itt se jelenik meg semmilyen másik modul, lévén itt nem is használunk mást,
 **main.js**
 
 ```
-<pre data-language="javascript">define(["require", "exports", "./another-module", "./some-module"], function (require, exports, another_module_1, some_module_1) {
+define(["require", "exports", "./another-module", "./some-module"], function (require, exports, another_module_1, some_module_1) {
  "use strict";
  var mod = new some_module_1.SomeModule(another_module_1.AnotherModule.NOTHING);
 });
@@ -507,7 +507,7 @@ Itt se jelenik meg semmilyen másik modul, lévén itt nem is használunk mást,
 Na itt már látszik, hogy valóban használjuk a két létrehozott modult. Aliasokat képez a compiler és azokat használva tudjuk behúzni őket. Na de miért kell még az aliason belül kulcsokat is képezni? Nos részben azért, mert egy ilyen modulból több elemet is kiexportálhatok és be is importálhatok több elemet. Az importok során a beimportálandó elem neve meg kell egyezzen a kiexportált elem nevével, DE! aliasokat alkalmazhatunk, ahogy azt más nyelveknél már megszoktuk. Tehát:
 
 ```
-<pre data-language="javascript">import {SomeModule as some} from "./some-module";
+import {SomeModule as some} from "./some-module";
 import {AnotherModule as dep} from "./another-module";
 
 let stuff : some = new some(dep.HERE);
@@ -518,7 +518,7 @@ Láthatjuk, hogy aliassal más néven tudjuk használni a beimportált elemeket,
 Ha nem csak egy elemet akarunk, akkor a \*-al behúzhatjuk a modulban exportált összes deklarációtegy alias alá. Ilyenkor az alias alatti kulcsokkal férünk hozzá az egyes elemekhez:
 
 ```
-<pre data-language="javascript">import * as some from "./some-module";
+import * as some from "./some-module";
 import * as dep from "./another-module";
 let stuff : some.SomeModule = new some.SomeModule(dep.AnotherModule.HERE);
 ```
@@ -532,7 +532,7 @@ Nézzünk egy példát rá!
 Node.js-ben a legtöbb funkció használatához be kell importálnunk az adott modult. Rengeteg ilyen van, ezért ahelyett, hogy mindnek létrehoznánk a saját kis leíróját, inkább egy nagyba gyúrjuk azt össze.
 
 ```
-<pre data-language="javascript">declare module "url" {
+declare module "url" {
  export interface Url {
  protocol?: string;
  hostname?: string;
@@ -552,7 +552,7 @@ Ezt mentsük le egy **node.d.ts** fájlba. Természetesen ez csak egy töredéke
 Ezután már tudunk rá hivatkozni az ún. triple slash használatával:
 
 ```
-<pre data-language="javascript">/// <reference path="node.d.ts" />
+/// <reference path="node.d.ts" />
 import * as URL from "url";
 <span class="hljs-keyword">let</span> myUrl = URL.parse(<span class="hljs-string">"http://www.typescriptlang.org"</span>);
 ```

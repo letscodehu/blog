@@ -81,7 +81,7 @@ Tegyük fel, hogy szeretnénk <del>hírlevelet</del> értesítőt küldeni a fel
 Először is hozzunk létre egy feliratkozót, sőt... először egy interfészt, amit a feliratkozónak implementálnia kell. Később meglátjuk mire is jó mindez:
 
 ```
-<pre data-language="php">interface DatabaseEventAwareInterface { // ami ezt az interfészt implementálja, azon meghívhatóak lesznek az alábbi függvények, tehát a programunk nem fog hibára futni, ha megpróbálja azt
+interface DatabaseEventAwareInterface { // ami ezt az interfészt implementálja, azon meghívhatóak lesznek az alábbi függvények, tehát a programunk nem fog hibára futni, ha megpróbálja azt
      public function onUpdate(Record $record); // az adatbázis update-kor meghívódó metódus
      public function onInsert(Record $record); // beszúráskor hívódik meg
      public function onDelete(Record $record); // törléskor hívódik meg
@@ -91,7 +91,7 @@ Először is hozzunk létre egy feliratkozót, sőt... először egy interfészt
 Most, hogy kész az interfész, nem ártana egy osztályt is kreálni, amivel megvalósítjuk:
 
 ```
-<pre data-language="php">abstract class DatabaseObserver implements DatabaseEventAwareInterface {
+abstract class DatabaseObserver implements DatabaseEventAwareInterface {
      public function onUpdate(Record $record) {
       // override-ra vár
      }
@@ -107,7 +107,7 @@ Most, hogy kész az interfész, nem ártana egy osztályt is kreálni, amivel me
 Na jó, hazudtam, ez még nem a megvalósítás volt...
 
 ```
-<pre data-language="php">class OurFancyObserver extends DatabaseObserver { // leszármaztatjuk, ennek fényében megkapjuk a szép üres metódusokat fent, ahhoz, hogy valamit érjünk is vele, override-olni kell azt
+class OurFancyObserver extends DatabaseObserver { // leszármaztatjuk, ennek fényében megkapjuk a szép üres metódusokat fent, ahhoz, hogy valamit érjünk is vele, override-olni kell azt
     public function onUpdate(Record $record) {
     echo "Updated ID: ".$record->getId().PHP_EOL; // A Record objektumnak legyen ez esetben egy public getter-e az ID mezőre.
     }
@@ -128,7 +128,7 @@ Bumm, ennyi volt az observer.. viszont ez még édeskevés. Most csak leírtuk m
 Hozzuk létre hát az adatbázis <del>osztályunkat</del> eseménykezelő interfészt:
 
 ```
-<pre data-language="php">interface EventManagerInterface { 
+interface EventManagerInterface { 
       public function attach(DatabaseAwareInterface $observer); // az observer-eink a typehintelt interfészt fogják implementálni, így nem fut cs*csre a kódunk, az átadáskor. Ezzel a metódussal tudjuk majd ráakasztani az observerünket az eseménykezelőre, ami az átadott példányon meghívja az egyes metódusokat amikor az adott esemény lezajlik
 }
 ```
@@ -136,7 +136,7 @@ Hozzuk létre hát az adatbázis <del>osztályunkat</del> eseménykezelő interf
 Jöjjön akkor ismét a megvalósítás, eléggé lebutítva persze:
 
 ```
-<pre data-language="php">class DatabaseEventAndStuff implements EventManagerInterface {
+class DatabaseEventAndStuff implements EventManagerInterface {
 
      private $observers = array(); // a feliratkozókat tartalmazó tömb.     
 
@@ -173,7 +173,7 @@ class Record {
 Végül pedig használjuk az Erőt, vagy elég azt a pár osztályt is, amit csináltunk.
 
 ```
-<pre data-language="php">$db = new DatabaseEventAndStuff(); // példányosítunk egy jól szituált adatbázis osztályt
+$db = new DatabaseEventAndStuff(); // példányosítunk egy jól szituált adatbázis osztályt
 $db->attach(new OurFancyObserver()); // ráakasztunk az adatbázisra egy observer-t
 $db->insert(new Record(1)); // végül beillesztünk egy rekord-ot.
 // Inserted ID: 1

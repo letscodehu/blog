@@ -88,7 +88,7 @@ Mindenek előtt készíteni kell egy start/stop script-et, tehát a parancssoros
 Tehát egy `php phpdaemon.php start` esetében a tömbünk az alábbi módon néz ki:
 
 ```
-<pre data-language="shell">```
+```
 [0] - "phpdaemon.php", [1] - "start".
 ```
 ```
@@ -96,7 +96,7 @@ Tehát egy `php phpdaemon.php start` esetében a tömbünk az alábbi módon né
 Ennélfogva jobban járunk, ha array\_shift-el emelgetjük le az elemeket és preg\_match-al validáljuk azt (pl. '/--\[a-z\*\]/', "--start" esetén. ), így meggyőződve arról, hogy jó argumentumokat kaptunk-e. Az igazán fanatikusok parser-t is írhatnak ezekre a tokenekre, de ebbe most nem mennék bele mélyebben. Először nézzük milyen controller class-t lehet hozzá készíteni:
 
 ```
-<pre data-language="php">class Controller {
+class Controller {
 
  public function __construct() {
  // itt inicializáljuk a kontrollerünket, ki épp hogy. Elfogadhat argumentumokat, esetleg létrehozhatunk osztályt, ami előtte leparse-olja őket és command objektumokat készít, amit injectálhatunk ide, megnézhetjük, hogy van-e kellő jogosultságunk a working directory-ban, stb.
@@ -137,7 +137,7 @@ $ctl->start(); // először nézzük meg mit is teszünk indításkor.
 Most pedig nézzük meg, hogy is néz ki a daemon-unk belülről:
 
 ```
-<pre data-language="php">class Daemon {
+class Daemon {
      public function __construct() {
      pcntl_signal(SIGTERM, [$this, 'signalHandler' ] ); // regisztrálunk egy signal handlert a SIGTERM-re, mivel a SIGKILL-re nem lehet, itt minden esetben a default handler fut le
      }

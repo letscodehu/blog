@@ -95,7 +95,7 @@ Nos a dolog akkor lehet hasznos, mikor egymás után többször ugyanazt a tarta
 Vegyük például ezt a bejegyzést. A WordPress barátunk ugye a dolgait adatbázisból nyeri, ahogy a bejegyzés szövegét is. Kiposztolom a dolgot, valaki rákattint, lehúzzuk SQL-ből a tartalmát, majd 1 perc se telik el valaki más is rákattint és újra lekérjük UGYANAZT a tartalmat, hiszen nem változott, nem írtam át. Miért nem tárolhatnánk inkább a memóriában, hogy amikor legközelebb valaki lekéri, akkor nanosecundumok alatt előteremtsük azt, javítva ezzel a user experience-t. Nézzünk inkább valami egyszerű példát a dologra PHP-ben.
 
 ```
-<pre data-language="php">class PostMapper {
+class PostMapper {
 
 private $cacheadapter, // ez a cache adapter osztályunk
 $dbadapter; // ez pedig az adatbázis osztályunk referenciája
