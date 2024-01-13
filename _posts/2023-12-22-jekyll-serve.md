@@ -4,12 +4,11 @@ date: '2023-12-22T13:22:41+01:00'
 author: tacsiazuma
 layout: post
 permalink: /2023/01/09/az-elso-it-munkahely-4-resz/
-image: 'assets/uploads/2023/01/pexels-cottonbro-studio-5473957.jpg'
+image: 'assets/uploads/2024/01/jekyll-post-image.jpg'
 featured: true
 categories:
     - Egyéb
     - Fejlesztés
-    - 'Kocka élet'
 tags:
     - jekyll
     - wordpress
@@ -36,16 +35,12 @@ Azonban továbbra is kellett az egész mögé egy webszerver, PHP, adatbázis. E
 ## Jekyll
 
 Igy jutottunk el a mostani állapothoz, ami egy teljesen statikus HTML oldal, amit a jekyll nevű szoftver generál le nekünk. 
-
-    jekyll init
-
-    jekyll serve --livereload
-
 Ahhoz, hogy legyen tartalom, amit a jekyll által HTML-é tudunk alakitani, exportálni kell az adatbázisból. Erre létezik egy plugin, a Jekyll Export plugin, ami egy jókora zip fájlt eredményez. Ez azért van, mert nem csak a szöveges tartalmat, de a képeket is bele kell forgassuk az oldalba annak érdekében, hogy megfelelően jelenjen meg. Ezt a zip fájlt letöltjük, kicsomagoljuk és szimplán odamásoljuk, ahol az imént inicializáltuk a jekyll projektünket. Persze itt még voltak gondok a beégetett URL-ekkel és hasonlókkal, itt a search/replace volt a megoldás.
 
 ## Mediumish theme
 
-Persze az alap Jekyll kinézet nem valami megnyerő, főleg a korábbi Wordpresses Newshpere template után. Az elején elkezdtem átmigrálni a témát is jekyllre, feldarabolni azt, layoutot kialakitani, de temérdek munka lett volna és nem akartam sok energiát belefektetni, hiszen a lényeg pont a "just works" filozófia volt. Igy jött a témaválasztás: Valami egyszerűbbet akartam, amin a lényeg látható, nincs benne rengeteg CSS és JS, animált elemek és hasonlók, hiszen egy szimpla blogoldalról van szó. A mediumra hajazó templatere esett végül a választás, ingyenes is, egyszerű is.
+Persze az alap Jekyll kinézet nem valami megnyerő, főleg a korábbi Wordpresses Newshpere template után. Az elején elkezdtem átmigrálni a témát is jekyllre, feldarabolni azt, layoutot kialakitani, de temérdek munka lett volna és nem akartam sok energiát belefektetni, hiszen a lényeg pont a "just works" filozófia volt. Igy jött a témaválasztás: Valami egyszerűbbet akartam, amin a lényeg látható, nincs benne rengeteg CSS és JS, animált elemek és hasonlók, hiszen egy szimpla blogoldalról van szó. A mediumra hajazó templatere esett végül a választás, ingyenes is, egyszerű is. Pár apróságot kellett rajta módositani, például magyaritani kellett itt-ott.
+Amiket még meg kell oldani, azok az egyes thumbnailek generálása, esetleg image preloadert alkalmazni, hogy csökkentsük a használt sávszélességet.
 
 ## Lunrsearch
 
@@ -53,4 +48,21 @@ Na de mi a helyzet a kereséssel az oldalon? Backend nélkül hogy lehet ezt meg
 
 ## Service worker
 
-Egy gond van vele, hogy az indexelés bizony lassú. Pár bejegyzésnél ez még nem vészes, de több száz esetében másodpercekig tart. Sajnos JavaScriptről lévén szó, ilyenkor az oldal teljesen megakad, ami nem a legjobb UX szempontból. Erre szerencsénkre van megoldás, még akkor is , ha a JavaScript eredendően egy szálon működik. A trükk az, hogy egy másik szálon futó JavaScriptnek átdobjuk az indexelés és a keresés feladatát is. Erre lesznek jók a service workerek, amik egy másik szálon futnak. A két folyamat között lehetőségünk van üzeneteket küldeni, igy az indexelést, sőt, a komplett keresés felelősségi körét át tudjuk adni. Ez persze limitálja a lehetőségeinket, régi böngészőket nem fog támogatni.
+Egy gond van vele, hogy az indexelés bizony lassú. Pár bejegyzésnél ez még nem vészes, de több száz esetében másodpercekig tart. Sajnos JavaScriptről lévén szó, ilyenkor az oldal teljesen megakad, ami nem a legjobb UX szempontból. Erre szerencsénkre van megoldás, még akkor is , ha a JavaScript eredendően egy szálon működik. A trükk az, hogy egy másik szálon futó JavaScriptnek átdobjuk az indexelés és a keresés feladatát is. Erre lesznek jók a service workerek, amik egy másik szálon futnak. A két folyamat között lehetőségünk van üzeneteket küldeni, igy az indexelést, sőt, a komplett keresés felelősségi körét át tudjuk adni.
+(Ha bárkit érdekel az, hogy ez mégis hogy lett megvalósitva, akkor utólag bedobom ide)
+Ez persze limitálja a lehetőségeinket, régi böngészőket nem fog támogatni, de aki fejlesztésre adja a fejét és a blogot olvasná, nem egy régi böngészővel látogat meg minket.
+
+## Disqus
+
+Kommentekre már nagyon régóta nem a Wordpress komment motorját, hanem egy külső szolgáltatást használtunk, mégpedig a disqus-t. Mivel a bejegyzések URL-e ugyanaz maradt az exportálás után, ezért a korábbi kommentek is megmaradtak, igy ezzel már nem volt dolgunk.
+
+## Hosting
+
+Na de a statikus oldalt is hostolni kell ám valahol, nemde? De bizony és ez a github pages-t jelenti az esetünkben. Minden user kap egy usernév.github.io-s github pages lehetőséget, 100Gbyte havi forgalmi kerettel. A github pages setuphoz még csak github workflow-t se kell létrehozzunk, adott branch adott mappájára futtatnak egy jekyll build-et és az igy kapott kimenet lesz a webrootból kiszolgálva. Ha saját custom domaint akarunk, akkor egy CNAME nevű fájlt kell elhelyezni a repoban, ami saját domainünk nevét tartalmazza, kis DNS record szerkesztgetés, utána már megy is. Mivel korábban volt már a letscode.hu blog DDoS támadás alatt, ezért a CloudFlare ismét bekerült elé, még ha nem is okoz gondot a github pages hostingjának, jó lenne ha a 100Gbyte limitet nem pörgetnék ki a rosszakarók.
+
+## Társszerzők
+
+Akik korábban is besegitettek (vagy szeretnének a jövőben), hogy tudnak ezek után kontributálni? Látogassanak el a [github oldalra](https://github.com/letscodehu/letscodehu.github.io) és nyissanak egy PR-t.
+
+És bumm, igy mentesültünk a szerverüzemeltetés, Wordpress frissitgetés minden problémájától.
+
