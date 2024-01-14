@@ -3,7 +3,7 @@ title: 'Jekyll serve'
 date: '2023-12-22T13:22:41+01:00'
 author: tacsiazuma
 layout: post
-permalink: /2023/01/09/az-elso-it-munkahely-4-resz/
+permalink: /2023/12/22/jekyll-serve/
 image: 'assets/uploads/2024/01/jekyll-post-image.jpg'
 featured: true
 categories:
