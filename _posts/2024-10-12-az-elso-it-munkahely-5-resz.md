@@ -8,6 +8,7 @@ permalink: /2024/10/12/az-elso-it-munkahely-5-resz/
 newsphere-meta-content-alignment:
     - align-content-left
 image: 'assets/uploads/2024/10/pexels-markusspiske-1089438.jpg'
+featured: true
 categories:
     - Egyéb
     - Fejlesztés
